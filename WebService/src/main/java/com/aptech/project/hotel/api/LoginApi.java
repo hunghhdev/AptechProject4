@@ -1,5 +1,6 @@
-package com.aptech.project.hotel.controller;
+package com.aptech.project.hotel.api;
 
+import com.aptech.project.hotel.converter.UserConverter;
 import com.aptech.project.hotel.entity.User;
 import com.aptech.project.hotel.model.ServiceResult;
 import com.aptech.project.hotel.service.JwtService;
@@ -7,7 +8,6 @@ import com.aptech.project.hotel.service.UserService;
 import com.aptech.project.hotel.util.Constant;
 import com.aptech.project.hotel.util.EnCode;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin
-public class LoginController {
+public class LoginApi {
 
     @Autowired
     private UserService service;
@@ -24,8 +24,11 @@ public class LoginController {
     @Autowired
     private JwtService jwtService;
 
+    @Autowired
+    private UserConverter userConverter;
+
     @GetMapping(Constant.API+"/login")
-    public ResponseEntity<?> login(@RequestParam("username") String username,
+    public ResponseEntity<ServiceResult> login(@RequestParam("username") String username,
                                                @RequestParam("password") String password){
         ServiceResult serviceResult = new ServiceResult();
         User user = service.findByUsernameAndPassword(username, EnCode.md5(password));
@@ -35,9 +38,17 @@ public class LoginController {
             return ResponseEntity.ok(serviceResult);
         }
         String jwtKey = jwtService.generateTokenLogin(username);
-        user.setJwtKey(jwtKey);
-        service.save(user);
+        service.updateJwtKey(jwtKey,user.getId());
         serviceResult.setData(jwtKey);
+        serviceResult.setMessage("Bạn đã đăng nhập thành công");
+        return ResponseEntity.ok(serviceResult);
+    }
+
+    @GetMapping(Constant.API+"/getInfo")
+    public ResponseEntity<ServiceResult> getInfo(@RequestParam("token") String token){
+        ServiceResult serviceResult = new ServiceResult();
+        User user = service.findByUsername(jwtService.getUsernameFromToken(token));
+        serviceResult.setData(userConverter.toUserDto(user));
         return ResponseEntity.ok(serviceResult);
     }
 }

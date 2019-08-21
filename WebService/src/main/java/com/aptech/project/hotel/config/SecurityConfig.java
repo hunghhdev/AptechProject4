@@ -24,7 +24,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers(
-                Constant.API +"/login**").permitAll();
+                Constant.API +"/login**",
+                Constant.API+"/getInfo**").permitAll();
         http.cors().configurationSource(corsConfigurationSource())
                 .and().csrf().disable().authorizeRequests().antMatchers(Constant.API + "/**").authenticated()
                 .and().antMatcher(Constant.API+"/**").httpBasic().authenticationEntryPoint(restServicesEntryPoint())

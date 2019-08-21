@@ -10,7 +10,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,13 +26,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User save(@Valid User user) {
+    public User save(User user) {
         return repository.saveAndFlush(user);
     }
 
     @Override
     public User findByUsernameAndPassword(String username, String password) {
         return repository.findByUsernameAndPassword(username,password);
+    }
+
+    @Override
+    public void updateJwtKey(String jwtKey, int id) {
+        repository.updateJwtKey(jwtKey,id);
     }
 
     public List<GrantedAuthority> getAuthorities(Role role) {
