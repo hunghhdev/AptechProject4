@@ -2,7 +2,6 @@ package com.aptech.project.hotel.api;
 
 import com.aptech.project.hotel.converter.UserConverter;
 import com.aptech.project.hotel.dto.UserDto;
-import com.aptech.project.hotel.entity.Role;
 import com.aptech.project.hotel.entity.User;
 import com.aptech.project.hotel.model.ServiceResult;
 import com.aptech.project.hotel.service.RoleService;

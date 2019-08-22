@@ -1,0 +1,14 @@
+{
+  "common": {
+    "select_lang": "Ngôn ngữ"
+  },
+  "login": {
+    "btnLogin": "Đăng nhập",
+    "loginTitle": "Quản Lý Khách Sạn",
+    "inputPassword": "Mật khẩu",
+    "inputUsername": "Tên đăng nhập"
+  },
+  "user": {
+    "title": "Nhân viên"
+  }
+}

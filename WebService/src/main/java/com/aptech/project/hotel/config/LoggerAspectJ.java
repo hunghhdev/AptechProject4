@@ -11,28 +11,27 @@ import org.springframework.stereotype.Component;
 public class LoggerAspectJ {
     private static final Logger logger = LoggerFactory.getLogger(LoggerAspectJ.class);
 
-    @Before("execution(* com.aptech.project.hotel.*.*(..))")
+    @Before("execution(* com.aptech.project.hotel.api.*.*(..))")
     public void logBefore(JoinPoint joinPoint) {
-        logger.info("Start controller: " + joinPoint.getSignature().getName());
+        logger.info("Start API: " + joinPoint.getSignature().getName());
     }
 
-    @After("execution(* com.aptech.project.hotel.*.*(..))")
+    @After("execution(* com.aptech.project.hotel.api.*.*(..))")
     public void logAfter(JoinPoint joinPoint) {
-        logger.info("Finish controller: " + joinPoint.getSignature().getName());
+        logger.info("Finish API: " + joinPoint.getSignature().getName());
     }
 
-    @AfterReturning(pointcut = "execution(* com.aptech.project.hotel.*.*(..))",
+    @AfterReturning(pointcut = "execution(* com.aptech.project.hotel.api.*.*(..))",
             returning = "result")
     public void logAfterReturning(JoinPoint joinPoint, Object result) {
-        logger.info("after return controller : " + joinPoint.getSignature().getName());
+        logger.info("after return API : " + joinPoint.getSignature().getName());
         logger.info("Method returned value is : " + result);
     }
 
-    @AfterThrowing(pointcut = "execution(* com.aptech.project.hotel." +
-            "*.*(..))",
+    @AfterThrowing(pointcut = "execution(* com.aptech.project.hotel.api.*.*(..))",
             throwing = "error")
     public void logThrow(JoinPoint joinPoint, Throwable error) {
-        logger.info("exception in controller: " + joinPoint.getSignature().getName());
+        logger.info("exception in API: " + joinPoint.getSignature().getName());
         logger.error("Exception is: " + error);
     }
 }
