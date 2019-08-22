@@ -14,7 +14,6 @@ import java.util.Date;
 @Getter
 @Setter
 @Where(clause = "deleted = false")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class BaseEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
