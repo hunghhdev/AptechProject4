@@ -1,6 +1,5 @@
 package com.aptech.project.hotel.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -15,6 +14,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Where(clause = "deleted = false")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class BaseEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,19 +27,17 @@ public abstract class BaseEntity implements Serializable {
     @Column(name = "deleted", nullable = false)
     private int deleted = 0;
 
-    @Column(name = "created_date")
+    @Column(name = "created_date", updatable = false)
     @CreationTimestamp
     private Date createdDate;
 
     @Column(name = "updated_date")
     @UpdateTimestamp
-    @JsonIgnore
     private Date updatedDate;
 
-    @Column(name = "created_by", nullable = false)
+    @Column(name = "created_by", updatable = false)
     private String createdBy;
 
     @Column(name = "updated_by")
-    @JsonIgnore
     private String updatedBy;
 }

@@ -15,7 +15,7 @@ public class UserDto {
     private String username;
     @JsonProperty( value = "password", access = JsonProperty.Access.WRITE_ONLY)
     private String password;
-    @JsonIgnoreProperties({"createdDate","createdBy","deleted","description"})
+    @JsonIgnoreProperties({"createdDate","createdBy","deleted","description","updatedDate","updatedBy"})
     private Set<Permission> permission;
     private int role;
 }

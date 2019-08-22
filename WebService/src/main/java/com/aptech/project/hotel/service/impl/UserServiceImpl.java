@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Transactional
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -38,6 +37,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateJwtKey(String jwtKey, int id) {
         repository.updateJwtKey(jwtKey,id);
+    }
+
+    @Override
+    public User create(User user) {
+        return null;
     }
 
     public List<GrantedAuthority> getAuthorities(Role role) {

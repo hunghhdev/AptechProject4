@@ -7,4 +7,5 @@ public interface UserService {
     User save(User user);
     User findByUsernameAndPassword(String username, String password);
     void updateJwtKey(String jwtKey, int id);
+    User create(User user);
 }

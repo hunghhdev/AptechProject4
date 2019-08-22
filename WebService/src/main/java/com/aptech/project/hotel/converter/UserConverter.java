@@ -14,11 +14,13 @@ public class UserConverter {
         userDto.setUsername(user.getUsername());
         userDto.setPassword(user.getPassword());
         userDto.setPermission(user.getRole().getPermissions());
+        userDto.setRole(user.getId());
         return userDto;
     }
 
     public User toUser(UserDto userDto){
         User user = new User();
+        user.setId(userDto.getId());
         user.setUsername(userDto.getUsername());
         user.setPassword(userDto.getPassword());
         Role role = new Role();

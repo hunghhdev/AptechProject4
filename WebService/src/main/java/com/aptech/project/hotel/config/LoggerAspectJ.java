@@ -11,24 +11,25 @@ import org.springframework.stereotype.Component;
 public class LoggerAspectJ {
     private static final Logger logger = LoggerFactory.getLogger(LoggerAspectJ.class);
 
-    @Before("execution(* ant.station.controller.*.*(..))")
+    @Before("execution(* com.aptech.project.hotel.*.*(..))")
     public void logBefore(JoinPoint joinPoint) {
         logger.info("Start controller: " + joinPoint.getSignature().getName());
     }
 
-    @After("execution(* ant.station.controller.*.*(..))")
+    @After("execution(* com.aptech.project.hotel.*.*(..))")
     public void logAfter(JoinPoint joinPoint) {
         logger.info("Finish controller: " + joinPoint.getSignature().getName());
     }
 
-    @AfterReturning(pointcut = "execution(* ant.station.controller.*.*(..))",
+    @AfterReturning(pointcut = "execution(* com.aptech.project.hotel.*.*(..))",
             returning = "result")
     public void logAfterReturning(JoinPoint joinPoint, Object result) {
         logger.info("after return controller : " + joinPoint.getSignature().getName());
         logger.info("Method returned value is : " + result);
     }
 
-    @AfterThrowing(pointcut = "execution(* ant.station.controller.*.*(..))",
+    @AfterThrowing(pointcut = "execution(* com.aptech.project.hotel." +
+            "*.*(..))",
             throwing = "error")
     public void logThrow(JoinPoint joinPoint, Throwable error) {
         logger.info("exception in controller: " + joinPoint.getSignature().getName());
