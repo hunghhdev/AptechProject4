@@ -40,6 +40,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
             if (jwt!=null&&jwtService.validateTokenLogin(jwt)) {
                 User user = userService.findByUsername(jwtService.getUsernameFromToken(jwt));
+                if(user.getJwtKey()!=null && user.getJwtKey().equals(jwt)){
                 UserDetails userDetails = new org.springframework.security.core.userdetails.User(
                         user.getUsername(),user.getPassword(),true,true,
                         true,true,userService.getAuthorities(user.getRole()));
@@ -47,6 +48,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
             }
         } catch (Exception ex) {
             logger.error("Could not set user authentication in security context", ex);

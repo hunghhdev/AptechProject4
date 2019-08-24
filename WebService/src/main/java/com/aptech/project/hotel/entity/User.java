@@ -22,4 +22,7 @@ public class User extends BaseEntity {
 
     @Column(name = "jwt_key")
     private String jwtKey;
+
+    @Column(name = "avatar")
+    private String avatar;
 }

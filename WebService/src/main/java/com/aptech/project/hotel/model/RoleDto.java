@@ -1,4 +1,4 @@
-package com.aptech.project.hotel.dto;
+package com.aptech.project.hotel.model;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -13,7 +13,6 @@ import java.util.Date;
 @MappedSuperclass
 @Getter
 @Setter
-@Where(clause = "deleted = false")
 public abstract class BaseEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,8 +22,8 @@ public abstract class BaseEntity implements Serializable {
     /**
      * deleted=0 show;deleted=1 hide
      */
-    @Column(name = "deleted", nullable = false)
-    private int deleted = 0;
+    @Column(name = "deleted", nullable = false, columnDefinition = "boolean default false")
+    private boolean deleted = false;
 
     @Column(name = "created_date", updatable = false)
     @CreationTimestamp
