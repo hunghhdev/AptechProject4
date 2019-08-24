@@ -11,7 +11,6 @@ const service = axios.create({
 
 service.interceptors.request.use(
   config => {
-    // do something before request is sent
     if (store.getters.token) {
       config.headers["authorization"] = getToken();
     }
@@ -22,12 +21,7 @@ service.interceptors.request.use(
   }
 );
 
-// response interceptor
 service.interceptors.response.use(
-  /**
-   * If you want to get http information such as headers or status
-   * Please return  response => response
-   */
   response => {
     const res = response.data;
     if (res.status !== "SUCCESS") {
@@ -36,8 +30,7 @@ service.interceptors.response.use(
         type: "error",
         duration: 5 * 1000
       });
-      if (res.data === 20000) {
-        // to re-login
+      if (res.status === "TIMEOUT") {
         store.dispatch("user/logout").then(() => {
           setTimeout(function() {
             location.reload();

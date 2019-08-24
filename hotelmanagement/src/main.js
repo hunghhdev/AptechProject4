@@ -3,7 +3,7 @@ import App from "./App";
 import router from "./router";
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
-// import locale from "element-ui/lib/locale/lang/cn";
+import locale from "element-ui/lib/locale/lang/vi";
 import "@/styles/index.scss";
 import store from "./store";
 import "normalize.css/normalize.css";
@@ -13,7 +13,7 @@ import vi_vn from "./lang/vi_vn.json";
 import en_us from "./lang/en_us.json";
 
 Vue.config.productionTip = false;
-Vue.use(ElementUI);
+Vue.use(ElementUI, { locale });
 Vue.use(VueI18n);
 
 const messages = {

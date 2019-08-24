@@ -19,7 +19,7 @@ const mutations = {
     state.name = name;
   },
   SET_AVATAR: (state, avatar) => {
-    state.avatar = config.dev.service + "/files/avatar/" + avatar;
+    state.avatar = avatar;
   },
   SET_ID: (state, id) => {
     state.id = id;

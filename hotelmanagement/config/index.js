@@ -15,7 +15,7 @@ module.exports = {
     host: "127.0.0.1", // can be overwritten by process.env.HOST
     port: 10000, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     service: "http://127.0.0.1:9999",
-    autoOpenBrowser: true,
+    autoOpenBrowser: false,
     errorOverlay: true,
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-

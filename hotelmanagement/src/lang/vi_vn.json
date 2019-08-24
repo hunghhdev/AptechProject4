@@ -1,6 +1,12 @@
 {
   "common": {
-    "select_lang": "Ngôn ngữ"
+    "select_lang": "Ngôn ngữ",
+    "btnSearch": "Tìm kiếm",
+    "btnAdd": "Thêm mới",
+    "btnDelete": "Xoá",
+    "btnEdit": "Sửa",
+    "btnCancel": "Huỷ bỏ",
+    "btnConfirm": "Xác nhận"
   },
   "login": {
     "btnLogin": "Đăng nhập",
@@ -9,6 +15,38 @@
     "inputUsername": "Tên đăng nhập"
   },
   "user": {
-    "title": "Nhân viên"
+    "title": "Nhân viên",
+    "search": {
+      "inputUsername": "Nhập tên nhân viên"
+    },
+    "table": {
+      "username": "Tên nhân viên",
+      "createdBy": "Tạo bởi",
+      "createdDate": "Tạo Ngày",
+      "action": "Hành động"
+    },
+    "form": {
+      "titleCreate": "Tạo nhân viên",
+      "titleEdit": "Sửa nhân viên",
+      "labelAvatar": "Hình đại diện",
+      "labelUsername": "Tên đăng nhập",
+      "labelPassword": "Mật khẩu",
+      "labelPasswordRq": "Nhập lại mật khẩu"
+    },
+    "delete": {
+      "title": "Xóa",
+      "msg": "Bạn có chắc chắn muốn xóa nhân viên [{accountName}] không?"
+    },
+    "validate": {
+      "passwordNotMatch": "Mật khẩu không khớp",
+      "avatarRq": "Avatar không được bỏ trống",
+      "usernameRq": "Tên đăng nhập không được bỏ trống",
+      "passwordRq": "Mật khẩu không được bỏ trống"
+    },
+    "msg": {
+      "createSuccess": "Tạo tài khoản thành công",
+      "updateSuccess": "Cập nhật tài khoản thành công",
+      "deletedSuccess": "Xóa tài khoản thành công"
+    }
   }
 }
