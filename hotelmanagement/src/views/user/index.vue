@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div v-if="checkPermission(['PERM_USER_READ'])" class="app-container">
     <div class="filter-container">
       <el-input
         v-model="listQuery.name"
@@ -24,6 +24,7 @@
         @click="handleFilter"
       >{{$t('common.btnSearch')}}</el-button>
       <el-button
+        v-if="checkPermission(['PERM_USER_CREATE'])"
         style="margin-left: 10px;"
         type="primary"
         icon="el-icon-plus"
@@ -48,12 +49,14 @@
       <el-table-column fixed="right" :label="$t('common.action')" width="275" align="center">
         <template slot-scope="{row}">
           <el-button
+            v-if="checkPermission(['PERM_USER_UPDATE'])"
             type="primary"
             size="mini"
             icon="el-icon-edit"
             @click="handleUpdate(row)"
           >{{$t('common.btnEdit')}}</el-button>
           <el-button
+            v-if="checkPermission(['PERM_USER_DELETE'])"
             type="danger"
             size="mini"
             icon="el-icon-delete"
@@ -141,6 +144,7 @@ import { list, create, update, remove, uploadAvatar } from "@/api/user";
 import { formatDate } from "@/utils/";
 import Pagination from "@/components/Pagination";
 import store from "@/store";
+import checkPermission from "@/utils/permission";
 export default {
   name: "User",
   components: { Pagination },
@@ -214,9 +218,13 @@ export default {
     };
   },
   created() {
-    this.fetchData();
+    if (this.checkPermission(["PERM_USER_READ"])) {
+      this.fetchData();
+    }
   },
   methods: {
+    checkPermission,
+    formatDate,
     fetchData() {
       this.listLoading = true;
       if (this.dateSearchPicker) {
@@ -351,9 +359,6 @@ export default {
         createdBy: "",
         role: 2
       };
-    },
-    formatDate(date) {
-      return formatDate(date);
     }
   }
 };

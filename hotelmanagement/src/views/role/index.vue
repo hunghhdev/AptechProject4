@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div v-if="checkPermission(['PERM_ROLE_READ'])" class="app-container">
     <div class="filter-container">
       <el-input
         v-model="listQuery.name"
@@ -24,6 +24,7 @@
         @click="handleFilter"
       >{{ $t("common.btnSearch") }}</el-button>
       <el-button
+        v-if="checkPermission(['PERM_ROLE_CREATE'])"
         style="margin-left: 10px;"
         type="primary"
         icon="el-icon-document-add"
@@ -62,12 +63,14 @@
       <el-table-column fixed="right" :label="$t('common.action')" align="center" min-width="250">
         <template slot-scope="{row}">
           <el-button
+            v-if="checkPermission(['PERM_ROLE_UPDATE'])"
             icon="el-icon-edit"
             type="primary"
             size="mini"
             @click="handleUpdate(row)"
           >{{ $t("common.btnEdit") }}</el-button>
           <el-button
+            v-if="checkPermission(['PERM_ROLE_DELETE'])"
             icon="el-icon-delete"
             type="danger"
             size="mini"
@@ -142,8 +145,7 @@ import { fetchList, create, update, remove, permissions } from "@/api/role";
 import { formatDate } from "@/utils/";
 import store from "@/store";
 import Pagination from "@/components/Pagination";
-
-const defaultPermissions = [];
+import checkPermission from "@/utils/permission";
 
 export default {
   name: "Role",
@@ -202,13 +204,14 @@ export default {
     };
   },
   created() {
-    this.fetchData();
-    this.fetchPermission();
+    if (this.checkPermission(["PERM_ROLE_READ"])) {
+      this.fetchData();
+      this.fetchPermission();
+    }
   },
   methods: {
-    formatDate(date) {
-      return formatDate(date);
-    },
+    checkPermission,
+    formatDate,
     fetchData() {
       this.listLoading = true;
       if (this.dateSearchPicker) {
