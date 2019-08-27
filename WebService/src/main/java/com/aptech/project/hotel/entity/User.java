@@ -16,9 +16,8 @@ public class User extends BaseEntity {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
-    private Role role;
+    @Column(name = "role_id", nullable = false)
+    private int roleId;
 
     @Column(name = "jwt_key")
     private String jwtKey;

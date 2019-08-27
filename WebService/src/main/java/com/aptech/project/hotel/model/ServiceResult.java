@@ -10,6 +10,6 @@ public class ServiceResult {
     private Object data;
     private Status status = Status.SUCCESS;
     public enum Status {
-        SUCCESS, FAILED, TIMEOUT
+        SUCCESS, FAILED, TOKEN_FAIl
     }
 }

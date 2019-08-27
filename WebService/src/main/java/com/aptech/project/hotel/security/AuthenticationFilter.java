@@ -2,7 +2,8 @@ package com.aptech.project.hotel.security;
 
 import com.aptech.project.hotel.entity.User;
 import com.aptech.project.hotel.service.JwtService;
-import com.aptech.project.hotel.service.impl.UserServiceImpl;
+import com.aptech.project.hotel.service.RoleService;
+import com.aptech.project.hotel.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,7 +27,10 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     private static final String TOKEN_HEADER = "authorization";
 
     @Autowired
-    private UserServiceImpl userService;
+    private UserService userService;
+
+    @Autowired
+    private RoleService roleService;
 
     @Autowired
     private JwtService jwtService;
@@ -43,7 +47,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
                 if(user.getJwtKey()!=null && user.getJwtKey().equals(jwt)){
                 UserDetails userDetails = new org.springframework.security.core.userdetails.User(
                         user.getUsername(),user.getPassword(),true,true,
-                        true,true,userService.getAuthorities(user.getRole()));
+                        true,true,roleService.getAuthorities(user.getRoleId()));
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 

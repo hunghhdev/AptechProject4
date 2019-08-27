@@ -1,9 +1,13 @@
 package com.aptech.project.hotel.api;
 
+import com.aptech.project.hotel.converter.RoleConverter;
 import com.aptech.project.hotel.converter.UserConverter;
+import com.aptech.project.hotel.entity.Role;
 import com.aptech.project.hotel.entity.User;
 import com.aptech.project.hotel.model.ServiceResult;
+import com.aptech.project.hotel.model.UserInfoDto;
 import com.aptech.project.hotel.service.JwtService;
+import com.aptech.project.hotel.service.RoleService;
 import com.aptech.project.hotel.service.UserService;
 import com.aptech.project.hotel.util.Constant;
 import com.aptech.project.hotel.util.EnCode;
@@ -14,6 +18,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 @RestController
 @CrossOrigin
 public class LoginApi {
@@ -22,10 +28,16 @@ public class LoginApi {
     private UserService service;
 
     @Autowired
+    private RoleService roleService;
+
+    @Autowired
     private JwtService jwtService;
 
     @Autowired
-    private UserConverter userConverter;
+    private UserConverter converter;
+
+    @Autowired
+    private RoleConverter roleConverter;
 
     @GetMapping(Constant.API+"/login")
     public ResponseEntity<ServiceResult> login(@RequestParam("username") String username,
@@ -48,7 +60,10 @@ public class LoginApi {
     public ResponseEntity<ServiceResult> getInfo(@RequestParam("token") String token){
         ServiceResult serviceResult = new ServiceResult();
         User user = service.findByUsername(jwtService.getUsernameFromToken(token));
-        serviceResult.setData(userConverter.toUserDto(user));
+        UserInfoDto userInfoDto = converter.toUserInfoDto(user);
+        Optional<Role> role = roleService.findById(user.getRoleId());
+        if (role.isPresent()) userInfoDto.setPermissions(role.get().getPermissions());
+        serviceResult.setData(userInfoDto);
         return ResponseEntity.ok(serviceResult);
     }
 }

@@ -62,6 +62,7 @@ public class UserApi {
                 converter.toUsersDto(service.findUsers(username, from, to, pageable))));
         return ResponseEntity.ok(serviceResult);
     }
+
     @PostMapping(value = "/create")
     public ResponseEntity<ServiceResult> create(@RequestBody UserDto userDto, Authentication authentication) {
         ServiceResult serviceResult = new ServiceResult();

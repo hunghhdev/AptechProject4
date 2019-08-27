@@ -1,17 +1,11 @@
 package com.aptech.project.hotel.service.impl;
 
-import com.aptech.project.hotel.entity.Role;
 import com.aptech.project.hotel.entity.User;
 import com.aptech.project.hotel.repository.UserRepository;
 import com.aptech.project.hotel.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -61,11 +55,4 @@ public class UserServiceImpl implements UserService {
         repository.updateJwtKey(jwtKey,id);
     }
 
-    public List<GrantedAuthority> getAuthorities(Role role) {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        role.getPermissions().forEach(permission ->{
-            authorities.add(new SimpleGrantedAuthority(permission.getPermissionKey()));
-        });
-        return authorities;
-    }
 }

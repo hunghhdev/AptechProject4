@@ -1,8 +1,9 @@
 package com.aptech.project.hotel.converter;
 
 import com.aptech.project.hotel.model.UserDto;
-import com.aptech.project.hotel.entity.Role;
 import com.aptech.project.hotel.entity.User;
+import com.aptech.project.hotel.model.UserInfoDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -16,8 +17,7 @@ public class UserConverter {
         userDto.setId(user.getId());
         userDto.setUsername(user.getUsername());
         userDto.setPassword(user.getPassword());
-        userDto.setPermission(user.getRole().getPermissions());
-        userDto.setRole(user.getRole().getId());
+        userDto.setRoleId(user.getRoleId());
         userDto.setCreatedBy(user.getCreatedBy());
         userDto.setCreatedDate(user.getCreatedDate());
         userDto.setAvatar(user.getAvatar());
@@ -31,8 +31,7 @@ public class UserConverter {
             userDto.setId(user.getId());
             userDto.setUsername(user.getUsername());
             userDto.setPassword(user.getPassword());
-            userDto.setPermission(user.getRole().getPermissions());
-            userDto.setRole(user.getId());
+            userDto.setRoleId(user.getRoleId());
             userDto.setCreatedBy(user.getCreatedBy());
             userDto.setCreatedDate(user.getCreatedDate());
             userDto.setAvatar(user.getAvatar());
@@ -47,12 +46,18 @@ public class UserConverter {
         user.setId(userDto.getId());
         user.setUsername(userDto.getUsername());
         user.setPassword(userDto.getPassword());
-        Role role = new Role();
-        role.setId(userDto.getRole());
-        user.setRole(role);
+        user.setRoleId(userDto.getRoleId());
         user.setCreatedBy(userDto.getCreatedBy());
         user.setCreatedDate(userDto.getCreatedDate());
         user.setAvatar(userDto.getAvatar());
         return user;
+    }
+
+    public UserInfoDto toUserInfoDto(User user){
+        UserInfoDto userInfoDto = new UserInfoDto();
+        userInfoDto.setId(user.getId());
+        userInfoDto.setUsername(user.getUsername());
+        userInfoDto.setAvatar(user.getAvatar());
+        return userInfoDto;
     }
 }

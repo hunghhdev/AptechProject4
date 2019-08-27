@@ -14,8 +14,7 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
                          AuthenticationException authException) throws IOException {
         ServiceResult result = new ServiceResult();
         result.setMessage("Not logged in");
-        result.setData(20000);
-        result.setStatus(ServiceResult.Status.FAILED);
+        result.setStatus(ServiceResult.Status.TOKEN_FAIl);
         String json = new Gson().toJson(result);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
