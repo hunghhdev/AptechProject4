@@ -30,7 +30,7 @@ service.interceptors.response.use(
         type: "error",
         duration: 5 * 1000
       });
-      if (res.status === "TIMEOUT") {
+      if (res.status === "TOKEN_FAIl") {
         store.dispatch("user/logout").then(() => {
           setTimeout(function() {
             location.reload();

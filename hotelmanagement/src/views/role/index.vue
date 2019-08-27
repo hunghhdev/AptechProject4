@@ -3,8 +3,8 @@
     <div class="filter-container">
       <el-input
         v-model="listQuery.name"
-        :placeholder="$t('user.search.inputUsername')"
-        style="width: 300px;"
+        :placeholder="$t('role.search.inputName')"
+        style="width: 200px; text-align: center !important;"
         @keyup.enter.native="handleFilter"
         class="filter-item"
       />
@@ -22,43 +22,57 @@
         type="primary"
         icon="el-icon-search"
         @click="handleFilter"
-      >{{$t('common.btnSearch')}}</el-button>
+      >{{ $t("common.btnSearch") }}</el-button>
       <el-button
         style="margin-left: 10px;"
         type="primary"
-        icon="el-icon-plus"
+        icon="el-icon-document-add"
         @click="handleCreate"
         class="filter-item"
-      >{{$t('common.btnAdd')}}</el-button>
+      >{{ $t("common.btnAdd") }}</el-button>
     </div>
-
-    <el-table v-loading="listLoading" border fit highlight-current-row :data="list">
-      <el-table-column prop="username" :label="$t('user.table.username')" align="center"></el-table-column>
-      <el-table-column prop="createdBy" :label="$t('user.table.createdBy')" align="center"></el-table-column>
+    <el-table
+      v-loading="listLoading"
+      :data="list"
+      element-loading-text="Loading"
+      border
+      fit
+      highlight-current-row
+    >
+      <el-table-column :label="$t('role.table.name')" min-width="220" align="center">
+        <template slot-scope="scope">{{ scope.row.roleName }}</template>
+      </el-table-column>
+      <el-table-column :label="$t('role.table.desc')" min-width="220" align="center">
+        <template slot-scope="scope">{{ scope.row.description }}</template>
+      </el-table-column>
+      <el-table-column :label="$t('role.table.createdBy')" min-width="220" align="center">
+        <template slot-scope="scope">{{ scope.row.createdBy }}</template>
+      </el-table-column>
       <el-table-column
-        :label="$t('user.table.createdDate')"
+        :label="$t('role.table.createdDate')"
         align="center"
         sortable
         prop="createdDate"
+        min-width="220"
       >
         <template slot-scope="scope">
           <span>{{ formatDate(scope.row.createdDate) }}</span>
         </template>
       </el-table-column>
-      <el-table-column fixed="right" :label="$t('common.action')" width="275" align="center">
+      <el-table-column fixed="right" :label="$t('common.action')" align="center" min-width="250">
         <template slot-scope="{row}">
           <el-button
+            icon="el-icon-edit"
             type="primary"
             size="mini"
-            icon="el-icon-edit"
             @click="handleUpdate(row)"
-          >{{$t('common.btnEdit')}}</el-button>
+          >{{ $t("common.btnEdit") }}</el-button>
           <el-button
+            icon="el-icon-delete"
             type="danger"
             size="mini"
-            icon="el-icon-delete"
             @click="handleDelete(row)"
-          >{{$t('common.btnDelete')}}</el-button>
+          >{{ $t("common.btnDelete") }}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -78,56 +92,43 @@
         style="width: 90%; margin-left:30px;"
         :rules="rules"
       >
-        <el-form-item :label="$t('user.form.labelAvatar')" prop="avatar">
-          <el-upload
-            drag
-            action
-            :http-request="handleUploadAvatar"
-            class="avatar-uploader"
-            :show-file-list="false"
-            :before-upload="handleBeforeAvatarUpload"
-            accept="image/png, image/gif, image/jpg, image/jpeg"
-          >
-            <img v-if="tempData.avatar" :src="tempData.avatar" class="avatar" />
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
-        </el-form-item>
-        <el-form-item :label="$t('user.form.labelUsername')" prop="username">
+        <el-form-item :label="$t('role.form.labelName')" prop="roleName">
           <el-input
-            :disabled="dialogStatus==='create'?false:true"
-            v-model="tempData.username"
-            :placeholder="$t('user.form.labelUsername')"
+            v-model="tempData.roleName"
+            :placeholder="$t('role.form.labelName')"
             class="filter-item"
           ></el-input>
         </el-form-item>
-        <el-form-item :label="$t('user.form.labelPassword')" prop="password">
+        <el-form-item :label="$t('role.form.labelDesc')" prop="description">
           <el-input
-            type="password"
-            v-model="tempData.password"
-            :placeholder="$t('user.form.labelPassword')"
+            type="textarea"
+            v-model="tempData.description"
+            :placeholder="$t('role.form.labelDesc')"
             class="filter-item"
           ></el-input>
         </el-form-item>
-        <el-form-item :label="$t('user.form.labelPasswordRq')" prop="passwordRq">
-          <el-input
-            type="password"
-            v-model="tempData.passwordRq"
-            :placeholder="$t('user.form.labelPasswordRq')"
-            class="filter-item"
-          ></el-input>
+        <el-form-item :label="$t('role.form.labelPermission')">
+          <el-tree
+            :data="listPermissions"
+            show-checkbox
+            :props="defaultProps"
+            node-key="id"
+            ref="tree"
+            highlight-current
+          ></el-tree>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">{{ $t('common.btnCancel') }}</el-button>
+        <el-button @click="cancelHandle()">{{ $t("common.btnCancel") }}</el-button>
         <el-button
           type="primary"
           :loading="buttonConfirmLoading"
           @click="dialogStatus==='create'?createData():updateData()"
-        >{{ $t('common.btnConfirm') }}</el-button>
+        >{{ $t("common.btnConfirm") }}</el-button>
       </span>
     </el-dialog>
-    <el-dialog :title="$t('user.delete.title')" :visible.sync="dialogDeleteVisible">
-      <p>{{ $t('user.delete.msg', { accountName: tempData.username }) }}</p>
+    <el-dialog :title="$t('role.delete.title')" :visible.sync="dialogDeleteVisible">
+      <p>{{ $t('role.delete.msg', { name: tempData.roleName }) }}</p>
       <div slot="footer">
         <el-button @click="dialogDeleteVisible = false">{{ $t("common.btnCancel") }}</el-button>
         <el-button type="danger" @click="deleteData">{{ $t("common.btnConfirm") }}</el-button>
@@ -137,26 +138,20 @@
 </template>
 
 <script>
-import { list, create, update, remove, uploadAvatar } from "@/api/user";
+import { fetchList, create, update, remove, permissions } from "@/api/role";
 import { formatDate } from "@/utils/";
-import Pagination from "@/components/Pagination";
 import store from "@/store";
+import Pagination from "@/components/Pagination";
+
+const defaultPermissions = [];
+
 export default {
-  name: "User",
+  name: "Role",
   components: { Pagination },
   data() {
-    const validatePasswordRq = (rule, value, callback) => {
-      if (this.tempData.password !== value) {
-        callback(new Error(this.$t("user.validate.passwordNotMatch")));
-      } else {
-        callback();
-      }
-    };
     return {
       total: 0,
-      dialogStatus: "",
-      dialogDeleteVisible: false,
-      buttonConfirmLoading: false,
+      list: null,
       listLoading: true,
       listQuery: {
         page: 0,
@@ -165,93 +160,100 @@ export default {
         fromDate: "",
         toDate: ""
       },
-      tempData: {
-        id: "",
-        avatar: "",
-        username: "",
-        password: "",
-        passwordRq: "",
-        createdBy: "",
-        role: 2
-      },
-      textMap: {
-        create: this.$t("user.form.titleCreate"),
-        update: this.$t("user.form.titleEdit")
-      },
-      dialogFormVisible: false,
       dateSearchPicker: [new Date() - 2592000000, new Date()],
-      list: [],
+      textMap: {
+        update: this.$t("role.form.titleEdit"),
+        create: this.$t("role.form.titleCreate")
+      },
+      dialogStatus: "",
+      dialogFormVisible: false,
+      dialogDeleteVisible: false,
+      buttonConfirmLoading: false,
       rules: {
-        avatar: [
+        roleName: [
           {
+            min: 1,
+            max: 20,
+            message: "Role name, limited to 20 characters",
             trigger: "blur",
-            required: true,
-            message: this.$t("user.validate.avatarRq")
+            required: true
           }
         ],
-        username: [
+        description: [
           {
-            trigger: "blur",
-            required: true,
-            message: this.$t("user.validate.usernameRq")
-          }
-        ],
-        password: [
-          {
-            trigger: "blur",
-            required: true,
-            message: this.$t("user.validate.passwordRq")
-          }
-        ],
-        passwordRq: [
-          {
-            trigger: "blur",
-            required: true,
-            validator: validatePasswordRq
+            message: "Remarks, limited to 50 words or less",
+            trigger: "blur"
           }
         ]
-      }
+      },
+      tempData: {
+        id: "",
+        roleName: "",
+        description: "",
+        permissions: []
+      },
+      tempPermissions: [],
+      defaultProps: {
+        children: "children",
+        label: "permissionName",
+        id: "id"
+      },
+      listPermissions: ""
     };
   },
   created() {
     this.fetchData();
+    this.fetchPermission();
   },
   methods: {
+    formatDate(date) {
+      return formatDate(date);
+    },
     fetchData() {
       this.listLoading = true;
       if (this.dateSearchPicker) {
         this.listQuery.fromDate = this.dateSearchPicker[0];
         this.listQuery.toDate = this.dateSearchPicker[1].getTime();
       }
-      list(this.listQuery).then(response => {
-        this.list = response.data.object;
+      fetchList(this.listQuery).then(response => {
         this.total = response.data.countRow;
+        this.list = response.data.object;
         this.listLoading = false;
       });
+    },
+    fetchPermission() {
+      permissions().then(response => {
+        this.listPermissions = response.data;
+      });
+    },
+    handleDelete(row) {
+      this.dialogDeleteVisible = true;
+      this.tempData = row;
     },
     handleFilter() {
       this.fetchData();
     },
     handleCreate() {
-      this.resetTemp();
       this.dialogFormVisible = true;
       this.dialogStatus = "create";
+      this.resetTemp();
       this.$nextTick(() => {
         this.$refs["dataForm"].clearValidate();
+        this.$refs.tree.setCheckedKeys([]);
       });
-      this.buttonConfirmLoading = false;
     },
-
-    createData(event) {
+    createData() {
       this.$refs["dataForm"].validate(valid => {
         if (valid) {
-          this.buttonConfirmLoading = true;
+          for (const val of this.$refs.tree.getCheckedKeys()) {
+            if (val % 1000 !== 0) this.tempData.permissions.push({ id: val });
+          }
           create(this.tempData)
             .then(response => {
               this.list.unshift(response.data);
               this.$notify({
                 title: "Success",
-                message: this.$t("user.msg.createSuccess"),
+                message: this.$t("role.msg.createSuccess"),
                 type: "success",
                 duration: 2000
               });
@@ -259,7 +261,7 @@ export default {
               this.total += 1;
             })
             .finally(() => {
-              this.buttonConfirmLoading = false;
+              this.buttonLoading = false;
             });
         }
       });
@@ -267,28 +269,31 @@ export default {
     handleUpdate(row) {
       this.dialogFormVisible = true;
       this.dialogStatus = "update";
-      this.$nextTick(() => {
-        this.$refs["dataForm"].clearValidate();
-      });
       this.tempData = Object.assign({}, row);
+      this.$nextTick(() => {
+        this.$refs.tree.setCheckedNodes(this.tempData.permissions);
+      });
     },
     updateData() {
-      this.tempData.createdBy = this.createdBy;
       this.$refs["dataForm"].validate(valid => {
         if (valid) {
           this.buttonConfirmLoading = true;
+          this.tempData.permissions = [];
+          for (const val of this.$refs.tree.getCheckedNodes()) {
+            if (val.id % 1000 !== 0) this.tempData.permissions.push(val);
+          }
           update(this.tempData)
             .then(response => {
               for (const v of this.list) {
                 if (v.id === this.tempData.id) {
                   const index = this.list.indexOf(v);
-                  this.list.splice(index, 1, response.data);
+                  this.list.splice(index, 1, this.tempData);
                   break;
                 }
               }
               this.$notify({
                 title: "Success",
-                message: this.$t("user.msg.updateSuccess"),
+                message: this.$t("role.msg.updateSuccess"),
                 type: "success",
                 duration: 2000
               });
@@ -300,19 +305,13 @@ export default {
         }
       });
     },
-    handleDelete(row) {
-      if (store.getters.id !== row.id) {
-        this.dialogDeleteVisible = true;
-        this.tempData = row;
-      }
-    },
     deleteData() {
       this.listLoading = true;
       remove({ id: this.tempData.id })
         .then(response => {
           this.$notify({
             title: "Success",
-            message: response.message,
+            message: this.$t("role.msg.deletedSuccess"),
             type: "success",
             duration: 2000
           });
@@ -325,35 +324,23 @@ export default {
         });
       this.dialogDeleteVisible = false;
     },
-    handleBeforeAvatarUpload(file) {
-      const isLt2M = file.size / 1024 / 1024 < 2;
-      const isImage = file["type"].split("/")[0] === "image";
-      if (!isImage) {
-        this.$message.error("File not is a picture!");
-      }
-      if (!isLt2M) {
-        this.$message.error("Avatar picture size can not exceed 2MB!");
-      }
-      return isLt2M && isImage;
-    },
-    handleUploadAvatar(file, fileList) {
-      uploadAvatar(file.file).then(response => {
-        this.tempData.avatar = response.data;
+    cancelHandle() {
+      this.resetTemp;
+      this.$nextTick(() => {
+        this.$refs["dataForm"].clearValidate();
       });
+      this.$refs.tree.setCheckedKeys([]);
+      this.$refs.tree.setCheckedNodes([]);
+      this.buttonConfirmLoading = false;
+      this.dialogFormVisible = false;
     },
     resetTemp() {
       this.tempData = {
         id: "",
-        avatar: "",
-        username: "",
-        password: "",
-        passwordRq: "",
-        createdBy: "",
-        role: 2
+        roleName: "",
+        description: "",
+        permissions: []
       };
-    },
-    formatDate(date) {
-      return formatDate(date);
     }
   }
 };

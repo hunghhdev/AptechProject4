@@ -6,7 +6,8 @@
     "btnDelete": "Xoá",
     "btnEdit": "Sửa",
     "btnCancel": "Huỷ bỏ",
-    "btnConfirm": "Xác nhận"
+    "btnConfirm": "Xác nhận",
+    "action": "Hành động"
   },
   "login": {
     "btnLogin": "Đăng nhập",
@@ -22,8 +23,7 @@
     "table": {
       "username": "Tên nhân viên",
       "createdBy": "Tạo bởi",
-      "createdDate": "Tạo Ngày",
-      "action": "Hành động"
+      "createdDate": "Tạo Ngày"
     },
     "form": {
       "titleCreate": "Tạo nhân viên",
@@ -48,5 +48,36 @@
       "updateSuccess": "Cập nhật tài khoản thành công",
       "deletedSuccess": "Xóa tài khoản thành công"
     }
+  },
+  "role": {
+    "title": "Phân quyền",
+    "search": {
+      "inputName": "Nhập chức danh"
+    },
+    "table": {
+      "name": "Tên chức danh",
+      "desc": "Mô tả",
+      "createdBy": "Tạo bởi",
+      "createdDate": "Tạo Ngày"
+    },
+    "form": {
+      "titleCreate": "Tạo vai trò",
+      "titleEdit": "Sửa vai trò",
+      "labelName": "Tên vai trò",
+      "labelDesc": "Mô tả",
+      "labelPermission": "Quyền lực"
+    },
+    "delete": {
+      "title": "Xóa",
+      "msg": "Bạn có chắc chắn muốn xóa vai trò [{name}] không?"
+    },
+    "msg": {
+      "createSuccess": "Tạo vai trò thành công",
+      "updateSuccess": "Cập nhật vai trò thành công",
+      "deletedSuccess": "Xóa vai trò thành công"
+    }
+  },
+  "management": {
+    "title": "Quản lý"
   }
 }

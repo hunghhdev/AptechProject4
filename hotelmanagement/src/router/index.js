@@ -15,12 +15,23 @@ export const constantRoutes = [
     path: "/",
     redirect: "/user",
     component: Layout,
+    name: "Quản lý",
+    meta: {
+      title: "management",
+      icon: "el-icon-setting"
+    },
     children: [
       {
         path: "",
         name: "Nhân viên",
         component: () => import("@/views/user"),
-        meta: { title: "user", icon: "el-icon-s-order" }
+        meta: { title: "user", icon: "el-icon-user" }
+      },
+      {
+        path: "/role",
+        name: "Phân quyền",
+        component: () => import("@/views/role"),
+        meta: { title: "role", icon: "el-icon-s-order" }
       }
     ]
   },

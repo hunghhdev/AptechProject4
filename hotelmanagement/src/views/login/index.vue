@@ -94,7 +94,6 @@ export default {
     },
     handleLogin() {
       this.loading = true;
-      console.log(this.loginForm);
       this.$store
         .dispatch("user/login", this.loginForm)
         .then(() => {
