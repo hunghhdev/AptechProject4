@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Sort;
@@ -50,6 +51,7 @@ public class UserApi {
 
 
     @GetMapping(value = "/list")
+    @PreAuthorize("hasAuthority('PERM_USER_READ')")
     public ResponseEntity<ServiceResult> list(
             @RequestParam("page") int page, @RequestParam("size") int size,
             @RequestParam("name") String username, @RequestParam("fromDate") long fromDate,
@@ -64,6 +66,7 @@ public class UserApi {
     }
 
     @PostMapping(value = "/create")
+    @PreAuthorize("hasAuthority('PERM_USER_CREATE')")
     public ResponseEntity<ServiceResult> create(@RequestBody UserDto userDto, Authentication authentication) {
         ServiceResult serviceResult = new ServiceResult();
         if (service.existByUsername(userDto.getUsername())){
@@ -79,6 +82,7 @@ public class UserApi {
     }
 
     @PutMapping(value = "/update")
+    @PreAuthorize("hasAuthority('PERM_USER_UPDATE')")
     public ResponseEntity<ServiceResult> update(@RequestBody UserDto userDto, Authentication authentication) {
         ServiceResult serviceResult = new ServiceResult();
         User user = converter.toUser(userDto);
@@ -90,6 +94,7 @@ public class UserApi {
     }
 
     @PutMapping(value = "/delete")
+    @PreAuthorize("hasAuthority('PERM_USER_DELETE')")
     public ResponseEntity<ServiceResult> delete(@RequestParam("id") int id, Authentication authentication) {
         ServiceResult serviceResult = new ServiceResult();
         service.delete(id,authentication.getName());

@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import com.aptech.project.hotel.model.ServiceResult;
@@ -33,6 +34,7 @@ public class RoleApi {
     private RoleConverter converter;
 
     @GetMapping(value = "/list")
+    @PreAuthorize("hasAuthority('PERM_ROLE_READ')")
     public ResponseEntity<ServiceResult> list(
             @RequestParam("page") int page, @RequestParam("size") int size,
             @RequestParam("name") String name, @RequestParam("fromDate") long fromDate,
@@ -49,6 +51,7 @@ public class RoleApi {
     }
 
     @GetMapping(value = "/permissions")
+    @PreAuthorize("hasAuthority('PERM_ROLE_READ')")
     public ResponseEntity<ServiceResult> permissions(){
         ServiceResult serviceResult = new ServiceResult();
         serviceResult.setData(permissionService.permissions());
@@ -56,6 +59,7 @@ public class RoleApi {
     }
 
     @PostMapping(value = "/create")
+    @PreAuthorize("hasAuthority('PERM_ROLE_CREATE')")
     public ResponseEntity<ServiceResult> create(@RequestBody RoleDto roleDto, Authentication authentication) {
         ServiceResult serviceResult = new ServiceResult();
         if (service.existByName(roleDto.getRoleName())){
@@ -70,6 +74,7 @@ public class RoleApi {
     }
 
     @PutMapping(value = "/update")
+    @PreAuthorize("hasAuthority('PERM_ROLE_UPDATE')")
     public ResponseEntity<ServiceResult> update(@RequestBody RoleDto roleDto, Authentication authentication) {
         ServiceResult serviceResult = new ServiceResult();
         Role role = converter.toRole(roleDto);
@@ -80,6 +85,7 @@ public class RoleApi {
     }
 
     @PutMapping(value = "/delete")
+    @PreAuthorize("hasAuthority('PERM_ROLE_DELETE')")
     public ResponseEntity<ServiceResult> delete(@RequestParam("id") int id, Authentication authentication) {
         ServiceResult serviceResult = new ServiceResult();
         service.delete(id,authentication.getName());
