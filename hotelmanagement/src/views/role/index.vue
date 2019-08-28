@@ -110,7 +110,7 @@
             class="filter-item"
           ></el-input>
         </el-form-item>
-        <el-form-item :label="$t('role.form.labelPermission')">
+        <el-form-item :label="$t('role.form.labelPermission')" prop="permissions">
           <el-tree
             :data="listPermissions"
             show-checkbox
@@ -151,6 +151,13 @@ export default {
   name: "Role",
   components: { Pagination },
   data() {
+    const validatePermission = (rule, value, callback) => {
+      if (value.length < 1) {
+        callback(new Error("Quyền truy cập không được bỏ trống"));
+      } else {
+        callback();
+      }
+    };
     return {
       total: 0,
       list: null,
@@ -174,17 +181,16 @@ export default {
       rules: {
         roleName: [
           {
-            min: 1,
-            max: 20,
-            message: "Role name, limited to 20 characters",
             trigger: "blur",
-            required: true
+            required: true,
+            message: "Tên không được bỏ trống"
           }
         ],
-        description: [
+        permissions: [
           {
-            message: "Remarks, limited to 50 words or less",
-            trigger: "blur"
+            trigger: "blur",
+            required: true,
+            validator: validatePermission
           }
         ]
       },
@@ -246,11 +252,11 @@ export default {
       });
     },
     createData() {
+      for (const val of this.$refs.tree.getCheckedKeys()) {
+        if (val % 1000 !== 0) this.tempData.permissions.push({ id: val });
+      }
       this.$refs["dataForm"].validate(valid => {
         if (valid) {
-          for (const val of this.$refs.tree.getCheckedKeys()) {
-            if (val % 1000 !== 0) this.tempData.permissions.push({ id: val });
-          }
           create(this.tempData)
             .then(response => {
               this.list.unshift(response.data);
@@ -278,13 +284,13 @@ export default {
       });
     },
     updateData() {
+      this.tempData.permissions = [];
+      for (const val of this.$refs.tree.getCheckedNodes()) {
+        if (val.id % 1000 !== 0) this.tempData.permissions.push(val);
+      }
       this.$refs["dataForm"].validate(valid => {
         if (valid) {
           this.buttonConfirmLoading = true;
-          this.tempData.permissions = [];
-          for (const val of this.$refs.tree.getCheckedNodes()) {
-            if (val.id % 1000 !== 0) this.tempData.permissions.push(val);
-          }
           update(this.tempData)
             .then(response => {
               for (const v of this.list) {

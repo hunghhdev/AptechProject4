@@ -38,3 +38,10 @@ export function permissions() {
     method: "get"
   });
 }
+
+export function roles() {
+  return request({
+    url: "/role/roles",
+    method: "get"
+  });
+}

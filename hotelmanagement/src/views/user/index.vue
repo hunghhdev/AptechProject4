@@ -35,6 +35,11 @@
 
     <el-table v-loading="listLoading" border fit highlight-current-row :data="list">
       <el-table-column prop="username" :label="$t('user.table.username')" align="center"></el-table-column>
+      <el-table-column prop="roleId" :label="$t('user.table.role')" align="center">
+        <template slot-scope="scope">
+          <span>{{ formatColumnRole(scope.row.roleId) }}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="createdBy" :label="$t('user.table.createdBy')" align="center"></el-table-column>
       <el-table-column
         :label="$t('user.table.createdDate')"
@@ -119,6 +124,20 @@
             class="filter-item"
           ></el-input>
         </el-form-item>
+        <el-form-item :label="$t('user.form.labelRole')" prop="roleId">
+          <el-select
+            v-model="tempData.roleId"
+            class="filter-item"
+            :placeholder="$t('common.select')"
+          >
+            <el-option
+              v-for="item in roles"
+              :key="item.id"
+              :label="item.roleName"
+              :value="item.id"
+            />
+          </el-select>
+        </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">{{ $t('common.btnCancel') }}</el-button>
@@ -141,6 +160,7 @@
 
 <script>
 import { list, create, update, remove, uploadAvatar } from "@/api/user";
+import { roles } from "@/api/role";
 import { formatDate } from "@/utils/";
 import Pagination from "@/components/Pagination";
 import store from "@/store";
@@ -176,7 +196,8 @@ export default {
         password: "",
         passwordRq: "",
         createdBy: "",
-        role: 2
+        roleId: "",
+        role: 0
       },
       textMap: {
         create: this.$t("user.form.titleCreate"),
@@ -185,6 +206,7 @@ export default {
       dialogFormVisible: false,
       dateSearchPicker: [new Date() - 2592000000, new Date()],
       list: [],
+      roles: [],
       rules: {
         avatar: [
           {
@@ -213,6 +235,13 @@ export default {
             required: true,
             validator: validatePasswordRq
           }
+        ],
+        roleId: [
+          {
+            trigger: "blur",
+            required: true,
+            message: this.$t("user.validate.roleRq")
+          }
         ]
       }
     };
@@ -220,6 +249,7 @@ export default {
   created() {
     if (this.checkPermission(["PERM_USER_READ"])) {
       this.fetchData();
+      this.fetchRoles();
     }
   },
   methods: {
@@ -235,6 +265,11 @@ export default {
         this.list = response.data.object;
         this.total = response.data.countRow;
         this.listLoading = false;
+      });
+    },
+    fetchRoles() {
+      roles().then(response => {
+        this.roles = response.data;
       });
     },
     handleFilter() {
@@ -349,6 +384,15 @@ export default {
         this.tempData.avatar = response.data;
       });
     },
+    formatColumnRole(roleId) {
+      let text = "";
+      this.roles.forEach(role => {
+        if (role.id === roleId) {
+          text = role.roleName;
+        }
+      });
+      return text;
+    },
     resetTemp() {
       this.tempData = {
         id: "",
@@ -357,7 +401,8 @@ export default {
         password: "",
         passwordRq: "",
         createdBy: "",
-        role: 2
+        roleId: "",
+        role: 0
       };
     }
   }

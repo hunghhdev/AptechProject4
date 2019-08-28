@@ -7,7 +7,8 @@
     "btnEdit": "Sửa",
     "btnCancel": "Huỷ bỏ",
     "btnConfirm": "Xác nhận",
-    "action": "Hành động"
+    "action": "Hành động",
+    "select": "Ấn để chọn"
   },
   "login": {
     "btnLogin": "Đăng nhập",
@@ -22,6 +23,7 @@
     },
     "table": {
       "username": "Tên nhân viên",
+      "role": "Chức vụ",
       "createdBy": "Tạo bởi",
       "createdDate": "Tạo Ngày"
     },
@@ -31,7 +33,8 @@
       "labelAvatar": "Hình đại diện",
       "labelUsername": "Tên đăng nhập",
       "labelPassword": "Mật khẩu",
-      "labelPasswordRq": "Nhập lại mật khẩu"
+      "labelPasswordRq": "Nhập lại mật khẩu",
+      "labelRole": "Chức vụ"
     },
     "delete": {
       "title": "Xóa",
@@ -41,7 +44,8 @@
       "passwordNotMatch": "Mật khẩu không khớp",
       "avatarRq": "Avatar không được bỏ trống",
       "usernameRq": "Tên đăng nhập không được bỏ trống",
-      "passwordRq": "Mật khẩu không được bỏ trống"
+      "passwordRq": "Mật khẩu không được bỏ trống",
+      "roleRq": "Chức vụ không được bỏ trống"
     },
     "msg": {
       "createSuccess": "Tạo tài khoản thành công",
@@ -61,20 +65,20 @@
       "createdDate": "Tạo Ngày"
     },
     "form": {
-      "titleCreate": "Tạo vai trò",
-      "titleEdit": "Sửa vai trò",
-      "labelName": "Tên vai trò",
+      "titleCreate": "Tạo chức vụ",
+      "titleEdit": "Sửa chức vụ",
+      "labelName": "Tên chức vụ",
       "labelDesc": "Mô tả",
       "labelPermission": "Quyền lực"
     },
     "delete": {
       "title": "Xóa",
-      "msg": "Bạn có chắc chắn muốn xóa vai trò [{name}] không?"
+      "msg": "Bạn có chắc chắn muốn xóa chức vụ [{name}] không?"
     },
     "msg": {
-      "createSuccess": "Tạo vai trò thành công",
-      "updateSuccess": "Cập nhật vai trò thành công",
-      "deletedSuccess": "Xóa vai trò thành công"
+      "createSuccess": "Tạo chức vụ thành công",
+      "updateSuccess": "Cập nhật chức vụ thành công",
+      "deletedSuccess": "Xóa chức vụ thành công"
     }
   },
   "management": {
