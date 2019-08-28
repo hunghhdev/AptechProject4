@@ -37,6 +37,17 @@ public class RoleConverter {
         return roleDtos;
     }
 
+    public List<RoleDto> toRolesDtoIdAndName(List<Role> roles){
+        List<RoleDto> roleDtos = new ArrayList<>();
+        for (Role role : roles) {
+            RoleDto roleDto = new RoleDto();
+            roleDto.setId(role.getId());
+            roleDto.setRoleName(role.getRoleName());
+            roleDtos.add(roleDto);
+        }
+        return roleDtos;
+    }
+
     public Role toRole(RoleDto roleDto){
         Role role = new Role();
         role.setId(roleDto.getId());

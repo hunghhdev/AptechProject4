@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class RoleServiceImpl implements RoleService {
@@ -21,7 +20,7 @@ public class RoleServiceImpl implements RoleService {
     private RoleRepository repository;
 
     @Override
-    public Optional<Role> findById(int id) {
+    public Role findById(int id) {
         return repository.findById(id);
     }
 
@@ -38,8 +37,8 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<GrantedAuthority> getAuthorities(int roleId) {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        findById(roleId).get().getPermissions().forEach(permission ->{
-            authorities.add(new SimpleGrantedAuthority(permission.getPermissionName()));
+        findById(roleId).getPermissions().forEach(permission ->{
+            authorities.add(new SimpleGrantedAuthority(permission.getPermissionKey()));
         });
         return authorities;
     }
@@ -57,6 +56,11 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void delete(int id, String usernameUpdate) {
         repository.delete(id, usernameUpdate);
+    }
+
+    @Override
+    public List<Role> roles() {
+        return repository.roles();
     }
 
 }

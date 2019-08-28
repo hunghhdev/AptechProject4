@@ -6,7 +6,6 @@ import com.aptech.project.hotel.model.Data;
 import com.aptech.project.hotel.model.RoleDto;
 import com.aptech.project.hotel.service.PermissionService;
 import com.aptech.project.hotel.util.Constant;
-import com.aptech.project.hotel.util.EnCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -90,6 +89,13 @@ public class RoleApi {
         ServiceResult serviceResult = new ServiceResult();
         service.delete(id,authentication.getName());
         serviceResult.setMessage("Xoá tài khoản thành công");
+        return ResponseEntity.ok(serviceResult);
+    }
+
+    @GetMapping(value = "/roles")
+    public ResponseEntity<ServiceResult> roles() {
+        ServiceResult serviceResult = new ServiceResult();
+        serviceResult.setData(converter.toRolesDtoIdAndName(service.roles()));
         return ResponseEntity.ok(serviceResult);
     }
 }

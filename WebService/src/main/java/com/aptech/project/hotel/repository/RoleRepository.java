@@ -10,9 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public interface RoleRepository extends JpaRepository<Role, Integer> {
-    @Query("FROM Role t1 WHERE t1.deleted = 0 AND t1.roleName LIKE %:name% AND t1.createdDate BETWEEN :fromDate AND :toDate")
+    @Query("FROM Role t1 JOIN FETCH t1.permissions WHERE t1.deleted = 0 AND t1.roleName LIKE %:name% AND t1.createdDate BETWEEN :fromDate AND :toDate")
     List<Role> listAll(@Param("name") String name, @Param("fromDate") Date fromDate
             , @Param("toDate") Date toDate, Pageable pageable);
     @Query("SELECT count(*) FROM Role t1 WHERE t1.deleted = 0 AND t1.roleName LIKE %:name% AND t1.createdDate BETWEEN :fromDate AND :toDate")
@@ -23,4 +24,8 @@ public interface RoleRepository extends JpaRepository<Role, Integer> {
     @Transactional
     @Query("UPDATE Role t1 set t1.deleted = 1, t1.updatedBy = ?2 WHERE t1.id = ?1")
     void delete(int id, String userUpdate);
+    @Query("FROM Role t1 WHERE t1.deleted = 0")
+    List<Role> roles();
+    @Query("FROM Role t1 JOIN FETCH t1.permissions WHERE t1.deleted = 0 AND t1.id = ?1")
+    Role findById(int id);
 }

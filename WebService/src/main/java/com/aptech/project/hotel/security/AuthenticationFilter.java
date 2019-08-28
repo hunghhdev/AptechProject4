@@ -1,6 +1,7 @@
 package com.aptech.project.hotel.security;
 
 import com.aptech.project.hotel.entity.User;
+import com.aptech.project.hotel.model.UserSecurity;
 import com.aptech.project.hotel.service.JwtService;
 import com.aptech.project.hotel.service.RoleService;
 import com.aptech.project.hotel.service.UserService;
@@ -8,14 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -23,8 +21,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class AuthenticationFilter extends OncePerRequestFilter {
-
-    private static final String TOKEN_HEADER = "authorization";
 
     @Autowired
     private UserService userService;
@@ -45,7 +41,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             if (jwt!=null&&jwtService.validateTokenLogin(jwt)) {
                 User user = userService.findByUsername(jwtService.getUsernameFromToken(jwt));
                 if(user.getJwtKey()!=null && user.getJwtKey().equals(jwt)){
-                UserDetails userDetails = new org.springframework.security.core.userdetails.User(
+                UserDetails userDetails = new UserSecurity(user.getId(),
                         user.getUsername(),user.getPassword(),true,true,
                         true,true,roleService.getAuthorities(user.getRoleId()));
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

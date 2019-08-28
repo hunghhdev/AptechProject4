@@ -60,10 +60,15 @@ public class LoginApi {
     public ResponseEntity<ServiceResult> getInfo(@RequestParam("token") String token){
         ServiceResult serviceResult = new ServiceResult();
         User user = service.findByUsername(jwtService.getUsernameFromToken(token));
-        UserInfoDto userInfoDto = converter.toUserInfoDto(user);
-        Optional<Role> role = roleService.findById(user.getRoleId());
-        if (role.isPresent()) userInfoDto.setPermissions(role.get().getPermissions());
-        serviceResult.setData(userInfoDto);
+        if (user!=null){
+            UserInfoDto userInfoDto = converter.toUserInfoDto(user);
+            Role role = roleService.findById(user.getRoleId());
+            userInfoDto.setPermissions(role.getPermissions());
+            serviceResult.setData(userInfoDto);
+        } else {
+            serviceResult.setMessage("Not logged in");
+            serviceResult.setStatus(ServiceResult.Status.TOKEN_FAIl);
+        }
         return ResponseEntity.ok(serviceResult);
     }
 }
