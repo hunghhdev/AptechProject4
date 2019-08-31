@@ -1,10 +1,10 @@
 <template>
-  <div v-if="checkPermission(['PERM_ROLE_READ'])" class="app-container">
+  <div v-if="checkPermission(['PERM_BRANCH_PLACE_READ'])" class="app-container">
     <div class="filter-container">
       <el-input
         v-model="listQuery.name"
-        :placeholder="$t('role.search.inputName')"
-        style="width: 200px; text-align: center !important;"
+        :placeholder="$t('branchPlace.search.inputName')"
+        style="width: 200px;"
         @keyup.enter.native="handleFilter"
         class="filter-item"
       />
@@ -24,7 +24,7 @@
         @click="handleFilter"
       >{{ $t("common.btnSearch") }}</el-button>
       <el-button
-        v-if="checkPermission(['PERM_ROLE_CREATE'])"
+        v-if="checkPermission(['PERM_BRANCH_PLACE_CREATE'])"
         style="margin-left: 10px;"
         type="primary"
         icon="el-icon-document-add"
@@ -40,27 +40,17 @@
       fit
       highlight-current-row
     >
-      <el-table-column :label="$t('role.table.name')" min-width="220" align="center">
-        <template slot-scope="scope">{{ scope.row.roleName }}</template>
+      <el-table-column :label="$t('branchPlace.table.name')" min-width="220" align="center">
+        <template slot-scope="scope">{{ scope.row.branchName }}</template>
       </el-table-column>
-      <el-table-column
-        prop="personnelLevel"
-        :label="$t('role.table.personnelLevel')"
-        align="center"
-        min-width="220"
-      >
-        <template slot-scope="scope">
-          <span>{{ formatColumnPersonnelLevel(scope.row.personnelLevel) }}</span>
-        </template>
+      <el-table-column :label="$t('branchPlace.table.address')" min-width="300" align="center">
+        <template slot-scope="scope">{{ scope.row.branchAddress }}</template>
       </el-table-column>
-      <el-table-column :label="$t('role.table.desc')" min-width="220" align="center">
-        <template slot-scope="scope">{{ scope.row.description }}</template>
-      </el-table-column>
-      <el-table-column :label="$t('role.table.createdBy')" min-width="220" align="center">
+      <el-table-column :label="$t('common.createdBy')" min-width="220" align="center">
         <template slot-scope="scope">{{ scope.row.createdBy }}</template>
       </el-table-column>
       <el-table-column
-        :label="$t('role.table.createdDate')"
+        :label="$t('common.createdDate')"
         align="center"
         sortable
         prop="createdDate"
@@ -73,14 +63,14 @@
       <el-table-column fixed="right" :label="$t('common.action')" align="center" min-width="250">
         <template slot-scope="{row}">
           <el-button
-            v-if="checkPermission(['PERM_ROLE_UPDATE'])"
+            v-if="checkPermission(['PERM_BRANCH_PLACE_UPDATE'])"
             icon="el-icon-edit"
             type="primary"
             size="mini"
             @click="handleUpdate(row)"
           >{{ $t("common.btnEdit") }}</el-button>
           <el-button
-            v-if="checkPermission(['PERM_ROLE_DELETE'])"
+            v-if="checkPermission(['PERM_BRANCH_PLACE_DELETE'])"
             icon="el-icon-delete"
             type="danger"
             size="mini"
@@ -105,44 +95,20 @@
         style="width: 90%; margin-left:30px;"
         :rules="rules"
       >
-        <el-form-item :label="$t('role.form.labelName')" prop="roleName">
+        <el-form-item :label="$t('branchPlace.form.labelName')" prop="branchName">
           <el-input
-            v-model="tempData.roleName"
-            :placeholder="$t('role.form.labelName')"
+            v-model="tempData.branchName"
+            :placeholder="$t('branchPlace.form.labelName')"
             class="filter-item"
           ></el-input>
         </el-form-item>
-        <el-form-item :label="$t('role.form.labelDesc')" prop="description">
+        <el-form-item :label="$t('branchPlace.form.labelAddress')" prop="branchAddress">
           <el-input
             type="textarea"
-            v-model="tempData.description"
-            :placeholder="$t('role.form.labelDesc')"
+            v-model="tempData.branchAddress"
+            :placeholder="$t('branchPlace.form.labelAddress')"
             class="filter-item"
           ></el-input>
-        </el-form-item>
-        <el-form-item :label="$t('role.form.labelPersonnelLevel')" prop="personnelLevel">
-          <el-select
-            v-model="tempData.personnelLevel"
-            class="filter-item"
-            :placeholder="$t('common.select')"
-          >
-            <el-option
-              v-for="item in listPersonnelLevel"
-              :key="item.id"
-              :label="item.levelName"
-              :value="item.id"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('role.form.labelPermission')" prop="permissions">
-          <el-tree
-            :data="listPermissions"
-            show-checkbox
-            :props="defaultProps"
-            node-key="id"
-            ref="tree"
-            highlight-current
-          ></el-tree>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -154,8 +120,8 @@
         >{{ $t("common.btnConfirm") }}</el-button>
       </span>
     </el-dialog>
-    <el-dialog :title="$t('role.delete.title')" :visible.sync="dialogDeleteVisible">
-      <p>{{ $t('role.delete.msg', { name: tempData.roleName }) }}</p>
+    <el-dialog :title="$t('branchPlace.delete.title')" :visible.sync="dialogDeleteVisible">
+      <p>{{ $t('branchPlace.delete.msg', { name: tempData.branchName }) }}</p>
       <div slot="footer">
         <el-button @click="dialogDeleteVisible = false">{{ $t("common.btnCancel") }}</el-button>
         <el-button type="danger" @click="deleteData">{{ $t("common.btnConfirm") }}</el-button>
@@ -165,24 +131,16 @@
 </template>
 
 <script>
-import { fetchList, create, update, remove, permissions } from "@/api/role";
-import { personnelLevel } from "@/api/personnelLevel";
+import { fetchList, create, update, remove } from "@/api/branchPlace";
 import { formatDate } from "@/utils/";
 import store from "@/store";
 import Pagination from "@/components/Pagination";
 import checkPermission from "@/utils/permission";
 
 export default {
-  name: "Role",
+  name: "BranchPlace",
   components: { Pagination },
   data() {
-    const validatePermission = (rule, value, callback) => {
-      if (value.length < 1) {
-        callback(new Error(this.$t("role.validate.permissionsRq")));
-      } else {
-        callback();
-      }
-    };
     return {
       total: 0,
       list: null,
@@ -196,57 +154,39 @@ export default {
       },
       dateSearchPicker: [new Date() - 2592000000, new Date()],
       textMap: {
-        update: this.$t("role.form.titleEdit"),
-        create: this.$t("role.form.titleCreate")
+        update: this.$t("branchPlace.form.titleEdit"),
+        create: this.$t("branchPlace.form.titleCreate")
       },
       dialogStatus: "",
       dialogFormVisible: false,
       dialogDeleteVisible: false,
       buttonConfirmLoading: false,
-      tempData: {
-        id: "",
-        roleName: "",
-        description: "",
-        personnelLevel: "",
-        permissions: []
-      },
-      tempPermissions: [],
-      defaultProps: {
-        children: "children",
-        label: "permissionName",
-        id: "id"
-      },
-      listPermissions: "",
-      listPersonnelLevel: "",
       rules: {
-        roleName: [
+        branchName: [
           {
             trigger: "blur",
             required: true,
-            message: this.$t("role.validate.roleNameRq")
+            message: this.$t("branchPlace.validate.branchName")
           }
         ],
-        permissions: [
+        branchAddress: [
           {
             trigger: "blur",
             required: true,
-            validator: validatePermission
-          }
-        ],
-        personnelLevel: [
-          {
-            trigger: "blur",
-            required: true,
-            message: this.$t("role.validate.personnelLevelRq")
+            message: this.$t("branchPlace.validate.branchAddress")
           }
         ]
+      },
+      tempData: {
+        id: "",
+        branchName: "",
+        branchAddress: ""
       }
     };
   },
   created() {
-    if (this.checkPermission(["PERM_ROLE_READ"])) {
+    if (this.checkPermission(["PERM_BRANCH_PLACE_READ"])) {
       this.fetchData();
-      this.fetchValueInput();
     }
   },
   methods: {
@@ -264,14 +204,6 @@ export default {
         this.listLoading = false;
       });
     },
-    fetchValueInput() {
-      permissions().then(response => {
-        this.listPermissions = response.data;
-      });
-      personnelLevel().then(response => {
-        this.listPersonnelLevel = response.data;
-      });
-    },
     handleDelete(row) {
       this.dialogDeleteVisible = true;
       this.tempData = row;
@@ -285,13 +217,9 @@ export default {
       this.resetTemp();
       this.$nextTick(() => {
         this.$refs["dataForm"].clearValidate();
-        this.$refs.tree.setCheckedKeys([]);
       });
     },
     createData() {
-      for (const val of this.$refs.tree.getCheckedKeys()) {
-        if (val % 1000 !== 0) this.tempData.permissions.push({ id: val });
-      }
       this.$refs["dataForm"].validate(valid => {
         if (valid) {
           this.buttonConfirmLoading = true;
@@ -300,7 +228,7 @@ export default {
               this.list.unshift(response.data);
               this.$notify({
                 title: "Success",
-                message: this.$t("role.msg.createSuccess"),
+                message: this.$t("branchPlace.msg.createSuccess"),
                 type: "success",
                 duration: 2000
               });
@@ -317,15 +245,8 @@ export default {
       this.dialogFormVisible = true;
       this.dialogStatus = "update";
       this.tempData = Object.assign({}, row);
-      this.$nextTick(() => {
-        this.$refs.tree.setCheckedNodes(this.tempData.permissions);
-      });
     },
     updateData() {
-      this.tempData.permissions = [];
-      for (const val of this.$refs.tree.getCheckedNodes()) {
-        if (val.id % 1000 !== 0) this.tempData.permissions.push(val);
-      }
       this.$refs["dataForm"].validate(valid => {
         if (valid) {
           this.buttonConfirmLoading = true;
@@ -340,7 +261,7 @@ export default {
               }
               this.$notify({
                 title: "Success",
-                message: this.$t("role.msg.updateSuccess"),
+                message: this.$t("branchPlace.msg.updateSuccess"),
                 type: "success",
                 duration: 2000
               });
@@ -353,12 +274,12 @@ export default {
       });
     },
     deleteData() {
-      this.listLoading = true;
+      this.buttonConfirmLoading = true;
       remove({ id: this.tempData.id })
         .then(response => {
           this.$notify({
             title: "Success",
-            message: this.$t("role.msg.deletedSuccess"),
+            message: this.$t("branchPlace.msg.deletedSuccess"),
             type: "success",
             duration: 2000
           });
@@ -367,6 +288,7 @@ export default {
           this.total -= 1;
         })
         .finally(() => {
+          this.buttonConfirmLoading = false;
           this.listLoading = false;
         });
       this.dialogDeleteVisible = false;
@@ -376,26 +298,14 @@ export default {
       this.$nextTick(() => {
         this.$refs["dataForm"].clearValidate();
       });
-      this.$refs.tree.setCheckedKeys([]);
-      this.$refs.tree.setCheckedNodes([]);
       this.buttonConfirmLoading = false;
       this.dialogFormVisible = false;
-    },
-    formatColumnPersonnelLevel(personnelLevelId) {
-      let text = "";
-      this.listPersonnelLevel.filter(PersonnelLevel => {
-        if (personnelLevelId === PersonnelLevel.id)
-          text = PersonnelLevel.levelName;
-      });
-      return text;
     },
     resetTemp() {
       this.tempData = {
         id: "",
-        roleName: "",
-        description: "",
-        personnelLevel: "",
-        permissions: []
+        branchName: "",
+        branchAddress: ""
       };
     }
   }

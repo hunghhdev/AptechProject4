@@ -8,7 +8,9 @@
     "btnCancel": "Huỷ bỏ",
     "btnConfirm": "Xác nhận",
     "action": "Hành động",
-    "select": "Ấn để chọn"
+    "select": "Ấn để chọn",
+    "createdBy": "Tạo bởi",
+    "createdDate": "Tạo Ngày"
   },
   "login": {
     "btnLogin": "Đăng nhập",
@@ -22,8 +24,12 @@
       "inputUsername": "Nhập tên nhân viên"
     },
     "table": {
-      "username": "Tên nhân viên",
+      "fullname": "Họ tên",
+      "username": "Tên tài khoản",
+      "email": "Email",
       "role": "Chức vụ",
+      "branchPlace": "Chi nhánh",
+      "personnelLevel": "Loại",
       "createdBy": "Tạo bởi",
       "createdDate": "Tạo Ngày"
     },
@@ -60,6 +66,7 @@
     },
     "table": {
       "name": "Tên chức danh",
+      "personnelLevel": "Loại",
       "desc": "Mô tả",
       "createdBy": "Tạo bởi",
       "createdDate": "Tạo Ngày"
@@ -69,7 +76,13 @@
       "titleEdit": "Sửa chức vụ",
       "labelName": "Tên chức vụ",
       "labelDesc": "Mô tả",
+      "labelPersonnelLevel": "Loại nhân viên",
       "labelPermission": "Quyền lực"
+    },
+    "validate": {
+      "roleNameRq": "Tên không được để trống",
+      "permissionsRq": "Quyền lực không được để trống",
+      "personnelLevelRq": "Loại nhân viên không được để trống"
     },
     "delete": {
       "title": "Xóa",
@@ -77,6 +90,35 @@
     },
     "msg": {
       "createSuccess": "Tạo chức vụ thành công",
+      "updateSuccess": "Cập nhật chức vụ thành công",
+      "deletedSuccess": "Xóa chức vụ thành công"
+    }
+  },
+  "branchPlace": {
+    "title": "Chi nhánh",
+    "search": {
+      "inputName": "Nhập tên chi nhánh"
+    },
+    "table": {
+      "name": "Tên chi nhánh",
+      "address": "Địa Chỉ"
+    },
+    "form": {
+      "titleCreate": "Tạo chi nhánh",
+      "titleEdit": "Sửa chi nhánh",
+      "labelName": "Tên chi nhánh",
+      "labelAddress": "Địa chỉ"
+    },
+    "delete": {
+      "title": "Xóa",
+      "msg": "Bạn có chắc chắn muốn xóa chi nhánh [{name}] không?"
+    },
+    "validate": {
+      "branchName": "Tên chi nhánh không được để trống",
+      "branchAddress": "Địa chỉ không được bỏ trống"
+    },
+    "msg": {
+      "createSuccess": "Tạo chi nhánh thành công",
       "updateSuccess": "Cập nhật chức vụ thành công",
       "deletedSuccess": "Xóa chức vụ thành công"
     }

@@ -10,11 +10,15 @@ import java.util.Date;
 @Setter
 public class UserDto {
     private int id;
+    private String fullName;
     private String username;
     @JsonProperty( value = "password", access = JsonProperty.Access.WRITE_ONLY)
     private String password;
+    private String email;
     private int roleId;
     private String createdBy;
     private Date createdDate;
     private String avatar;
+    private int personnelLevel;
+    private int branchPlaceId;
 }

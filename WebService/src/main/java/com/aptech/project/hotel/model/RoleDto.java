@@ -17,4 +17,5 @@ public class RoleDto {
     private Set<Permission> permissions;
     private String createdBy;
     private Date createdDate;
+    private int personnelLevel;
 }

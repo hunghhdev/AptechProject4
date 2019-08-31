@@ -5,6 +5,7 @@ import com.aptech.project.hotel.entity.Role;
 import com.aptech.project.hotel.model.Data;
 import com.aptech.project.hotel.model.RoleDto;
 import com.aptech.project.hotel.service.PermissionService;
+import com.aptech.project.hotel.service.UserService;
 import com.aptech.project.hotel.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +26,9 @@ public class RoleApi {
 
     @Autowired
     private RoleService service;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private PermissionService permissionService;
@@ -62,7 +66,7 @@ public class RoleApi {
     public ResponseEntity<ServiceResult> create(@RequestBody RoleDto roleDto, Authentication authentication) {
         ServiceResult serviceResult = new ServiceResult();
         if (service.existByName(roleDto.getRoleName())){
-            serviceResult.setMessage("Đặt tên vai trò khác đi ạ");
+            serviceResult.setMessage("Đặt tên vị trí khác đi ạ");
             serviceResult.setStatus(ServiceResult.Status.FAILED);
             return ResponseEntity.ok(serviceResult);
         }
@@ -79,7 +83,7 @@ public class RoleApi {
         Role role = converter.toRole(roleDto);
         role.setUpdatedBy(authentication.getName());
         serviceResult.setData(converter.toRoleDto(service.save(role)));
-        serviceResult.setMessage("Cập nhật tài khoản thành công");
+        serviceResult.setMessage("Cập nhật vị trí thành công");
         return ResponseEntity.ok(serviceResult);
     }
 
@@ -87,8 +91,13 @@ public class RoleApi {
     @PreAuthorize("hasAuthority('PERM_ROLE_DELETE')")
     public ResponseEntity<ServiceResult> delete(@RequestParam("id") int id, Authentication authentication) {
         ServiceResult serviceResult = new ServiceResult();
+        if (userService.existByRoleId(id)) {
+            serviceResult.setStatus(ServiceResult.Status.FAILED);
+            serviceResult.setMessage("Còn tồn tại người dùng, không thể xóa");
+            return ResponseEntity.ok(serviceResult);
+        }
         service.delete(id,authentication.getName());
-        serviceResult.setMessage("Xoá tài khoản thành công");
+        serviceResult.setMessage("Xoá vị trí thành công");
         return ResponseEntity.ok(serviceResult);
     }
 

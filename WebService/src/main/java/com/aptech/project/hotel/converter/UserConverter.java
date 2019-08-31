@@ -21,23 +21,16 @@ public class UserConverter {
         userDto.setCreatedBy(user.getCreatedBy());
         userDto.setCreatedDate(user.getCreatedDate());
         userDto.setAvatar(user.getAvatar());
+        userDto.setPersonnelLevel(user.getPersonnelLevel());
+        userDto.setFullName(user.getFullName());
+        userDto.setEmail(user.getEmail());
+        userDto.setBranchPlaceId(user.getBranchPlaceId());
         return userDto;
     }
 
     public List<UserDto> toUsersDto(List<User> users){
         List<UserDto> userDtos = new ArrayList<>();
-        for (User user : users) {
-            UserDto userDto = new UserDto();
-            userDto.setId(user.getId());
-            userDto.setUsername(user.getUsername());
-            userDto.setPassword(user.getPassword());
-            userDto.setRoleId(user.getRoleId());
-            userDto.setCreatedBy(user.getCreatedBy());
-            userDto.setCreatedDate(user.getCreatedDate());
-            userDto.setAvatar(user.getAvatar());
-
-            userDtos.add(userDto);
-        }
+        users.forEach(user -> userDtos.add(toUserDto(user)));
         return userDtos;
     }
 
@@ -50,6 +43,10 @@ public class UserConverter {
         user.setCreatedBy(userDto.getCreatedBy());
         user.setCreatedDate(userDto.getCreatedDate());
         user.setAvatar(userDto.getAvatar());
+        user.setPersonnelLevel(userDto.getPersonnelLevel());
+        user.setFullName(userDto.getFullName());
+        user.setEmail(userDto.getEmail());
+        user.setBranchPlaceId(user.getBranchPlaceId());
         return user;
     }
 

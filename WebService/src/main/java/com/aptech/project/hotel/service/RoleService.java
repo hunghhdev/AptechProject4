@@ -6,7 +6,6 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 public interface RoleService {
     Role findById(int id);

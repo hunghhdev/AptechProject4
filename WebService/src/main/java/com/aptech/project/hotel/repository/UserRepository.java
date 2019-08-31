@@ -32,4 +32,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     void delete(int id, String userUpdate);
     @Query("SELECT COUNT(*) > 0 FROM User t1 WHERE t1.username = :username")
     boolean existByUsername(@Param("username") String username);
+    @Query("SELECT COUNT(*) > 0 FROM User t1 WHERE t1.roleId = :roleId")
+    boolean existByRoleId(@Param("roleId") int roleId);
 }

@@ -18,22 +18,13 @@ public class RoleConverter {
         roleDto.setPermissions(role.getPermissions());
         roleDto.setCreatedBy(role.getCreatedBy());
         roleDto.setCreatedDate(role.getCreatedDate());
+        roleDto.setPersonnelLevel(role.getPersonnelLevel());
         return roleDto;
     }
 
     public List<RoleDto> toRolesDto(List<Role> roles){
         List<RoleDto> roleDtos = new ArrayList<>();
-        for (Role role : roles) {
-            RoleDto roleDto = new RoleDto();
-            roleDto.setId(role.getId());
-            roleDto.setRoleName(role.getRoleName());
-            roleDto.setDescription(role.getDescription());
-            roleDto.setPermissions(role.getPermissions());
-            roleDto.setCreatedBy(role.getCreatedBy());
-            roleDto.setCreatedDate(role.getCreatedDate());
-
-            roleDtos.add(roleDto);
-        }
+        roles.forEach(role -> roleDtos.add(toRoleDto(role)));
         return roleDtos;
     }
 
@@ -54,6 +45,7 @@ public class RoleConverter {
         role.setRoleName(roleDto.getRoleName());
         role.setDescription(roleDto.getDescription());
         role.setPermissions(roleDto.getPermissions());
+        role.setPersonnelLevel(roleDto.getPersonnelLevel());
         return role;
     }
 }

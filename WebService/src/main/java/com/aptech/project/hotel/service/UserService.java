@@ -15,4 +15,5 @@ public interface UserService {
     void delete(int id, String usernameUpdate);
     User findByUsernameAndPassword(String username, String password);
     void updateJwtKey(String jwtKey, int id);
+    boolean existByRoleId(int roleId);
 }

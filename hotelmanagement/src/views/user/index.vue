@@ -32,20 +32,53 @@
         class="filter-item"
       >{{$t('common.btnAdd')}}</el-button>
     </div>
-
     <el-table v-loading="listLoading" border fit highlight-current-row :data="list">
-      <el-table-column prop="username" :label="$t('user.table.username')" align="center"></el-table-column>
-      <el-table-column prop="roleId" :label="$t('user.table.role')" align="center">
+      <el-table-column
+        prop="fullName"
+        :label="$t('user.table.fullname')"
+        align="center"
+        min-width="220"
+      ></el-table-column>
+      <el-table-column
+        prop="username"
+        :label="$t('user.table.username')"
+        align="center"
+        min-width="200"
+      ></el-table-column>
+      <el-table-column prop="email" :label="$t('user.table.email')" align="center" min-width="220"></el-table-column>
+      <el-table-column prop="roleId" :label="$t('user.table.role')" align="center" min-width="220">
         <template slot-scope="scope">
           <span>{{ formatColumnRole(scope.row.roleId) }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="createdBy" :label="$t('user.table.createdBy')" align="center"></el-table-column>
+      <el-table-column
+        prop="personnelLevel"
+        :label="$t('user.table.personnelLevel')"
+        align="center"
+        min-width="220"
+      >
+        <template slot-scope="scope">
+          <span>{{ formatColumnPersonnelLevel(scope.row.personnelLevel) }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="branchPlaceId"
+        :label="$t('user.table.branchPlace')"
+        align="center"
+        min-width="220"
+      ></el-table-column>
+      <el-table-column
+        prop="createdBy"
+        :label="$t('user.table.createdBy')"
+        align="center"
+        min-width="220"
+      ></el-table-column>
       <el-table-column
         :label="$t('user.table.createdDate')"
         align="center"
         sortable
         prop="createdDate"
+        min-width="220"
       >
         <template slot-scope="scope">
           <span>{{ formatDate(scope.row.createdDate) }}</span>
@@ -161,6 +194,7 @@
 <script>
 import { list, create, update, remove, uploadAvatar } from "@/api/user";
 import { roles } from "@/api/role";
+import { personnelLevel } from "@/api/personnelLevel";
 import { formatDate } from "@/utils/";
 import Pagination from "@/components/Pagination";
 import store from "@/store";
@@ -207,6 +241,7 @@ export default {
       dateSearchPicker: [new Date() - 2592000000, new Date()],
       list: [],
       roles: [],
+      listPersonnelLevel: "",
       rules: {
         avatar: [
           {
@@ -249,7 +284,7 @@ export default {
   created() {
     if (this.checkPermission(["PERM_USER_READ"])) {
       this.fetchData();
-      this.fetchRoles();
+      this.fetchValueInput();
     }
   },
   methods: {
@@ -267,9 +302,12 @@ export default {
         this.listLoading = false;
       });
     },
-    fetchRoles() {
+    fetchValueInput() {
       roles().then(response => {
         this.roles = response.data;
+      });
+      personnelLevel().then(response => {
+        this.listPersonnelLevel = response.data;
       });
     },
     handleFilter() {
@@ -386,10 +424,18 @@ export default {
     },
     formatColumnRole(roleId) {
       let text = "";
-      this.roles.forEach(role => {
+      this.roles.filter(role => {
         if (role.id === roleId) {
           text = role.roleName;
         }
+      });
+      return text;
+    },
+    formatColumnPersonnelLevel(personnelLevelId) {
+      let text = "";
+      this.listPersonnelLevel.filter(PersonnelLevel => {
+        if (personnelLevelId === PersonnelLevel.id)
+          text = PersonnelLevel.levelName;
       });
       return text;
     },

@@ -22,6 +22,12 @@ export const constantRoutes = [
     },
     children: [
       {
+        path: "/branch-place",
+        name: "Chi nhánh",
+        component: () => import("@/views/branchPlace"),
+        meta: { title: "branchPlace", icon: "el-icon-s-home" }
+      },
+      {
         path: "",
         name: "Nhân viên",
         component: () => import("@/views/user"),

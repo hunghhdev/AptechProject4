@@ -55,4 +55,9 @@ public class UserServiceImpl implements UserService {
         repository.updateJwtKey(jwtKey,id);
     }
 
+    @Override
+    public boolean existByRoleId(int roleId) {
+        return repository.existByRoleId(roleId);
+    }
+
 }
