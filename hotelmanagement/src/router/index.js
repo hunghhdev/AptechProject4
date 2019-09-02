@@ -22,6 +22,12 @@ export const constantRoutes = [
     },
     children: [
       {
+        path: "/supplies",
+        name: "Vật tư",
+        component: () => import("@/views/supplies"),
+        meta: { title: "supplies", icon: "el-icon-menu" }
+      },
+      {
         path: "/branch-place",
         name: "Chi nhánh",
         component: () => import("@/views/branchPlace"),

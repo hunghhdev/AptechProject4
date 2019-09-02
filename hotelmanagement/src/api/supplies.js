@@ -2,7 +2,7 @@ import request from "@/utils/request";
 
 export function fetchList(query) {
   return request({
-    url: "/branch-place/list",
+    url: "/supplies/list",
     method: "get",
     params: query
   });
@@ -10,7 +10,7 @@ export function fetchList(query) {
 
 export function create(data) {
   return request({
-    url: "/branch-place/create",
+    url: "/supplies/create",
     method: "post",
     data
   });
@@ -18,7 +18,7 @@ export function create(data) {
 
 export function update(data) {
   return request({
-    url: "/branch-place/update",
+    url: "/supplies/update",
     method: "put",
     data
   });
@@ -26,15 +26,8 @@ export function update(data) {
 
 export function remove(data) {
   return request({
-    url: "/branch-place/delete",
+    url: "/supplies/delete",
     method: "put",
     params: data
-  });
-}
-
-export function listBranchPlace() {
-  return request({
-    url: "/branch-place/list-branch-place",
-    method: "get"
   });
 }

@@ -54,8 +54,8 @@ public class BranchPlaceApi {
     public ResponseEntity<ServiceResult> listBranchPlace(Authentication authentication){
         User user = userService.findByUsername(authentication.getName());
         ServiceResult serviceResult = new ServiceResult();
-        if (user.getPersonnelLevel()==1) serviceResult.setData(service.listAll());
-        if (user.getPersonnelLevel()==10) serviceResult.setData(service.findById(user.getPersonnelLevel()));
+        serviceResult.setData(user.getPersonnelLevel()==1?converter.toBranchPlacesDto(service.listAll())
+                :converter.toBranchPlaceDto(service.findById(user.getPersonnelLevel())));
         return ResponseEntity.ok(serviceResult);
     }
 
@@ -65,6 +65,7 @@ public class BranchPlaceApi {
         ServiceResult serviceResult = new ServiceResult();
         BranchPlace branchPlace = converter.toBranchPlace(branchPlaceDto);
         branchPlace.setCreatedBy(authentication.getName());
+        serviceResult.setMessage("Tạo chi nhánh thành công");
         serviceResult.setData(converter.toBranchPlaceDto(service.save(branchPlace)));
         return ResponseEntity.ok(serviceResult);
     }
@@ -73,9 +74,9 @@ public class BranchPlaceApi {
     @PreAuthorize("hasAuthority('PERM_BRANCH_PLACE_UPDATE')")
     public ResponseEntity<ServiceResult> update(@RequestBody BranchPlaceDto branchPlaceDto, Authentication authentication) {
         ServiceResult serviceResult = new ServiceResult();
-        BranchPlace role = converter.toBranchPlace(branchPlaceDto);
-        role.setUpdatedBy(authentication.getName());
-        serviceResult.setData(converter.toBranchPlaceDto(service.save(role)));
+        BranchPlace branchPlace = converter.toBranchPlace(branchPlaceDto);
+        branchPlace.setUpdatedBy(authentication.getName());
+        serviceResult.setData(converter.toBranchPlaceDto(service.save(branchPlace)));
         serviceResult.setMessage("Cập nhật chi nhánh thành công");
         return ResponseEntity.ok(serviceResult);
     }

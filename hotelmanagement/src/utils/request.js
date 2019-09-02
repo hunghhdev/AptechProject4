@@ -6,7 +6,7 @@ const config = require("../../config/index");
 
 const service = axios.create({
   baseURL: config.dev.service + "/api",
-  timeout: 20000
+  timeout: 60000
 });
 
 service.interceptors.request.use(

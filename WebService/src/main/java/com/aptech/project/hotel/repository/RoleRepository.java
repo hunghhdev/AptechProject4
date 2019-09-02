@@ -22,7 +22,7 @@ public interface RoleRepository extends JpaRepository<Role, Integer> {
     boolean existByName(@Param("name") String name);
     @Modifying
     @Transactional
-    @Query("UPDATE Role t1 set t1.deleted = 1, t1.updatedBy = ?2 WHERE t1.id = ?1")
+    @Query("UPDATE Role t1 SET t1.deleted = 1, t1.updatedBy = ?2 WHERE t1.id = ?1")
     void delete(int id, String userUpdate);
     @Query("FROM Role t1 WHERE t1.deleted = 0")
     List<Role> roles();

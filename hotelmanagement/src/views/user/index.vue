@@ -66,7 +66,11 @@
         :label="$t('user.table.branchPlace')"
         align="center"
         min-width="220"
-      ></el-table-column>
+      >
+        <template slot-scope="scope">
+          <span>{{ formatColumnBranchPlace(scope.row.branchPlaceId) }}</span>
+        </template>
+      </el-table-column>
       <el-table-column
         prop="createdBy"
         :label="$t('user.table.createdBy')"
@@ -195,6 +199,7 @@
 import { list, create, update, remove, uploadAvatar } from "@/api/user";
 import { roles } from "@/api/role";
 import { personnelLevel } from "@/api/personnelLevel";
+import { listBranchPlace } from "@/api/branchPlace";
 import { formatDate } from "@/utils/";
 import Pagination from "@/components/Pagination";
 import store from "@/store";
@@ -242,6 +247,7 @@ export default {
       list: [],
       roles: [],
       listPersonnelLevel: "",
+      listBranchPlace: "",
       rules: {
         avatar: [
           {
@@ -308,6 +314,10 @@ export default {
       });
       personnelLevel().then(response => {
         this.listPersonnelLevel = response.data;
+      });
+      listBranchPlace().then(response => {
+        this.listBranchPlace = response.data;
+        console.log(this.listBranchPlace);
       });
     },
     handleFilter() {
@@ -436,6 +446,13 @@ export default {
       this.listPersonnelLevel.filter(PersonnelLevel => {
         if (personnelLevelId === PersonnelLevel.id)
           text = PersonnelLevel.levelName;
+      });
+      return text;
+    },
+    formatColumnBranchPlace(branchId) {
+      let text = "";
+      this.listBranchPlace.filter(BranchPlace => {
+        if (branchId === BranchPlace.id) text = BranchPlace.branchName;
       });
       return text;
     },

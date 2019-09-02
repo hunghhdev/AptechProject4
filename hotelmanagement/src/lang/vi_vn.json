@@ -150,6 +150,33 @@
       "deletedSuccess": "Xóa phòng ban thành công"
     }
   },
+  "supplies": {
+    "title": "Vật tư",
+    "search": {
+      "inputName": "Nhập tên vật tư"
+    },
+    "table": {
+      "name": "Tên Vật Tư",
+      "address": "Địa Chỉ"
+    },
+    "form": {
+      "titleCreate": "Tạo vật tư",
+      "titleEdit": "Sửa vật tư",
+      "labelName": "Tên vật tư"
+    },
+    "delete": {
+      "title": "Xóa",
+      "msg": "Bạn có chắc chắn muốn xóa vật tư [{name}] không?"
+    },
+    "validate": {
+      "nameRq": "Tên vật tư không được để trống"
+    },
+    "msg": {
+      "createSuccess": "Tạo vật tư thành công",
+      "updateSuccess": "Cập nhật vật tư thành công",
+      "deletedSuccess": "Xóa vật tư thành công"
+    }
+  },
   "management": {
     "title": "Quản lý"
   }
