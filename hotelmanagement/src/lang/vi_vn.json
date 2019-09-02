@@ -123,6 +123,33 @@
       "deletedSuccess": "Xóa chức vụ thành công"
     }
   },
+  "department": {
+    "title": "Phòng ban",
+    "search": {
+      "inputName": "Nhập tên phòng ban"
+    },
+    "table": {
+      "name": "Tên phòng ban",
+      "address": "Địa Chỉ"
+    },
+    "form": {
+      "titleCreate": "Tạo phòng ban",
+      "titleEdit": "Sửa phòng ban",
+      "labelName": "Tên phòng ban"
+    },
+    "delete": {
+      "title": "Xóa",
+      "msg": "Bạn có chắc chắn muốn xóa chi nhánh [{name}] không?"
+    },
+    "validate": {
+      "nameRq": "Tên phòng ban không được để trống"
+    },
+    "msg": {
+      "createSuccess": "Tạo phòng ban thành công",
+      "updateSuccess": "Cập nhật phòng ban thành công",
+      "deletedSuccess": "Xóa phòng ban thành công"
+    }
+  },
   "management": {
     "title": "Quản lý"
   }

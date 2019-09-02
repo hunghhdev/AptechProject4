@@ -28,6 +28,12 @@ export const constantRoutes = [
         meta: { title: "branchPlace", icon: "el-icon-s-home" }
       },
       {
+        path: "/department",
+        name: "Phòng ban",
+        component: () => import("@/views/department"),
+        meta: { title: "department", icon: "el-icon-s-cooperation" }
+      },
+      {
         path: "",
         name: "Nhân viên",
         component: () => import("@/views/user"),
