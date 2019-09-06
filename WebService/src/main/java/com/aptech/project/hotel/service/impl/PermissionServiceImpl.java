@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class PermissionServiceImpl implements PermissionService {
@@ -16,8 +18,8 @@ public class PermissionServiceImpl implements PermissionService {
     private PermissionRepository repository;
 
     @Override
-    public List<Permission> permissions() {
-        List<Permission> permissions = new ArrayList<>();
+    public Set<Permission> permissions() {
+        Set<Permission> permissions = new HashSet<>();
         for (Permission permission: repository.findAll()) {
             if (!permission.getChildren().isEmpty()) permissions.add(permission);
         }

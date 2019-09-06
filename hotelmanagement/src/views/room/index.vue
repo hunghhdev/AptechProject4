@@ -1,13 +1,21 @@
 <template>
-  <div v-if="checkPermission(['PERM_DEPARTMENT_READ'])" class="app-container">
+  <div v-if="checkPermission(['PERM_ROOM_READ'])" class="app-container">
     <div class="filter-container">
       <el-input
         v-model="listQuery.name"
-        :placeholder="$t('department.search.inputName')"
+        :placeholder="$t('room.search.inputName')"
         style="width: 200px; text-align: center !important;"
         @keyup.enter.native="handleFilter"
         class="filter-item"
       />
+      <el-select v-model="listQuery.branch" :placeholder="$t('room.search.branch')" class="filter-item">
+        <el-option
+          v-for="item in listBranchOptions"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>
       <el-date-picker
         style="width: 400px;"
         v-model="dateSearchPicker"
@@ -24,7 +32,7 @@
         @click="handleFilter"
       >{{ $t("common.btnSearch") }}</el-button>
       <el-button
-        v-if="checkPermission(['PERM_DEPARTMENT_CREATE'])"
+        v-if="checkPermission(['PERM_ROOM_CREATE'])"
         style="margin-left: 10px;"
         type="primary"
         icon="el-icon-document-add"
@@ -40,8 +48,23 @@
       fit
       highlight-current-row
     >
-      <el-table-column :label="$t('department.table.name')" min-width="220" align="center">
-        <template slot-scope="scope">{{ scope.row.departmentName }}</template>
+      <el-table-column :label="$t('room.table.branchName')" min-width="300" align="center">
+        <template slot-scope="scope">{{ scope.row.branchName }}</template>
+      </el-table-column>
+      <el-table-column :label="$t('room.table.codeRoom')" min-width="220" align="center">
+        <template slot-scope="scope">{{ scope.row.codeRoom }}</template>
+      </el-table-column>
+      <el-table-column :label="$t('room.table.name')" min-width="300" align="center">
+        <template slot-scope="scope">{{ scope.row.name }}</template>
+      </el-table-column>
+      <el-table-column :label="$t('room.table.price')" min-width="300" align="center">
+        <template slot-scope="scope">{{ scope.row.price }}</template>
+      </el-table-column>
+      <el-table-column :label="$t('room.table.supplies')" min-width="300" align="center">
+        <template slot-scope="scope">{{ scope.row.supplies }}</template>
+      </el-table-column>
+      <el-table-column :label="$t('room.table.desc')" min-width="300" align="center">
+        <template slot-scope="scope">{{ scope.row.desc }}</template>
       </el-table-column>
       <el-table-column :label="$t('common.createdBy')" min-width="220" align="center">
         <template slot-scope="scope">{{ scope.row.createdBy }}</template>
@@ -60,14 +83,14 @@
       <el-table-column fixed="right" :label="$t('common.action')" align="center" min-width="250">
         <template slot-scope="{row}">
           <el-button
-            v-if="checkPermission(['PERM_DEPARTMENT_UPDATE'])"
+            v-if="checkPermission(['PERM_ROOM_UPDATE'])"
             icon="el-icon-edit"
             type="primary"
             size="mini"
             @click="handleUpdate(row)"
           >{{ $t("common.btnEdit") }}</el-button>
           <el-button
-            v-if="checkPermission(['PERM_DEPARTMENT_DELETE'])"
+            v-if="checkPermission(['PERM_ROOM_DELETE'])"
             icon="el-icon-delete"
             type="danger"
             size="mini"
@@ -92,10 +115,10 @@
         style="width: 90%; margin-left:30px;"
         :rules="rules"
       >
-        <el-form-item :label="$t('department.form.labelName')" prop="departmentName">
+        <el-form-item :label="$t('room.form.labelName')" prop="departmentName">
           <el-input
             v-model="tempData.departmentName"
-            :placeholder="$t('department.form.labelName')"
+            :placeholder="$t('room.form.labelName')"
             class="filter-item"
           ></el-input>
         </el-form-item>
@@ -120,31 +143,33 @@
 </template>
 
 <script>
-import { fetchList, create } from "@/api/department";
+// import { fetchList, create } from "@/api/room";
 import { formatDate } from "@/utils/";
 import store from "@/store";
 import Pagination from "@/components/Pagination";
 import checkPermission from "@/utils/permission";
 
 export default {
-  name: "Department",
+  name: "room",
   components: { Pagination },
   data() {
     return {
       total: 0,
       list: null,
       listLoading: true,
+      listBranchOptions: null,
       listQuery: {
         page: 0,
         size: 10,
         name: "",
+        branch: "",
         fromDate: "",
         toDate: ""
       },
       dateSearchPicker: [new Date() - 2592000000, new Date()],
       textMap: {
-        update: this.$t("department.form.titleEdit"),
-        create: this.$t("department.form.titleCreate")
+        update: this.$t("room.form.titleEdit"),
+        create: this.$t("room.form.titleCreate")
       },
       dialogStatus: "",
       dialogFormVisible: false,
@@ -159,14 +184,14 @@ export default {
           {
             trigger: "blur",
             required: true,
-            message: this.$t("department.validate.nameRq")
+            message: this.$t("room.validate.nameRq")
           }
         ]
       }
     };
   },
   created() {
-    if (this.checkPermission(["PERM_DEPARTMENT_READ"])) {
+    if (this.checkPermission(["PERM_ROOM_READ"])) {
       this.fetchData();
     }
   },
@@ -179,11 +204,12 @@ export default {
         this.listQuery.fromDate = this.dateSearchPicker[0];
         this.listQuery.toDate = this.dateSearchPicker[1].getTime();
       }
-      fetchList(this.listQuery).then(response => {
-        this.total = response.data.countRow;
-        this.list = response.data.object;
-        this.listLoading = false;
-      });
+      // fetchList(this.listQuery).then(response => {
+      //   this.total = response.data.countRow;
+      //   this.list = response.data.object;
+      //   this.listLoading = false;
+      // });
+      this.listLoading = false;
     },
     handleDelete(row) {
       this.dialogDeleteVisible = true;
@@ -209,7 +235,7 @@ export default {
               this.list.unshift(response.data);
               this.$notify({
                 title: "Success",
-                message: this.$t("department.msg.createSuccess"),
+                message: this.$t("room.msg.createSuccess"),
                 type: "success",
                 duration: 2000
               });

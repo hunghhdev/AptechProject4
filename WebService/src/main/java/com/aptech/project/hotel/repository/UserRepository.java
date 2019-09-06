@@ -16,7 +16,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("FROM User t1 WHERE t1.deleted = 0 AND t1.username LIKE %:username% AND t1.createdDate BETWEEN :fromDate AND :toDate")
     List<User> findUsers(@Param("username") String username, @Param("fromDate") Date fromDate
             , @Param("toDate") Date toDate, Pageable pageable);
-    @Query("SELECT count(*) FROM User t1 WHERE t1.deleted = 0 AND t1.username LIKE %:username% AND t1.createdDate BETWEEN :fromDate AND :toDate")
+    @Query("SELECT count(t1) FROM User t1 WHERE t1.deleted = 0 AND t1.username LIKE %:username% AND t1.createdDate BETWEEN :fromDate AND :toDate")
     int countUsers(@Param("username") String username, @Param("fromDate") Date fromDate, @Param("toDate") Date toDate);
     @Query("FROM User t1 WHERE t1.deleted = 0 AND t1.username = ?1")
     User findByUsername(String username);
@@ -30,8 +30,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Transactional
     @Query("UPDATE User t1 set t1.deleted = 1, t1.updatedBy = ?2 WHERE t1.id = ?1")
     void delete(int id, String userUpdate);
-    @Query("SELECT COUNT(*) > 0 FROM User t1 WHERE t1.username = :username")
+    @Query("SELECT (COUNT(t1) > 0) FROM User t1 WHERE t1.username = :username")
     boolean existByUsername(@Param("username") String username);
-    @Query("SELECT COUNT(*) > 0 FROM User t1 WHERE t1.roleId = :roleId")
+    @Query("SELECT (COUNT(t1) > 0) FROM User t1 WHERE t1.roleId = :roleId")
     boolean existByRoleId(@Param("roleId") int roleId);
 }

@@ -317,7 +317,6 @@ export default {
       });
       listBranchPlace().then(response => {
         this.listBranchPlace = response.data;
-        console.log(this.listBranchPlace);
       });
     },
     handleFilter() {

@@ -2,8 +2,8 @@ package com.aptech.project.hotel.service;
 
 import com.aptech.project.hotel.entity.Permission;
 
-import java.util.List;
+import java.util.Set;
 
 public interface PermissionService {
-    List<Permission> permissions();
+    Set<Permission> permissions();
 }

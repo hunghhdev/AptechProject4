@@ -22,6 +22,18 @@ export const constantRoutes = [
     },
     children: [
       {
+        path: "/user",
+        name: "Nhân viên",
+        component: () => import("@/views/user"),
+        meta: { title: "user", icon: "el-icon-user" }
+      },
+      {
+        path: "/room",
+        name: "Loại phòng",
+        component: () => import("@/views/room"),
+        meta: { title: "room", icon: "el-icon-s-home" }
+      },
+      {
         path: "/supplies",
         name: "Vật tư",
         component: () => import("@/views/supplies"),
@@ -31,23 +43,11 @@ export const constantRoutes = [
         path: "/branch-place",
         name: "Chi nhánh",
         component: () => import("@/views/branchPlace"),
-        meta: { title: "branchPlace", icon: "el-icon-s-home" }
-      },
-      {
-        path: "/department",
-        name: "Phòng ban",
-        component: () => import("@/views/department"),
-        meta: { title: "department", icon: "el-icon-s-cooperation" }
-      },
-      {
-        path: "",
-        name: "Nhân viên",
-        component: () => import("@/views/user"),
-        meta: { title: "user", icon: "el-icon-user" }
+        meta: { title: "branchPlace", icon: "el-icon-map-location" }
       },
       {
         path: "/role",
-        name: "Phân quyền",
+        name: "Chức năng",
         component: () => import("@/views/role"),
         meta: { title: "role", icon: "el-icon-s-order" }
       }

@@ -14,7 +14,7 @@ public class RoleDto {
     private String roleName;
     private String description;
     @JsonIgnoreProperties({"createdDate","createdBy","deleted","description","updatedDate","updatedBy"})
-    private Set<Permission> permissions;
+    private Set<PermissionDto> permissions;
     private String createdBy;
     private Date createdDate;
     private int personnelLevel;

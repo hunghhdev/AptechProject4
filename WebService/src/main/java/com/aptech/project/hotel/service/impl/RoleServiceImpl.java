@@ -37,9 +37,9 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<GrantedAuthority> getAuthorities(int roleId) {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        findById(roleId).getPermissions().forEach(permission ->{
-            authorities.add(new SimpleGrantedAuthority(permission.getPermissionKey()));
-        });
+        findById(roleId).getPermissions().forEach(permission ->
+            authorities.add(new SimpleGrantedAuthority(permission.getPermissionKey()))
+        );
         return authorities;
     }
 

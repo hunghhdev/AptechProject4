@@ -17,7 +17,7 @@ public interface BranchPlaceRepository extends JpaRepository<BranchPlace, Intege
             , @Param("toDate") Date toDate, Pageable pageable);
     @Query("FROM BranchPlace t1 WHERE t1.deleted = 0 ")
     List<BranchPlace> listAll();
-    @Query("SELECT count(*) FROM BranchPlace t1 WHERE t1.deleted = 0 AND t1.branchName LIKE %:name% AND t1.createdDate BETWEEN :fromDate AND :toDate")
+    @Query("SELECT count(t1) FROM BranchPlace t1 WHERE t1.deleted = 0 AND t1.branchName LIKE %:name% AND t1.createdDate BETWEEN :fromDate AND :toDate")
     int countAll(@Param("name") String name, @Param("fromDate") Date fromDate, @Param("toDate") Date toDate);
     @Modifying
     @Transactional

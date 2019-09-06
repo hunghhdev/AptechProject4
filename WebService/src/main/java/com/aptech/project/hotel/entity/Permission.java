@@ -1,11 +1,11 @@
 package com.aptech.project.hotel.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -16,22 +16,19 @@ public class Permission {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", insertable = false, nullable = false)
+    @Column(name = "id", insertable = false, nullable = false, updatable = false)
     private int id;
 
-    @Column(name = "permission_name")
+    @Column(name = "permission_name", insertable = false, updatable = false)
     private String permissionName = "NULL";
 
-    @Column(name = "permission_key")
+    @Column(name = "permission_key", insertable = false, updatable = false)
     private String permissionKey = "NULL";
 
-    @ManyToOne(fetch=FetchType.LAZY, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonIgnore
-    private Permission parent;
-
-    @OneToMany(mappedBy="parent")
-    @NotNull
-    private Set<Permission> children;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id")
+    @JsonIgnoreProperties("children")
+    private Set<Permission> children = new HashSet<>();
 
 
 }

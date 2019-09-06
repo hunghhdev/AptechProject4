@@ -2,6 +2,7 @@ package com.aptech.project.hotel.converter;
 
 import com.aptech.project.hotel.entity.Role;
 import com.aptech.project.hotel.model.RoleDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -10,12 +11,15 @@ import java.util.List;
 @Component
 public class RoleConverter {
 
+    @Autowired
+    private PermissionConverter permissionConverter;
+
     public RoleDto toRoleDto(Role role){
         RoleDto roleDto = new RoleDto();
         roleDto.setId(role.getId());
         roleDto.setRoleName(role.getRoleName());
         roleDto.setDescription(role.getDescription());
-        roleDto.setPermissions(role.getPermissions());
+        roleDto.setPermissions(permissionConverter.toPermissionsDto(role.getPermissions()));
         roleDto.setCreatedBy(role.getCreatedBy());
         roleDto.setCreatedDate(role.getCreatedDate());
         roleDto.setPersonnelLevel(role.getPersonnelLevel());
@@ -44,7 +48,7 @@ public class RoleConverter {
         role.setId(roleDto.getId());
         role.setRoleName(roleDto.getRoleName());
         role.setDescription(roleDto.getDescription());
-        role.setPermissions(roleDto.getPermissions());
+        role.setPermissions(permissionConverter.toPermissions(roleDto.getPermissions()));
         role.setPersonnelLevel(roleDto.getPersonnelLevel());
         return role;
     }

@@ -1,5 +1,7 @@
 package com.aptech.project.hotel.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,5 +27,6 @@ public class Role extends BaseEntity {
     @JoinTable(name = "t_role_permission",
             joinColumns = { @JoinColumn(name = "role_id") },
             inverseJoinColumns = { @JoinColumn(name = "permission_id") })
+    @JsonIgnoreProperties("permissions.children")
     private Set<Permission> permissions = new HashSet<>();
 }

@@ -27,7 +27,7 @@
       "fullname": "Họ tên",
       "username": "Tên tài khoản",
       "email": "Email",
-      "role": "Chức vụ",
+      "role": "Chức năng",
       "branchPlace": "Chi nhánh",
       "personnelLevel": "Loại",
       "createdBy": "Tạo bởi",
@@ -40,7 +40,7 @@
       "labelUsername": "Tên đăng nhập",
       "labelPassword": "Mật khẩu",
       "labelPasswordRq": "Nhập lại mật khẩu",
-      "labelRole": "Chức vụ"
+      "labelRole": "Chức năng"
     },
     "delete": {
       "title": "Xóa",
@@ -51,7 +51,7 @@
       "avatarRq": "Avatar không được bỏ trống",
       "usernameRq": "Tên đăng nhập không được bỏ trống",
       "passwordRq": "Mật khẩu không được bỏ trống",
-      "roleRq": "Chức vụ không được bỏ trống"
+      "roleRq": "Chức năng không được bỏ trống"
     },
     "msg": {
       "createSuccess": "Tạo tài khoản thành công",
@@ -60,38 +60,38 @@
     }
   },
   "role": {
-    "title": "Phân quyền",
+    "title": "Chức năng",
     "search": {
-      "inputName": "Nhập chức danh"
+      "inputName": "Nhập tên chức năng"
     },
     "table": {
-      "name": "Tên chức danh",
+      "name": "Tên chức năng",
       "personnelLevel": "Loại",
       "desc": "Mô tả",
       "createdBy": "Tạo bởi",
       "createdDate": "Tạo Ngày"
     },
     "form": {
-      "titleCreate": "Tạo chức vụ",
-      "titleEdit": "Sửa chức vụ",
-      "labelName": "Tên chức vụ",
+      "titleCreate": "Tạo chức năng",
+      "titleEdit": "Sửa chức năng",
+      "labelName": "Tên chức năng",
       "labelDesc": "Mô tả",
       "labelPersonnelLevel": "Loại nhân viên",
-      "labelPermission": "Quyền lực"
+      "labelPermission": "Chức năng"
     },
     "validate": {
       "roleNameRq": "Tên không được để trống",
-      "permissionsRq": "Quyền lực không được để trống",
+      "permissionsRq": "Chức năng không được để trống",
       "personnelLevelRq": "Loại nhân viên không được để trống"
     },
     "delete": {
       "title": "Xóa",
-      "msg": "Bạn có chắc chắn muốn xóa chức vụ [{name}] không?"
+      "msg": "Bạn có chắc chắn muốn xóa chức năng [{name}] không?"
     },
     "msg": {
-      "createSuccess": "Tạo chức vụ thành công",
-      "updateSuccess": "Cập nhật chức vụ thành công",
-      "deletedSuccess": "Xóa chức vụ thành công"
+      "createSuccess": "Tạo chức năng thành công",
+      "updateSuccess": "Cập nhật chức năng thành công",
+      "deletedSuccess": "Xóa chức năng thành công"
     }
   },
   "branchPlace": {
@@ -123,33 +123,6 @@
       "deletedSuccess": "Xóa chức vụ thành công"
     }
   },
-  "department": {
-    "title": "Phòng ban",
-    "search": {
-      "inputName": "Nhập tên phòng ban"
-    },
-    "table": {
-      "name": "Tên phòng ban",
-      "address": "Địa Chỉ"
-    },
-    "form": {
-      "titleCreate": "Tạo phòng ban",
-      "titleEdit": "Sửa phòng ban",
-      "labelName": "Tên phòng ban"
-    },
-    "delete": {
-      "title": "Xóa",
-      "msg": "Bạn có chắc chắn muốn xóa chi nhánh [{name}] không?"
-    },
-    "validate": {
-      "nameRq": "Tên phòng ban không được để trống"
-    },
-    "msg": {
-      "createSuccess": "Tạo phòng ban thành công",
-      "updateSuccess": "Cập nhật phòng ban thành công",
-      "deletedSuccess": "Xóa phòng ban thành công"
-    }
-  },
   "supplies": {
     "title": "Vật tư",
     "search": {
@@ -175,6 +148,38 @@
       "createSuccess": "Tạo vật tư thành công",
       "updateSuccess": "Cập nhật vật tư thành công",
       "deletedSuccess": "Xóa vật tư thành công"
+    }
+  },
+  "room": {
+    "title": "Loại phòng",
+    "search": {
+      "inputName": "Nhập loại phòng",
+      "branch": "Chi nhánh"
+    },
+    "table": {
+      "branchName": "Tên chi nhánh",
+      "codeRoom": "Mã phòng",
+      "name": "Tên loại phòng",
+      "price": "Giá phòng",
+      "supplies": "Vật tư",
+      "desc": "Mô tả"
+    },
+    "form": {
+      "titleCreate": "Tạo loại phòng",
+      "titleEdit": "Sửa loại phòng",
+      "labelName": "Tên loại phòng"
+    },
+    "delete": {
+      "title": "Xóa",
+      "msg": "Bạn có chắc chắn muốn xóa phòng [{name}] không?"
+    },
+    "validate": {
+      "nameRq": "Tên loại phòng không được để trống"
+    },
+    "msg": {
+      "createSuccess": "Tạo loại phòng thành công",
+      "updateSuccess": "Cập nhật loại phòng thành công",
+      "deletedSuccess": "Xóa loại phòng thành công"
     }
   },
   "management": {

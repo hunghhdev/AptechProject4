@@ -66,7 +66,7 @@ public class RoleApi {
     public ResponseEntity<ServiceResult> create(@RequestBody RoleDto roleDto, Authentication authentication) {
         ServiceResult serviceResult = new ServiceResult();
         if (service.existByName(roleDto.getRoleName())){
-            serviceResult.setMessage("Đặt tên vị trí khác đi ạ");
+            serviceResult.setMessage("Đặt tên chức năng khác đi ạ");
             serviceResult.setStatus(ServiceResult.Status.FAILED);
             return ResponseEntity.ok(serviceResult);
         }
@@ -83,7 +83,7 @@ public class RoleApi {
         Role role = converter.toRole(roleDto);
         role.setUpdatedBy(authentication.getName());
         serviceResult.setData(converter.toRoleDto(service.save(role)));
-        serviceResult.setMessage("Cập nhật vị trí thành công");
+        serviceResult.setMessage("Cập nhật chức năng thành công");
         return ResponseEntity.ok(serviceResult);
     }
 
@@ -97,7 +97,7 @@ public class RoleApi {
             return ResponseEntity.ok(serviceResult);
         }
         service.delete(id,authentication.getName());
-        serviceResult.setMessage("Xoá vị trí thành công");
+        serviceResult.setMessage("Xoá chức năng thành công");
         return ResponseEntity.ok(serviceResult);
     }
 
