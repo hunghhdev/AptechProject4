@@ -25,6 +25,8 @@ public interface RoleRepository extends JpaRepository<Role, Integer> {
     void delete(int id, String userUpdate);
     @Query("FROM Role t1 WHERE t1.deleted = 0")
     List<Role> roles();
+    @Query("FROM Role t1 WHERE t1.deleted = 0 and t1.personnelLevel = ?1")
+    List<Role> rolesByPersonnelLevel(int personnelLevel);
     @Query("FROM Role t1 JOIN FETCH t1.permissions WHERE t1.deleted = 0 AND t1.id = ?1")
     Role findById(int id);
 }

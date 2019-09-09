@@ -5,17 +5,14 @@ import org.slf4j.LoggerFactory;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class EnCode {
 
     private static final Logger logger = LoggerFactory.getLogger(EnCode.class);
-    private static final String salt = "ChoThemItMuoiVaoChoNoMan";
+    private static final String SALT = "ChoThemItMuoiVaoChoNoMan";
 
     public static String md5(String str) {
-        byte[] defaultBytes = (str + salt).getBytes();
+        byte[] defaultBytes = (str + SALT).getBytes();
 
         MessageDigest algorithm = null;
         try {
@@ -40,10 +37,5 @@ public class EnCode {
         return str;
     }
 
-    public static void main(String... args) throws ParseException {
-//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        System.out.println(format.parse ( "9999-12-31 23:59:59" ).getTime());
-//        System.out.println(new Date());
-        System.out.println(EnCode.md5("1"));
-    }
+    private EnCode() { throw new IllegalStateException("EnCode class"); }
 }

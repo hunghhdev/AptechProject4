@@ -38,6 +38,7 @@ public class RoleConverter {
             RoleDto roleDto = new RoleDto();
             roleDto.setId(role.getId());
             roleDto.setRoleName(role.getRoleName());
+            roleDto.setPersonnelLevel(role.getPersonnelLevel());
             roleDtos.add(roleDto);
         }
         return roleDtos;

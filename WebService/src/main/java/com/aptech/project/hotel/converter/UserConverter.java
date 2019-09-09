@@ -3,7 +3,6 @@ package com.aptech.project.hotel.converter;
 import com.aptech.project.hotel.model.UserDto;
 import com.aptech.project.hotel.entity.User;
 import com.aptech.project.hotel.model.UserInfoDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -40,13 +39,11 @@ public class UserConverter {
         user.setUsername(userDto.getUsername());
         user.setPassword(userDto.getPassword());
         user.setRoleId(userDto.getRoleId());
-        user.setCreatedBy(userDto.getCreatedBy());
-        user.setCreatedDate(userDto.getCreatedDate());
         user.setAvatar(userDto.getAvatar());
         user.setPersonnelLevel(userDto.getPersonnelLevel());
         user.setFullName(userDto.getFullName());
         user.setEmail(userDto.getEmail());
-        user.setBranchPlaceId(user.getBranchPlaceId());
+        user.setBranchPlaceId(userDto.getBranchPlaceId());
         return user;
     }
 

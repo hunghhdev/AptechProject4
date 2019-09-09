@@ -17,13 +17,18 @@ public class BranchPlaceServiceImpl implements BranchPlaceService {
     private BranchPlaceRepository repository;
 
     @Override
-    public BranchPlace findById(int id) {
-        return repository.getOne(id);
+    public List<BranchPlace> findById(int id) {
+        return repository.findById(id);
     }
 
     @Override
     public List<BranchPlace> listAll() {
         return repository.listAll();
+    }
+
+    @Override
+    public List<BranchPlace> listAll(int level) {
+        return repository.listAll(level);
     }
 
     @Override

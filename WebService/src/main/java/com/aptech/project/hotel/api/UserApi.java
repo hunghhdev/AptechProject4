@@ -5,8 +5,8 @@ import com.aptech.project.hotel.model.Data;
 import com.aptech.project.hotel.model.UserDto;
 import com.aptech.project.hotel.entity.User;
 import com.aptech.project.hotel.model.ServiceResult;
+import com.aptech.project.hotel.model.UserSecurity;
 import com.aptech.project.hotel.service.AwsService;
-import com.aptech.project.hotel.service.RoleService;
 import com.aptech.project.hotel.service.UserService;
 import com.aptech.project.hotel.util.ConfigUtility;
 import com.aptech.project.hotel.util.Constant;
@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping(Constant.API+"/user")
@@ -36,9 +37,6 @@ public class UserApi {
 
     @Autowired
     private UserService service;
-
-    @Autowired
-    private RoleService roleService;
 
     @Autowired
     private AwsService awsService;
@@ -55,13 +53,18 @@ public class UserApi {
     public ResponseEntity<ServiceResult> list(
             @RequestParam("page") int page, @RequestParam("size") int size,
             @RequestParam("name") String username, @RequestParam("fromDate") long fromDate,
-            @RequestParam("toDate") long toDate){
+            @RequestParam("toDate") long toDate, Authentication authentication){
         ServiceResult serviceResult = new ServiceResult();
         Pageable pageable = PageRequest.of(--page, size, Sort.by("createdDate").descending());
-        Date from = new Date(fromDate==0?Constant.MIN_DATE:fromDate);
-        Date to = new Date(toDate==0?Constant.MAX_DATE:toDate);
-        serviceResult.setData(new Data(service.countUsers(username, from, to),
-                converter.toUsersDto(service.findUsers(username, from, to, pageable))));
+        UserSecurity userSecurity = (UserSecurity) authentication.getPrincipal();
+        int count = userSecurity.getPersonnelLevel() == 1
+                ? service.countUsers(username, Constant.minDate(fromDate), Constant.maxDate(toDate))
+                : service.countUsers(username, Constant.minDate(fromDate), Constant.maxDate(toDate), userSecurity.getBranchPlaceId());
+        List<UserDto> userDtos = converter.toUsersDto( userSecurity.getPersonnelLevel() == 1
+                ? service.findUsers(username, Constant.minDate(fromDate), Constant.maxDate(toDate), pageable)
+                : service.findUsers(username, Constant.minDate(fromDate), Constant.maxDate(toDate), userSecurity.getBranchPlaceId(), pageable)
+        );
+        serviceResult.setData(new Data(count, userDtos));
         return ResponseEntity.ok(serviceResult);
     }
 

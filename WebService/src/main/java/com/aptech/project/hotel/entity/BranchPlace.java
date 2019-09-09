@@ -16,4 +16,6 @@ public class BranchPlace extends BaseEntity {
     private String branchName;
     @Column(name = "branch_address", nullable = false)
     private String branchAddress;
+    @Column(name = "personnel_level")
+    private int personnelLevel;
 }

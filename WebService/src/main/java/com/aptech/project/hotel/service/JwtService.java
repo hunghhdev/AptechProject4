@@ -47,9 +47,7 @@ public class JwtService {
             if (signedJWT.verify(verifier)) {
                 claims = signedJWT.getJWTClaimsSet();
             }
-        }  catch (ParseException e) {
-            logger.error(e.getMessage());
-        } catch (JOSEException e) {
+        }  catch (ParseException|JOSEException e) {
             logger.error(e.getMessage());
         }
         return claims;

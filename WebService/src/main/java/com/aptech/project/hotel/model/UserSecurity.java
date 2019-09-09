@@ -12,9 +12,11 @@ import java.util.Collection;
 public class UserSecurity extends User {
     private int id;
     private int personnelLevel;
-    public UserSecurity(int id, int personnelLevel, String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
+    private int branchPlaceId;
+
+    public UserSecurity(String username, String password,
+                        boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired,
+                        boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
         super(username, password,enabled,accountNonExpired,credentialsNonExpired,accountNonLocked, authorities);
-        this.id = id;
-        this.personnelLevel = personnelLevel;
     }
 }

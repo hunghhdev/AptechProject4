@@ -2,23 +2,21 @@ package com.aptech.project.hotel.api;
 
 import com.aptech.project.hotel.converter.BranchPlaceConverter;
 import com.aptech.project.hotel.entity.BranchPlace;
-import com.aptech.project.hotel.entity.User;
 import com.aptech.project.hotel.model.BranchPlaceDto;
 import com.aptech.project.hotel.model.Data;
 import com.aptech.project.hotel.model.ServiceResult;
+import com.aptech.project.hotel.model.UserSecurity;
 import com.aptech.project.hotel.service.BranchPlaceService;
-import com.aptech.project.hotel.service.UserService;
 import com.aptech.project.hotel.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Date;
 
 @RestController
 @RequestMapping(Constant.API+"/branch-place")
@@ -26,9 +24,6 @@ public class BranchPlaceApi {
 
     @Autowired
     private BranchPlaceService service;
-
-    @Autowired
-    private UserService userService;
 
     @Autowired
     private BranchPlaceConverter converter;
@@ -42,20 +37,30 @@ public class BranchPlaceApi {
         Pageable pageable = PageRequest.of(--page, size, Sort.by("createdDate").descending());
         ServiceResult serviceResult = new ServiceResult();
 
-        Date from = new Date(fromDate==0? Constant.MIN_DATE:fromDate);
-        Date to = new Date(toDate==0?Constant.MAX_DATE:toDate);
+        serviceResult.setData(new Data(service.countAll(name, Constant.minDate(fromDate), Constant.maxDate(toDate)),
+                converter.toBranchPlacesDto(service.listAll(name, Constant.minDate(fromDate), Constant.maxDate(toDate), pageable))));
+        return ResponseEntity.ok(serviceResult);
+    }
 
-        serviceResult.setData(new Data(service.countAll(name, from, to),
-                converter.toBranchPlacesDto(service.listAll(name, from, to, pageable))));
+    @GetMapping(value = "/list-branch-place-by-level")
+    public ResponseEntity<ServiceResult> listBranchPlaceByLevel(@RequestParam("level") int level, Authentication authentication){
+        UserSecurity userSecurity = (UserSecurity) authentication.getPrincipal();
+        ServiceResult serviceResult = new ServiceResult();
+        serviceResult.setData(converter.toBranchPlacesDto( userSecurity.getPersonnelLevel()==1
+                ? service.listAll(level)
+                : service.findById(userSecurity.getBranchPlaceId())
+        ));
         return ResponseEntity.ok(serviceResult);
     }
 
     @GetMapping(value = "/list-branch-place")
     public ResponseEntity<ServiceResult> listBranchPlace(Authentication authentication){
-        User user = userService.findByUsername(authentication.getName());
+        UserSecurity userSecurity = (UserSecurity) authentication.getPrincipal();
         ServiceResult serviceResult = new ServiceResult();
-        serviceResult.setData(user.getPersonnelLevel()==1?converter.toBranchPlacesDto(service.listAll())
-                :converter.toBranchPlaceDto(service.findById(user.getPersonnelLevel())));
+        serviceResult.setData(converter.toBranchPlacesDto( userSecurity.getPersonnelLevel()==1
+                ? service.listAll()
+                : service.findById(userSecurity.getBranchPlaceId())
+        ));
         return ResponseEntity.ok(serviceResult);
     }
 

@@ -5,8 +5,6 @@ import com.aptech.project.hotel.model.PermissionDto;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 
 @Component

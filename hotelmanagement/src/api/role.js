@@ -45,3 +45,11 @@ export function roles() {
     method: "get"
   });
 }
+
+export function rolesByLevel(data) {
+  return request({
+    url: "/role/roles-by-level",
+    method: "get",
+    params: data
+  });
+}

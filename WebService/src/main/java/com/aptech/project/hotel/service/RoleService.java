@@ -16,4 +16,5 @@ public interface RoleService {
     boolean existByName(String name);
     void delete(int id, String usernameUpdate);
     List<Role> roles();
+    List<Role> rolesByPersonnelLevel(int personnelLevel);
 }

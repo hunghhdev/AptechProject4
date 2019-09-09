@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -25,7 +24,7 @@ public abstract class BaseEntity implements Serializable {
     @Column(name = "deleted", nullable = false, columnDefinition = "boolean default false")
     private boolean deleted = false;
 
-    @Column(name = "created_date", updatable = false)
+    @Column(name = "created_date", updatable = false, insertable = false)
     @CreationTimestamp
     private Date createdDate;
 
@@ -33,7 +32,7 @@ public abstract class BaseEntity implements Serializable {
     @UpdateTimestamp
     private Date updatedDate;
 
-    @Column(name = "created_by", updatable = false)
+    @Column(name = "created_by", updatable = false, insertable = false)
     private String createdBy;
 
     @Column(name = "updated_by")

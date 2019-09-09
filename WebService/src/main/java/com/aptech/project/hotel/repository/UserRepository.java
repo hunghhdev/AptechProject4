@@ -16,22 +16,36 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("FROM User t1 WHERE t1.deleted = 0 AND t1.username LIKE %:username% AND t1.createdDate BETWEEN :fromDate AND :toDate")
     List<User> findUsers(@Param("username") String username, @Param("fromDate") Date fromDate
             , @Param("toDate") Date toDate, Pageable pageable);
+
+    @Query("FROM User t1 WHERE t1.deleted = 0 AND t1.username LIKE %:username% AND t1.branchPlaceId = :branch AND t1.createdDate BETWEEN :fromDate AND :toDate")
+    List<User> findUsers(@Param("username") String username, @Param("fromDate") Date fromDate
+            , @Param("toDate") Date toDate, @Param("branch") int branch, Pageable pageable);
+
     @Query("SELECT count(t1) FROM User t1 WHERE t1.deleted = 0 AND t1.username LIKE %:username% AND t1.createdDate BETWEEN :fromDate AND :toDate")
     int countUsers(@Param("username") String username, @Param("fromDate") Date fromDate, @Param("toDate") Date toDate);
+
+    @Query("SELECT count(t1) FROM User t1 WHERE t1.deleted = 0 AND t1.username LIKE %:username% AND t1.branchPlaceId = :branch AND t1.createdDate BETWEEN :fromDate AND :toDate")
+    int countUsers(@Param("username") String username, @Param("fromDate") Date fromDate, @Param("toDate") Date toDate, @Param("branch") int branch);
+
     @Query("FROM User t1 WHERE t1.deleted = 0 AND t1.username = ?1")
     User findByUsername(String username);
+
     @Query("FROM User t1 WHERE t1.deleted = 0 AND t1.username = ?1 AND t1.password = ?2")
     User findByUsernameAndPassword(String username, String password);
+
     @Modifying
     @Transactional
     @Query("UPDATE User t1 set t1.jwtKey = ?1 WHERE t1.id = ?2")
     void updateJwtKey(String jwtKey, int id);
+
     @Modifying
     @Transactional
     @Query("UPDATE User t1 set t1.deleted = 1, t1.updatedBy = ?2 WHERE t1.id = ?1")
     void delete(int id, String userUpdate);
+
     @Query("SELECT (COUNT(t1) > 0) FROM User t1 WHERE t1.username = :username")
     boolean existByUsername(@Param("username") String username);
+
     @Query("SELECT (COUNT(t1) > 0) FROM User t1 WHERE t1.roleId = :roleId")
     boolean existByRoleId(@Param("roleId") int roleId);
 }

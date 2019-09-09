@@ -137,11 +137,26 @@
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
+        <el-form-item :label="$t('user.form.labelFullname')" prop="fullName">
+          <el-input
+            v-model="tempData.fullName"
+            :placeholder="$t('user.form.labelFullname')"
+            class="filter-item"
+          ></el-input>
+        </el-form-item>
         <el-form-item :label="$t('user.form.labelUsername')" prop="username">
           <el-input
             :disabled="dialogStatus==='create'?false:true"
             v-model="tempData.username"
             :placeholder="$t('user.form.labelUsername')"
+            class="filter-item"
+          ></el-input>
+        </el-form-item>
+        <el-form-item :label="$t('user.form.labelEmail')" prop="email">
+          <el-input
+            :disabled="dialogStatus==='create'?false:true"
+            v-model="tempData.email"
+            :placeholder="$t('user.form.labelEmail')"
             class="filter-item"
           ></el-input>
         </el-form-item>
@@ -161,14 +176,45 @@
             class="filter-item"
           ></el-input>
         </el-form-item>
-        <el-form-item :label="$t('user.form.labelRole')" prop="roleId">
+        <el-form-item :label="$t('user.form.labelPersonnelLevel')" prop="personnelLevel">
           <el-select
+            v-model="tempData.personnelLevel"
+            default-first-option
+            filterable
+            class="filter-item"
+            :placeholder="$t('common.select')"
+            @change="getOptionsByLevel()"
+          >
+            <el-option
+              v-for="item in listPersonnelLevel"
+              :key="item.id"
+              :label="item.levelName"
+              :value="item.id"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item :label="$t('user.form.labelBranchPlace')" prop="branchPlaceId">
+          <el-select v-if="branchOptions"
+            v-model="tempData.branchPlaceId"
+            class="filter-item"
+            :placeholder="$t('common.select')"
+          >
+            <el-option
+              v-for="item in branchOptions"
+              :key="item.id"
+              :label="item.branchName"
+              :value="item.id"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item :label="$t('user.form.labelRole')" prop="roleId">
+          <el-select v-if="roleOptions"
             v-model="tempData.roleId"
             class="filter-item"
             :placeholder="$t('common.select')"
           >
             <el-option
-              v-for="item in roles"
+              v-for="item in roleOptions"
               :key="item.id"
               :label="item.roleName"
               :value="item.id"
@@ -197,9 +243,9 @@
 
 <script>
 import { list, create, update, remove, uploadAvatar } from "@/api/user";
-import { roles } from "@/api/role";
+import { roles, rolesByLevel } from "@/api/role";
 import { personnelLevel } from "@/api/personnelLevel";
-import { listBranchPlace } from "@/api/branchPlace";
+import { listBranchPlace, listBranchPlaceByLevel } from "@/api/branchPlace";
 import { formatDate } from "@/utils/";
 import Pagination from "@/components/Pagination";
 import store from "@/store";
@@ -231,9 +277,13 @@ export default {
       tempData: {
         id: "",
         avatar: "",
+        fullName: "",
         username: "",
+        email: "",
         password: "",
         passwordRq: "",
+        personnelLevel: "",
+        branchPlaceId: "",
         createdBy: "",
         roleId: "",
         role: 0
@@ -246,9 +296,39 @@ export default {
       dateSearchPicker: [new Date() - 2592000000, new Date()],
       list: [],
       roles: [],
+      roleOptions: undefined,
+      branchOptions: undefined,
       listPersonnelLevel: "",
       listBranchPlace: "",
       rules: {
+        branchPlaceId: [
+          {
+            trigger: "blur",
+            required: true,
+            message: this.$t("user.validate.branchPlaceIdRq")
+          }
+        ],
+        personnelLevel: [
+          {
+            trigger: "blur",
+            required: true,
+            message: this.$t("user.validate.personnelLevelRq")
+          }
+        ],
+        email: [
+          {
+            trigger: "blur",
+            required: true,
+            message: this.$t("user.validate.emailRq")
+          }
+        ],
+        fullName: [
+          {
+            trigger: "blur",
+            required: true,
+            message: this.$t("user.validate.fullNameRq")
+          }
+        ],
         avatar: [
           {
             trigger: "blur",
@@ -289,8 +369,8 @@ export default {
   },
   created() {
     if (this.checkPermission(["PERM_USER_READ"])) {
-      this.fetchData();
       this.fetchValueInput();
+      this.fetchData();
     }
   },
   methods: {
@@ -331,7 +411,6 @@ export default {
       });
       this.buttonConfirmLoading = false;
     },
-
     createData(event) {
       this.$refs["dataForm"].validate(valid => {
         if (valid) {
@@ -361,9 +440,9 @@ export default {
         this.$refs["dataForm"].clearValidate();
       });
       this.tempData = Object.assign({}, row);
+      this.getOptionsByLevel()
     },
     updateData() {
-      this.tempData.createdBy = this.createdBy;
       this.$refs["dataForm"].validate(valid => {
         if (valid) {
           this.buttonConfirmLoading = true;
@@ -433,35 +512,53 @@ export default {
     },
     formatColumnRole(roleId) {
       let text = "";
-      this.roles.filter(role => {
-        if (role.id === roleId) {
-          text = role.roleName;
-        }
-      });
+      if(this.roles){
+        this.roles.filter(role => {
+          if (role.id === roleId) {
+            text = role.roleName;
+          }
+        });
+      }
       return text;
+    },
+    getOptionsByLevel() {
+      rolesByLevel({level: this.tempData.personnelLevel}).then(response =>{
+        this.roleOptions = response.data;
+      })
+      listBranchPlaceByLevel({level: this.tempData.personnelLevel}).then(response =>{
+        this.branchOptions = response.data;
+      })
     },
     formatColumnPersonnelLevel(personnelLevelId) {
       let text = "";
-      this.listPersonnelLevel.filter(PersonnelLevel => {
-        if (personnelLevelId === PersonnelLevel.id)
-          text = PersonnelLevel.levelName;
-      });
+      if(this.listPersonnelLevel){
+        this.listPersonnelLevel.filter(PersonnelLevel => {
+          if (personnelLevelId === PersonnelLevel.id)
+            text = PersonnelLevel.levelName;
+        });
+      }
       return text;
     },
     formatColumnBranchPlace(branchId) {
       let text = "";
-      this.listBranchPlace.filter(BranchPlace => {
-        if (branchId === BranchPlace.id) text = BranchPlace.branchName;
-      });
+      if(this.listBranchPlace){
+        this.listBranchPlace.filter(BranchPlace => {
+          if (branchId === BranchPlace.id) text = BranchPlace.branchName;
+        });
+      }
       return text;
     },
     resetTemp() {
       this.tempData = {
         id: "",
         avatar: "",
+        fullName: "",
         username: "",
+        email: "",
         password: "",
         passwordRq: "",
+        personnelLevel: "",
+        branchPlaceId: "",
         createdBy: "",
         roleId: "",
         role: 0

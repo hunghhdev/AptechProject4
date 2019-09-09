@@ -16,8 +16,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-
 @RestController
 @RequestMapping(Constant.API+"/supplies")
 public class SuppliesApi {
@@ -37,11 +35,8 @@ public class SuppliesApi {
         Pageable pageable = PageRequest.of(--page, size, Sort.by("createdDate").descending());
         ServiceResult serviceResult = new ServiceResult();
 
-        Date from = new Date(fromDate==0? Constant.MIN_DATE:fromDate);
-        Date to = new Date(toDate==0?Constant.MAX_DATE:toDate);
-
-        serviceResult.setData(new Data(service.countAll(name, from, to),
-                converter.toSuppliesDtos(service.listAll(name, from, to, pageable))));
+        serviceResult.setData(new Data(service.countAll(name, Constant.minDate(fromDate), Constant.maxDate(toDate)),
+                converter.toSuppliesDtos(service.listAll(name, Constant.minDate(fromDate), Constant.maxDate(toDate), pageable))));
         return ResponseEntity.ok(serviceResult);
     }
 

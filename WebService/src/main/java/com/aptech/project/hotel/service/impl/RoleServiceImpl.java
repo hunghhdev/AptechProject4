@@ -63,4 +63,9 @@ public class RoleServiceImpl implements RoleService {
         return repository.roles();
     }
 
+    @Override
+    public List<Role> rolesByPersonnelLevel(int personnelLevel) {
+        return repository.rolesByPersonnelLevel(personnelLevel);
+    }
+
 }

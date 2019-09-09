@@ -37,9 +37,13 @@
       "titleCreate": "Tạo nhân viên",
       "titleEdit": "Sửa nhân viên",
       "labelAvatar": "Hình đại diện",
+      "labelFullname": "Tên đầy đủ",
       "labelUsername": "Tên đăng nhập",
+      "labelEmail": "Email",
       "labelPassword": "Mật khẩu",
       "labelPasswordRq": "Nhập lại mật khẩu",
+      "labelPersonnelLevel": "Loại nhân viên",
+      "labelBranchPlace": "Chi nhánh",
       "labelRole": "Chức năng"
     },
     "delete": {
@@ -51,7 +55,11 @@
       "avatarRq": "Avatar không được bỏ trống",
       "usernameRq": "Tên đăng nhập không được bỏ trống",
       "passwordRq": "Mật khẩu không được bỏ trống",
-      "roleRq": "Chức năng không được bỏ trống"
+      "roleRq": "Chức năng không được bỏ trống",
+      "fullNameRq": "Tên nhân viên không được bỏ trống",
+      "emailRq": "Email không được bỏ trống",
+      "personnelLevelRq": "Không được bỏ qua loại nhân viên",
+      "branchPlaceIdRq": "Không được bỏ qua chi nhánh"
     },
     "msg": {
       "createSuccess": "Tạo tài khoản thành công",

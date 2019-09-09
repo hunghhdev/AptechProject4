@@ -38,3 +38,11 @@ export function listBranchPlace() {
     method: "get"
   });
 }
+
+export function listBranchPlaceByLevel(data) {
+  return request({
+    url: "/branch-place/list-branch-place-by-level",
+    method: "get",
+    params: data
+  });
+}
