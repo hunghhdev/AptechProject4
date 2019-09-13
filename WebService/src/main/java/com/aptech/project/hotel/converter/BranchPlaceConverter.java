@@ -14,6 +14,7 @@ public class BranchPlaceConverter {
         BranchPlaceDto branchPlaceDto = new BranchPlaceDto();
         branchPlaceDto.setId(branchPlace.getId());
         branchPlaceDto.setBranchName(branchPlace.getBranchName());
+        branchPlaceDto.setBranchCode(branchPlace.getBranchCode());
         branchPlaceDto.setBranchAddress(branchPlace.getBranchAddress());
         branchPlaceDto.setCreatedBy(branchPlace.getCreatedBy());
         branchPlaceDto.setCreatedDate(branchPlace.getCreatedDate());
@@ -30,6 +31,7 @@ public class BranchPlaceConverter {
         BranchPlace branchPlace = new BranchPlace();
         branchPlace.setId(branchPlaceDto.getId());
         branchPlace.setBranchName(branchPlaceDto.getBranchName());
+        branchPlace.setBranchCode(branchPlaceDto.getBranchCode());
         branchPlace.setBranchAddress(branchPlaceDto.getBranchAddress());
         return branchPlace;
     }

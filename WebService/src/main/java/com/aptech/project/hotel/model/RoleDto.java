@@ -1,6 +1,5 @@
 package com.aptech.project.hotel.model;
 
-import com.aptech.project.hotel.entity.Permission;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;

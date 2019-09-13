@@ -43,7 +43,10 @@
       <el-table-column :label="$t('branchPlace.table.name')" min-width="220" align="center">
         <template slot-scope="scope">{{ scope.row.branchName }}</template>
       </el-table-column>
-      <el-table-column :label="$t('branchPlace.table.address')" min-width="300" align="center">
+      <el-table-column :label="$t('branchPlace.table.code')" min-width="220" align="center">
+        <template slot-scope="scope">{{ scope.row.branchCode }}</template>
+      </el-table-column>
+      <el-table-column :label="$t('branchPlace.table.address')" min-width="420" align="center">
         <template slot-scope="scope">{{ scope.row.branchAddress }}</template>
       </el-table-column>
       <el-table-column :label="$t('common.createdBy')" min-width="220" align="center">
@@ -60,7 +63,7 @@
           <span>{{ formatDate(scope.row.createdDate) }}</span>
         </template>
       </el-table-column>
-      <el-table-column fixed="right" :label="$t('common.action')" align="center" min-width="250">
+      <el-table-column fixed="right" :label="$t('common.action')" align="center" min-width="200">
         <template slot-scope="{row}">
           <el-button
             v-if="checkPermission(['PERM_BRANCH_PLACE_UPDATE'])"
@@ -99,6 +102,14 @@
           <el-input
             v-model="tempData.branchName"
             :placeholder="$t('branchPlace.form.labelName')"
+            class="filter-item"
+          ></el-input>
+        </el-form-item>
+        <el-form-item :label="$t('branchPlace.form.labelCode')" prop="branchCode">
+          <el-input
+            :disabled="dialogStatus!=='create'"
+            v-model="tempData.branchCode"
+            :placeholder="$t('branchPlace.form.labelCode')"
             class="filter-item"
           ></el-input>
         </el-form-item>
@@ -169,6 +180,13 @@ export default {
             message: this.$t("branchPlace.validate.branchName")
           }
         ],
+        branchCode: [
+          {
+            trigger: "blur",
+            required: true,
+            message: this.$t("branchPlace.validate.branchCode")
+          }
+        ],
         branchAddress: [
           {
             trigger: "blur",
@@ -180,6 +198,7 @@ export default {
       tempData: {
         id: "",
         branchName: "",
+        branchCode: "",
         branchAddress: ""
       }
     };
@@ -244,6 +263,9 @@ export default {
     handleUpdate(row) {
       this.dialogFormVisible = true;
       this.dialogStatus = "update";
+      this.$nextTick(() => {
+        this.$refs["dataForm"].clearValidate();
+      });
       this.tempData = Object.assign({}, row);
     },
     updateData() {
@@ -305,6 +327,7 @@ export default {
       this.tempData = {
         id: "",
         branchName: "",
+        branchCode: "",
         branchAddress: ""
       };
     }

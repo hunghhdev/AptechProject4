@@ -69,4 +69,11 @@ public class SuppliesApi {
         serviceResult.setMessage("Xoá vật tư thành công");
         return ResponseEntity.ok(serviceResult);
     }
+
+    @GetMapping(value = "/list-supplies")
+    public ResponseEntity<ServiceResult> listSupplies(){
+        ServiceResult serviceResult = new ServiceResult();
+        serviceResult.setData(converter.toSuppliesDtos(service.listAll()));
+        return ResponseEntity.ok(serviceResult);
+    }
 }

@@ -1,21 +1,27 @@
 <template>
   <div v-if="checkPermission(['PERM_ROOM_READ'])" class="app-container">
     <div class="filter-container">
+      <el-select
+        v-model="listQuery.branch"
+        :placeholder="$t('room.search.inputBranch')"
+        class="filter-item"
+        value-key="id"
+        clearable
+      >
+        <el-option
+          v-for="item in branchOptions"
+          :key="item.id"
+          :label="item.branchName"
+          :value="item.id"
+        />
+      </el-select>
       <el-input
-        v-model="listQuery.name"
-        :placeholder="$t('room.search.inputName')"
+        v-model="listQuery.code"
+        :placeholder="$t('room.search.inputCode')"
         style="width: 200px; text-align: center !important;"
         @keyup.enter.native="handleFilter"
         class="filter-item"
       />
-      <el-select v-model="listQuery.branch" :placeholder="$t('room.search.branch')" class="filter-item">
-        <el-option
-          v-for="item in listBranchOptions"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
       <el-date-picker
         style="width: 400px;"
         v-model="dateSearchPicker"
@@ -49,10 +55,12 @@
       highlight-current-row
     >
       <el-table-column :label="$t('room.table.branchName')" min-width="300" align="center">
-        <template slot-scope="scope">{{ scope.row.branchName }}</template>
+        <template slot-scope="scope">
+          <span>{{ formatColumnBranch(scope.row.branchId) }}</span>
+        </template>
       </el-table-column>
       <el-table-column :label="$t('room.table.codeRoom')" min-width="220" align="center">
-        <template slot-scope="scope">{{ scope.row.codeRoom }}</template>
+        <template slot-scope="scope">{{ formatColumnCode(scope.row) }}</template>
       </el-table-column>
       <el-table-column :label="$t('room.table.name')" min-width="300" align="center">
         <template slot-scope="scope">{{ scope.row.name }}</template>
@@ -60,13 +68,16 @@
       <el-table-column :label="$t('room.table.price')" min-width="300" align="center">
         <template slot-scope="scope">{{ scope.row.price }}</template>
       </el-table-column>
+      <el-table-column :label="$t('room.table.status')" min-width="300" align="center">
+        <template slot-scope="scope">{{ scope.row.status }}</template>
+      </el-table-column>
       <el-table-column :label="$t('room.table.supplies')" min-width="300" align="center">
         <template slot-scope="scope">{{ scope.row.supplies }}</template>
       </el-table-column>
       <el-table-column :label="$t('room.table.desc')" min-width="300" align="center">
-        <template slot-scope="scope">{{ scope.row.desc }}</template>
+        <template slot-scope="scope">{{ scope.row.description }}</template>
       </el-table-column>
-      <el-table-column :label="$t('common.createdBy')" min-width="220" align="center">
+      <el-table-column :label="$t('common.createdBy')" min-width="100" align="center">
         <template slot-scope="scope">{{ scope.row.createdBy }}</template>
       </el-table-column>
       <el-table-column
@@ -80,7 +91,7 @@
           <span>{{ formatDate(scope.row.createdDate) }}</span>
         </template>
       </el-table-column>
-      <el-table-column fixed="right" :label="$t('common.action')" align="center" min-width="250">
+      <el-table-column fixed="right" :label="$t('common.action')" align="center" min-width="200">
         <template slot-scope="{row}">
           <el-button
             v-if="checkPermission(['PERM_ROOM_UPDATE'])"
@@ -115,10 +126,75 @@
         style="width: 90%; margin-left:30px;"
         :rules="rules"
       >
-        <el-form-item :label="$t('room.form.labelName')" prop="departmentName">
+        <el-form-item :label="$t('room.form.labelBranch')" prop="branchId">
+          <el-select
+            v-if="branchOptions"
+            v-model="tempData.branchId"
+            class="filter-item"
+            :placeholder="$t('common.select')"
+            @change="changePrefixCode()"
+            :disabled="dialogStatus=='update'"
+          >
+            <el-option
+              v-for="item in branchOptions"
+              :key="item.id"
+              :label="item.branchName"
+              :value="item.id"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item :label="$t('room.form.labelCode')" prop="code">
           <el-input
-            v-model="tempData.departmentName"
+            v-model="tempData.code"
+            :placeholder="$t('room.form.labelCode')"
+            class="filter-item"
+            :disabled="dialogStatus=='update'"
+          >
+            <template slot="prepend">{{ prefixCode }}</template>
+          </el-input>
+        </el-form-item>
+        <el-form-item :label="$t('room.form.labelName')" prop="name">
+          <el-input
+            v-model="tempData.name"
             :placeholder="$t('room.form.labelName')"
+            class="filter-item"
+          ></el-input>
+        </el-form-item>
+        <el-form-item :label="$t('room.form.labelPrice')" prop="price">
+          <el-input-number controls-position="right" v-model="tempData.price" class="filter-item"></el-input-number>* 1000
+        </el-form-item>
+        <el-form-item :label="$t('room.form.labelStatus')" prop="status">
+          <el-select
+            v-if="statusOptions"
+            v-model="tempData.status"
+            class="filter-item"
+            :placeholder="$t('common.select')"
+          >
+            <el-option v-for="item in statusOptions" :key="item" :label="item" :value="item" />
+          </el-select>
+        </el-form-item>
+        <el-form-item :label="$t('room.form.labelSupplies')" prop="supplies">
+          <el-select
+            v-if="suppliesOption"
+            v-model="tempData.supplies"
+            class="filter-item"
+            multiple
+            filterable
+            :placeholder="$t('common.select')"
+          >
+            <el-option
+              v-for="item in suppliesOption"
+              :key="item.name"
+              :label="item.name"
+              :value="item.name"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item :label="$t('room.form.labelDesc')" prop="description">
+          <el-input
+            type="textarea"
+            v-model="tempData.description"
+            :placeholder="$t('room.form.labelDesc')"
             class="filter-item"
           ></el-input>
         </el-form-item>
@@ -132,8 +208,8 @@
         >{{ $t("common.btnConfirm") }}</el-button>
       </span>
     </el-dialog>
-    <el-dialog :title="$t('role.delete.title')" :visible.sync="dialogDeleteVisible">
-      <p>{{ $t('role.delete.msg', { name: tempData.roleName }) }}</p>
+    <el-dialog :title="$t('room.delete.title')" :visible.sync="dialogDeleteVisible">
+      <p>{{ $t('room.delete.msg') }}</p>
       <div slot="footer">
         <el-button @click="dialogDeleteVisible = false">{{ $t("common.btnCancel") }}</el-button>
         <el-button type="danger" @click="deleteData">{{ $t("common.btnConfirm") }}</el-button>
@@ -143,7 +219,9 @@
 </template>
 
 <script>
-// import { fetchList, create } from "@/api/room";
+import { fetchList, create, update, remove } from "@/api/room";
+import { listSupplies } from "@/api/supplies";
+import { listBranchPlace } from "@/api/branchPlace";
 import { formatDate } from "@/utils/";
 import store from "@/store";
 import Pagination from "@/components/Pagination";
@@ -157,11 +235,10 @@ export default {
       total: 0,
       list: null,
       listLoading: true,
-      listBranchOptions: null,
       listQuery: {
         page: 0,
         size: 10,
-        name: "",
+        code: "",
         branch: "",
         fromDate: "",
         toDate: ""
@@ -175,23 +252,68 @@ export default {
       dialogFormVisible: false,
       dialogDeleteVisible: false,
       buttonConfirmLoading: false,
+      branchOptions: [],
+      statusOptions: ["Trống", "Bảo trì", "Có khách", "Đặt trước", "Bận"],
+      suppliesOption: [],
       tempData: {
         id: "",
-        departmentName: ""
+        code: "",
+        name: "",
+        branchId: "",
+        status: "Trống",
+        supplies: "",
+        description: ""
       },
       rules: {
-        departmentName: [
+        branchId: [
+          {
+            trigger: "blur",
+            required: true,
+            message: this.$t("room.validate.branchRq")
+          }
+        ],
+        code: [
+          {
+            trigger: "blur",
+            required: true,
+            message: this.$t("room.validate.codeRq")
+          }
+        ],
+        price: [
+          {
+            trigger: "blur",
+            required: true,
+            message: this.$t("room.validate.priceRq")
+          }
+        ],
+        name: [
           {
             trigger: "blur",
             required: true,
             message: this.$t("room.validate.nameRq")
           }
+        ],
+        status: [
+          {
+            trigger: "blur",
+            required: true,
+            message: this.$t("room.validate.statusRq")
+          }
+        ],
+        supplies: [
+          {
+            trigger: "blur",
+            required: true,
+            message: this.$t("room.validate.suppliesRq")
+          }
         ]
-      }
+      },
+      prefixCode: ""
     };
   },
   created() {
     if (this.checkPermission(["PERM_ROOM_READ"])) {
+      this.fetchOptions();
       this.fetchData();
     }
   },
@@ -204,12 +326,23 @@ export default {
         this.listQuery.fromDate = this.dateSearchPicker[0];
         this.listQuery.toDate = this.dateSearchPicker[1].getTime();
       }
-      // fetchList(this.listQuery).then(response => {
-      //   this.total = response.data.countRow;
-      //   this.list = response.data.object;
-      //   this.listLoading = false;
-      // });
-      this.listLoading = false;
+      fetchList(this.listQuery)
+        .then(response => {
+          this.total = response.data.countRow;
+          this.list = response.data.object;
+        })
+        .finally(() => {
+          this.listLoading = false;
+        });
+    },
+    fetchOptions() {
+      listBranchPlace().then(response => {
+        this.branchOptions = response.data;
+        this.branchOptions.shift();
+      });
+      listSupplies().then(response => {
+        this.suppliesOption = response.data;
+      });
     },
     handleDelete(row) {
       this.dialogDeleteVisible = true;
@@ -229,6 +362,9 @@ export default {
     createData() {
       this.$refs["dataForm"].validate(valid => {
         if (valid) {
+          if (!this.tempData.code.includes(this.prefixCode)) {
+            this.tempData.code = this.prefixCode + "_" + this.tempData.code;
+          }
           this.buttonConfirmLoading = true;
           create(this.tempData)
             .then(response => {
@@ -251,18 +387,18 @@ export default {
     handleUpdate(row) {
       this.dialogFormVisible = true;
       this.dialogStatus = "update";
-      this.tempData = Object.assign({}, row);
       this.$nextTick(() => {
-        this.$refs.tree.setCheckedNodes(this.tempData.permissions);
+        this.$refs["dataForm"].clearValidate();
       });
+      this.tempData = Object.assign({}, row);
+      this.changePrefixCode();
     },
     updateData() {
-      this.tempData.permissions = [];
-      for (const val of this.$refs.tree.getCheckedNodes()) {
-        if (val.id % 1000 !== 0) this.tempData.permissions.push(val);
-      }
       this.$refs["dataForm"].validate(valid => {
         if (valid) {
+          if (!this.tempData.code.includes(this.prefixCode)) {
+            this.tempData.code = this.prefixCode + "_" + this.tempData.code;
+          }
           this.buttonConfirmLoading = true;
           update(this.tempData)
             .then(response => {
@@ -275,7 +411,7 @@ export default {
               }
               this.$notify({
                 title: "Success",
-                message: this.$t("role.msg.updateSuccess"),
+                message: this.$t("room.msg.updateSuccess"),
                 type: "success",
                 duration: 2000
               });
@@ -293,7 +429,7 @@ export default {
         .then(response => {
           this.$notify({
             title: "Success",
-            message: this.$t("role.msg.deletedSuccess"),
+            message: this.$t("room.msg.deletedSuccess"),
             type: "success",
             duration: 2000
           });
@@ -311,15 +447,56 @@ export default {
       this.$nextTick(() => {
         this.$refs["dataForm"].clearValidate();
       });
-      this.$refs.tree.setCheckedKeys([]);
-      this.$refs.tree.setCheckedNodes([]);
       this.buttonConfirmLoading = false;
       this.dialogFormVisible = false;
+    },
+    changePrefixCode() {
+      if (this.branchOptions) {
+        this.branchOptions.filter(branchOptions => {
+          if (this.tempData.branchId === branchOptions.id) {
+            this.prefixCode = branchOptions.branchCode;
+          }
+        });
+      }
+    },
+    formatColumnBranch(branchId) {
+      let text = "";
+      if (this.branchOptions) {
+        this.branchOptions.filter(BranchPlace => {
+          if (branchId === BranchPlace.id) text = BranchPlace.branchName;
+        });
+      }
+      return text;
+    },
+    formatColumnCode(row) {
+      let text = "";
+      if (this.branchOptions) {
+        this.branchOptions.filter(branchOption => {
+          if (row.branchId === branchOption.id) {
+            text = branchOption.branchCode + "_" + row.code;
+          }
+        });
+      }
+      return text;
+    },
+    formatColumnSupplies(supplies) {
+      var text = [];
+      supplies.map((e, i) => {
+        let temp = this.suppliesOption.find(element => {
+          if (element.id === e) text.push(element.name);
+        });
+      });
+      return text;
     },
     resetTemp() {
       this.tempData = {
         id: "",
-        departmentName: ""
+        code: "",
+        name: "",
+        branchId: "",
+        status: "Trống",
+        supplies: "",
+        description: ""
       };
     }
   }

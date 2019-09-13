@@ -31,3 +31,10 @@ export function remove(data) {
     params: data
   });
 }
+
+export function listSupplies() {
+  return request({
+    url: "/supplies/list-supplies",
+    method: "get"
+  });
+}

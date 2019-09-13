@@ -14,6 +14,8 @@ import javax.persistence.Table;
 public class BranchPlace extends BaseEntity {
     @Column(name = "branch_name", nullable = false)
     private String branchName;
+    @Column(name = "branch_code", nullable = false)
+    private String branchCode;
     @Column(name = "branch_address", nullable = false)
     private String branchAddress;
     @Column(name = "personnel_level")

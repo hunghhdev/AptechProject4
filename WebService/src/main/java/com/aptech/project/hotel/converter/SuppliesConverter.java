@@ -16,7 +16,6 @@ public class SuppliesConverter {
         suppliesDto.setName(supplies.getName());
         suppliesDto.setCreatedBy(supplies.getCreatedBy());
         suppliesDto.setCreatedDate(supplies.getCreatedDate());
-
         return suppliesDto;
     }
 

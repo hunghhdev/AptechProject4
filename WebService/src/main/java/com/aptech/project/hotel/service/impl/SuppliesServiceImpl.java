@@ -22,6 +22,11 @@ public class SuppliesServiceImpl implements SuppliesService {
     }
 
     @Override
+    public List<Supplies> listAll() {
+        return repository.listAll();
+    }
+
+    @Override
     public int countAll(String name, Date fromDate, Date toDate) {
         return repository.countAll(name, fromDate, toDate);
     }

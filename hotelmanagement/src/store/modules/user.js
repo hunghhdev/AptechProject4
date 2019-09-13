@@ -2,14 +2,18 @@ import { login, getInfo } from "@/api/login";
 import { getToken, setToken, removeToken } from "@/utils/auth";
 import { resetRouter } from "@/router";
 const config = require("../../../config/index");
-const state = {
-  token: getToken(),
-  name: "",
-  avatar: "",
-  id: {},
-  permissions: [],
-  service: config.dev.service
-};
+const getDefaultState = () => {
+  return {
+    token: getToken(),
+    name: "",
+    avatar: "",
+    id: {},
+    permissions: [],
+    service: config.dev.service
+  }
+}
+
+const state = getDefaultState();
 
 const mutations = {
   SET_TOKEN: (state, token) => {
@@ -74,7 +78,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       commit("SET_TOKEN", "");
       removeToken();
-      resetRouter();
+      Object.assign(state, getDefaultState())
       resolve();
     });
   },

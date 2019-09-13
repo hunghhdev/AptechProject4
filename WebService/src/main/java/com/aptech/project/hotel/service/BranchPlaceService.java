@@ -14,4 +14,5 @@ public interface BranchPlaceService {
     int countAll(String name, Date fromDate, Date toDate);
     BranchPlace save(BranchPlace branchPlace);
     void delete(int id, String usernameUpdate);
+    boolean existBranchCode(String branchCode);
 }

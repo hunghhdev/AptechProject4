@@ -109,12 +109,14 @@
     },
     "table": {
       "name": "Tên chi nhánh",
+      "code": "Mã chi nhánh",
       "address": "Địa Chỉ"
     },
     "form": {
       "titleCreate": "Tạo chi nhánh",
       "titleEdit": "Sửa chi nhánh",
       "labelName": "Tên chi nhánh",
+      "labelCode": "Mã chi nhánh",
       "labelAddress": "Địa chỉ"
     },
     "delete": {
@@ -123,6 +125,7 @@
     },
     "validate": {
       "branchName": "Tên chi nhánh không được để trống",
+      "branchCode": "Mã chi nhánh không được để trống",
       "branchAddress": "Địa chỉ không được bỏ trống"
     },
     "msg": {
@@ -161,28 +164,40 @@
   "room": {
     "title": "Loại phòng",
     "search": {
-      "inputName": "Nhập loại phòng",
-      "branch": "Chi nhánh"
+      "inputCode": "Mã phòng",
+      "inputBranch": "Chi nhánh"
     },
     "table": {
       "branchName": "Tên chi nhánh",
       "codeRoom": "Mã phòng",
-      "name": "Tên loại phòng",
+      "name": "Tên phòng",
       "price": "Giá phòng",
+      "status": "Trạng thái",
       "supplies": "Vật tư",
       "desc": "Mô tả"
     },
     "form": {
-      "titleCreate": "Tạo loại phòng",
-      "titleEdit": "Sửa loại phòng",
-      "labelName": "Tên loại phòng"
+      "titleCreate": "Tạo phòng",
+      "titleEdit": "Sửa phòng",
+      "labelName": "Tên phòng",
+      "labelBranch": "Chi nhánh",
+      "labelCode": "Mã phòng",
+      "labelPrice": "Giá phòng (VNĐ)",
+      "labelStatus": "Trạng thái",
+      "labelSupplies": "Vật tư",
+      "labelDesc": "Mô tả"
     },
     "delete": {
       "title": "Xóa",
-      "msg": "Bạn có chắc chắn muốn xóa phòng [{name}] không?"
+      "msg": "Bạn có muốn xóa phòng này không?"
     },
     "validate": {
-      "nameRq": "Tên loại phòng không được để trống"
+      "nameRq": "Tên phòng không được để trống",
+      "branchRq": "Chi nhánh không được để trống",
+      "statusRq": "Trạng thái không được để trống",
+      "suppliesRq": "Vật tư không được để trống",
+      "codeRq": "Mã phòng không được để trống",
+      "priceRq": "Giá phòng không được để trống"
     },
     "msg": {
       "createSuccess": "Tạo loại phòng thành công",

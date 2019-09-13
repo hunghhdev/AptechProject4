@@ -6,5 +6,6 @@ import lombok.Setter;
 @Getter@Setter
 public class BranchPlaceDto extends BaseDto {
     private String branchName;
+    private String branchCode;
     private String branchAddress;
 }

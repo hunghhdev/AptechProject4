@@ -88,7 +88,7 @@
           <span>{{ formatDate(scope.row.createdDate) }}</span>
         </template>
       </el-table-column>
-      <el-table-column fixed="right" :label="$t('common.action')" width="275" align="center">
+      <el-table-column fixed="right" :label="$t('common.action')" min-width="200" align="center">
         <template slot-scope="{row}">
           <el-button
             v-if="checkPermission(['PERM_USER_UPDATE'])"

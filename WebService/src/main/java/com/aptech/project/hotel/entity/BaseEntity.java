@@ -24,7 +24,7 @@ public abstract class BaseEntity implements Serializable {
     @Column(name = "deleted", nullable = false, columnDefinition = "boolean default false")
     private boolean deleted = false;
 
-    @Column(name = "created_date", updatable = false, insertable = false)
+    @Column(name = "created_date", updatable = false)
     @CreationTimestamp
     private Date createdDate;
 
@@ -32,7 +32,7 @@ public abstract class BaseEntity implements Serializable {
     @UpdateTimestamp
     private Date updatedDate;
 
-    @Column(name = "created_by", updatable = false, insertable = false)
+    @Column(name = "created_by", updatable = false)
     private String createdBy;
 
     @Column(name = "updated_by")

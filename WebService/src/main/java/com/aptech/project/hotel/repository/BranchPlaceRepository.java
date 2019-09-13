@@ -33,4 +33,7 @@ public interface BranchPlaceRepository extends JpaRepository<BranchPlace, Intege
 
     @Query("FROM BranchPlace t1 WHERE t1.deleted = 0 AND t1.id = ?1")
     List<BranchPlace> findById(int id);
+
+    @Query("SELECT (COUNT(t1) > 0) FROM BranchPlace t1 WHERE t1.branchCode = :code")
+    boolean existByBranchCode(@Param("code") String code);
 }

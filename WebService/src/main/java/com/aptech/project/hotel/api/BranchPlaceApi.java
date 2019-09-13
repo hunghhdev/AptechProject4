@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -68,6 +67,11 @@ public class BranchPlaceApi {
     @PreAuthorize("hasAuthority('PERM_BRANCH_PLACE_CREATE')")
     public ResponseEntity<ServiceResult> create(@RequestBody BranchPlaceDto branchPlaceDto, Authentication authentication) {
         ServiceResult serviceResult = new ServiceResult();
+        if (service.existBranchCode(branchPlaceDto.getBranchCode())){
+            serviceResult.setMessage("Mã đã tồn tại");
+            serviceResult.setStatus(ServiceResult.Status.FAILED);
+            return ResponseEntity.ok(serviceResult);
+        }
         BranchPlace branchPlace = converter.toBranchPlace(branchPlaceDto);
         branchPlace.setCreatedBy(authentication.getName());
         serviceResult.setMessage("Tạo chi nhánh thành công");

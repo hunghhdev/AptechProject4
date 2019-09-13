@@ -1,6 +1,5 @@
 package com.aptech.project.hotel.api;
 
-import com.aptech.project.hotel.converter.RoleConverter;
 import com.aptech.project.hotel.converter.UserConverter;
 import com.aptech.project.hotel.entity.Role;
 import com.aptech.project.hotel.entity.User;
@@ -33,9 +32,6 @@ public class LoginApi {
 
     @Autowired
     private UserConverter converter;
-
-    @Autowired
-    private RoleConverter roleConverter;
 
     @GetMapping(Constant.API+"/login")
     public ResponseEntity<ServiceResult> login(@RequestParam("username") String username,

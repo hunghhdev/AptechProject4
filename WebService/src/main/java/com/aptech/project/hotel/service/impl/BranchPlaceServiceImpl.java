@@ -50,4 +50,9 @@ public class BranchPlaceServiceImpl implements BranchPlaceService {
     public void delete(int id, String usernameUpdate) {
         repository.delete(id, usernameUpdate);
     }
+
+    @Override
+    public boolean existBranchCode(String branchCode) {
+        return repository.existByBranchCode(branchCode);
+    }
 }
