@@ -32,6 +32,11 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    public int count(String branch, String code, Date fromDate, Date toDate) {
+        return repository.count(branch, code, fromDate, toDate);
+    }
+
+    @Override
     public void delete(int id, String usernameUpdate) {
         repository.delete(id, usernameUpdate);
     }

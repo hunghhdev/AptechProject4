@@ -32,7 +32,7 @@ public class RoomApi {
             @RequestParam("fromDate") long fromDate, @RequestParam("toDate") long toDate){
         ServiceResult serviceResult = new ServiceResult();
         Pageable pageable = PageRequest.of(--page, size, Sort.by("createdDate").descending());
-        serviceResult.setData(new Data(0,
+        serviceResult.setData(new Data(service.count(branch, code, Constant.minDate(fromDate), Constant.maxDate(toDate)),
                 converter.toRoomsDto(service.listAll(branch, code,
                         Constant.minDate(fromDate), Constant.maxDate(toDate), pageable))));
         return ResponseEntity.ok(serviceResult);

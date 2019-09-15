@@ -21,6 +21,11 @@ public interface RoomRepository extends JpaRepository<Room, Integer> {
     List<Room> listAll(@Param("branch") String branch, @Param("code") String username,
                        @Param("fromDate") Date fromDate, @Param("toDate") Date toDate, Pageable pageable);
 
+    @Query("SELECT COUNT(t1) FROM Room t1 WHERE t1.deleted = 0 AND t1.roomCode LIKE %:code% AND CAST(t1.branchId AS string) LIKE %:branch%" +
+            " AND t1.createdDate BETWEEN :fromDate AND :toDate")
+    int count(@Param("branch") String branch, @Param("code") String username,
+              @Param("fromDate") Date fromDate, @Param("toDate") Date toDate);
+
     @Modifying
     @Transactional
     @Query("UPDATE Room t1 set t1.deleted = 1, t1.updatedBy = ?2 WHERE t1.id = ?1")
