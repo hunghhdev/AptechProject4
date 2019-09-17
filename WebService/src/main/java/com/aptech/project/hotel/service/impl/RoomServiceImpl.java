@@ -32,8 +32,18 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    public List<Room> listAll(String status, Pageable pageable) {
+        return repository.listAll(status, pageable);
+    }
+
+    @Override
     public int count(String branch, String code, Date fromDate, Date toDate) {
         return repository.count(branch, code, fromDate, toDate);
+    }
+
+    @Override
+    public int count(String status) {
+        return repository.count(status);
     }
 
     @Override

@@ -36,12 +36,23 @@ export default {
   computed: {
     ...mapGetters(["sidebar"]),
     routes() {
-      return this.$router.options.routes;
+      let routes = [];
+      let permissions = store.getters && store.getters.permissions;
+      if (this.$router.options.routes) {
+        this.$router.options.routes.forEach(router => {
+          if (router.children) {
+            router.children.map((e, i) => {
+              if (permissions.indexOf(e.authority) === -1) delete router.children[i];
+            });
+          }
+          routes.push(router);
+        });
+      }
+      return routes;
     },
     activeMenu() {
       const route = this.$route;
       const { meta, path } = route;
-      // if set path, the sidebar will highlight the path you set
       if (meta.activeMenu) {
         return meta.activeMenu;
       }

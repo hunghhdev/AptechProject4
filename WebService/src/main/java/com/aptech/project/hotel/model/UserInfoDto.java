@@ -14,5 +14,5 @@ public class UserInfoDto {
     private String username;
     private String avatar;
     @JsonIgnoreProperties({"id","children","permissionName"})
-    private Set<Permission> permissions;
+    private Set<String> permissions;
 }

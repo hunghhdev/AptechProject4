@@ -1,5 +1,5 @@
 <template>
-  <div v-if="checkPermission(['PERM_ROOM_READ'])" class="app-container">
+  <div v-if="checkPermission('PERM_ROOM_READ')" class="app-container">
     <div class="filter-container">
       <el-select
         v-model="listQuery.branch"
@@ -38,7 +38,7 @@
         @click="handleFilter"
       >{{ $t("common.btnSearch") }}</el-button>
       <el-button
-        v-if="checkPermission(['PERM_ROOM_CREATE'])"
+        v-if="checkPermission('PERM_ROOM_CREATE')"
         style="margin-left: 10px;"
         type="primary"
         icon="el-icon-document-add"
@@ -65,13 +65,16 @@
       <el-table-column :label="$t('room.table.name')" min-width="300" align="center">
         <template slot-scope="scope">{{ scope.row.name }}</template>
       </el-table-column>
+      <el-table-column :label="$t('room.table.size')" min-width="150" align="center">
+        <template slot-scope="scope">{{ scope.row.size }}</template>
+      </el-table-column>
       <el-table-column :label="$t('room.table.price')" min-width="300" align="center">
         <template slot-scope="scope">{{ scope.row.price }}</template>
       </el-table-column>
-      <el-table-column :label="$t('room.table.status')" min-width="300" align="center">
+      <el-table-column :label="$t('room.table.status')" min-width="200" align="center">
         <template slot-scope="scope">{{ scope.row.status }}</template>
       </el-table-column>
-      <el-table-column :label="$t('room.table.supplies')" min-width="300" align="center">
+      <el-table-column :label="$t('room.table.supplies')" min-width="400" align="center">
         <template slot-scope="scope">{{ scope.row.supplies }}</template>
       </el-table-column>
       <el-table-column :label="$t('room.table.desc')" min-width="300" align="center">
@@ -94,14 +97,14 @@
       <el-table-column fixed="right" :label="$t('common.action')" align="center" min-width="200">
         <template slot-scope="{row}">
           <el-button
-            v-if="checkPermission(['PERM_ROOM_UPDATE'])"
+            v-if="checkPermission('PERM_ROOM_UPDATE')"
             icon="el-icon-edit"
             type="primary"
             size="mini"
             @click="handleUpdate(row)"
           >{{ $t("common.btnEdit") }}</el-button>
           <el-button
-            v-if="checkPermission(['PERM_ROOM_DELETE'])"
+            v-if="checkPermission('PERM_ROOM_DELETE')"
             icon="el-icon-delete"
             type="danger"
             size="mini"
@@ -160,15 +163,13 @@
             class="filter-item"
           ></el-input>
         </el-form-item>
-        <el-form-item :label="$t('room.form.labelPrice')" prop="price">
-          <el-input-number controls-position="right" v-model="tempData.price" class="filter-item"></el-input-number>* 1000
-        </el-form-item>
         <el-form-item :label="$t('room.form.labelStatus')" prop="status">
           <el-select
             v-if="statusOptions"
             v-model="tempData.status"
             class="filter-item"
             :placeholder="$t('common.select')"
+            :disabled="dialogStatus=='create'"
           >
             <el-option v-for="item in statusOptions" :key="item" :label="item" :value="item" />
           </el-select>
@@ -197,6 +198,12 @@
             :placeholder="$t('room.form.labelDesc')"
             class="filter-item"
           ></el-input>
+        </el-form-item>
+        <el-form-item :label="$t('room.form.labelSize')" prop="size">
+          <el-input-number controls-position="right" v-model="tempData.size" class="filter-item"></el-input-number>
+        </el-form-item>
+        <el-form-item :label="$t('room.form.labelPrice')" prop="price">
+          <el-input-number controls-position="right" v-model="tempData.price" class="filter-item"></el-input-number>* 1000
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -253,7 +260,7 @@ export default {
       dialogDeleteVisible: false,
       buttonConfirmLoading: false,
       branchOptions: [],
-      statusOptions: ["Trống", "Bảo trì", "Có khách", "Đặt trước", "Bận"],
+      statusOptions: ["Trống", "Bảo trì"],
       suppliesOption: [],
       tempData: {
         id: "",
@@ -262,7 +269,9 @@ export default {
         branchId: "",
         status: "Trống",
         supplies: "",
-        description: ""
+        description: "",
+        price: "",
+        size: ""
       },
       rules: {
         branchId: [
@@ -306,13 +315,20 @@ export default {
             required: true,
             message: this.$t("room.validate.suppliesRq")
           }
+        ],
+        size: [
+          {
+            trigger: "blur",
+            required: true,
+            message: this.$t("room.validate.sizeRq")
+          }
         ]
       },
       prefixCode: ""
     };
   },
   created() {
-    if (this.checkPermission(["PERM_ROOM_READ"])) {
+    if (this.checkPermission("PERM_ROOM_READ")) {
       this.fetchOptions();
       this.fetchData();
     }
@@ -496,7 +512,9 @@ export default {
         branchId: "",
         status: "Trống",
         supplies: "",
-        description: ""
+        description: "",
+        price: "",
+        size: ""
       };
     }
   }

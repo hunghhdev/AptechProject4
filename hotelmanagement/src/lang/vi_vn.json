@@ -174,7 +174,8 @@
       "price": "Giá phòng",
       "status": "Trạng thái",
       "supplies": "Vật tư",
-      "desc": "Mô tả"
+      "desc": "Mô tả",
+      "size": "Số người"
     },
     "form": {
       "titleCreate": "Tạo phòng",
@@ -185,7 +186,8 @@
       "labelPrice": "Giá phòng (VNĐ)",
       "labelStatus": "Trạng thái",
       "labelSupplies": "Vật tư",
-      "labelDesc": "Mô tả"
+      "labelDesc": "Mô tả",
+      "labelSize": "Số người"
     },
     "delete": {
       "title": "Xóa",
@@ -197,7 +199,8 @@
       "statusRq": "Trạng thái không được để trống",
       "suppliesRq": "Vật tư không được để trống",
       "codeRq": "Mã phòng không được để trống",
-      "priceRq": "Giá phòng không được để trống"
+      "priceRq": "Giá phòng không được để trống",
+      "sizeRq": "Số người không được để trống"
     },
     "msg": {
       "createSuccess": "Tạo loại phòng thành công",
@@ -207,5 +210,20 @@
   },
   "management": {
     "title": "Quản lý"
+  },
+  "bookings": {
+    "title": "Đặt phòng",
+    "branch": "Chi nhánh",
+    "code": "Mã phòng",
+    "supplies": "Vật tư",
+    "tab1": {
+      "emptyRoom": "Phòng trống"
+    },
+    "tab2": {
+      "bookedRoom": "Phòng đã đặt"
+    },
+    "tab3": {
+      "active": "Có khách"
+    }
   }
 }

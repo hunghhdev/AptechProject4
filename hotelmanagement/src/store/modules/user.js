@@ -1,6 +1,5 @@
 import { login, getInfo } from "@/api/login";
 import { getToken, setToken, removeToken } from "@/utils/auth";
-import { resetRouter } from "@/router";
 const config = require("../../../config/index");
 const getDefaultState = () => {
   return {
@@ -78,7 +77,8 @@ const actions = {
     return new Promise((resolve, reject) => {
       commit("SET_TOKEN", "");
       removeToken();
-      Object.assign(state, getDefaultState())
+      window.location.reload();
+      Object.assign(state, getDefaultState());
       resolve();
     });
   },

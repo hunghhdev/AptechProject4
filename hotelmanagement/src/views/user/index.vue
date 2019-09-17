@@ -1,5 +1,5 @@
 <template>
-  <div v-if="checkPermission(['PERM_USER_READ'])" class="app-container">
+  <div v-if="checkPermission('PERM_USER_READ')" class="app-container">
     <div class="filter-container">
       <el-input
         v-model="listQuery.name"
@@ -24,7 +24,7 @@
         @click="handleFilter"
       >{{$t('common.btnSearch')}}</el-button>
       <el-button
-        v-if="checkPermission(['PERM_USER_CREATE'])"
+        v-if="checkPermission('PERM_USER_CREATE')"
         style="margin-left: 10px;"
         type="primary"
         icon="el-icon-plus"
@@ -91,14 +91,14 @@
       <el-table-column fixed="right" :label="$t('common.action')" min-width="200" align="center">
         <template slot-scope="{row}">
           <el-button
-            v-if="checkPermission(['PERM_USER_UPDATE'])"
+            v-if="checkPermission('PERM_USER_UPDATE')"
             type="primary"
             size="mini"
             icon="el-icon-edit"
             @click="handleUpdate(row)"
           >{{$t('common.btnEdit')}}</el-button>
           <el-button
-            v-if="checkPermission(['PERM_USER_DELETE'])"
+            v-if="checkPermission('PERM_USER_DELETE')"
             type="danger"
             size="mini"
             icon="el-icon-delete"
@@ -368,7 +368,7 @@ export default {
     };
   },
   created() {
-    if (this.checkPermission(["PERM_USER_READ"])) {
+    if (this.checkPermission("PERM_USER_READ")) {
       this.fetchValueInput();
       this.fetchData();
     }

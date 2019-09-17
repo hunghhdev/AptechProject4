@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @RestController
 @CrossOrigin
 public class LoginApi {
@@ -57,7 +60,9 @@ public class LoginApi {
         if (user!=null){
             UserInfoDto userInfoDto = converter.toUserInfoDto(user);
             Role role = roleService.findById(user.getRoleId());
-            userInfoDto.setPermissions(role.getPermissions());
+            Set<String> per = new HashSet<>();
+            role.getPermissions().forEach(permission -> per.add(permission.getPermissionKey()));
+            userInfoDto.setPermissions(per);
             serviceResult.setData(userInfoDto);
         } else {
             serviceResult.setMessage("Not logged in");

@@ -2,10 +2,7 @@ package com.aptech.project.hotel.converter;
 
 import com.aptech.project.hotel.entity.Room;
 import com.aptech.project.hotel.model.RoomDto;
-import com.aptech.project.hotel.util.StringUtils;
 import org.springframework.stereotype.Component;
-
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,6 +21,7 @@ public class RoomConverter {
         roomDto.setStatus(room.getStatus());
         roomDto.setDescription(room.getDescription());
         roomDto.setPrice(room.getPrice());
+        roomDto.setSize(room.getSize());
 
         return roomDto;
     }
@@ -44,6 +42,7 @@ public class RoomConverter {
         room.setDescription(roomDto.getDescription());
         room.setBranchId(roomDto.getBranchId());
         room.setPrice(roomDto.getPrice());
+        room.setSize(roomDto.getSize());
 
         return room;
     }

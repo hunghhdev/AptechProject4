@@ -13,7 +13,20 @@ export const constantRoutes = [
   },
   {
     path: "/",
-    redirect: "/user",
+    redirect: "/bookings",
+    component: Layout,
+    children: [
+      {
+        path: "/bookings",
+        name: "Đặt phòng",
+        component: () => import("@/views/bookings"),
+        meta: { title: "bookings", icon: "el-icon-thumb" },
+        authority: "PERM_BOOK_ROOM"
+      }
+    ]
+  },
+  {
+    path: "/mng",
     component: Layout,
     name: "Quản lý",
     meta: {
@@ -25,31 +38,36 @@ export const constantRoutes = [
         path: "/user",
         name: "Nhân viên",
         component: () => import("@/views/user"),
-        meta: { title: "user", icon: "el-icon-user" }
+        meta: { title: "user", icon: "el-icon-user" },
+        authority: "PERM_USER_READ"
       },
       {
         path: "/room",
         name: "Loại phòng",
         component: () => import("@/views/room"),
-        meta: { title: "room", icon: "el-icon-s-home" }
+        meta: { title: "room", icon: "el-icon-s-home" },
+        authority: "PERM_ROOM_READ"
       },
       {
         path: "/supplies",
         name: "Vật tư",
         component: () => import("@/views/supplies"),
-        meta: { title: "supplies", icon: "el-icon-menu" }
+        meta: { title: "supplies", icon: "el-icon-menu" },
+        authority: "PERM_SUPPLIES_READ"
       },
       {
         path: "/branch-place",
         name: "Chi nhánh",
         component: () => import("@/views/branchPlace"),
-        meta: { title: "branchPlace", icon: "el-icon-map-location" }
+        meta: { title: "branchPlace", icon: "el-icon-map-location" },
+        authority: "PERM_BRANCH_PLACE_CREATE"
       },
       {
         path: "/role",
         name: "Chức năng",
         component: () => import("@/views/role"),
-        meta: { title: "role", icon: "el-icon-s-order" }
+        meta: { title: "role", icon: "el-icon-s-order" },
+        authority: "PERM_ROLE_READ"
       }
     ]
   },
@@ -67,10 +85,5 @@ const router = createRouter();
 router.beforeEach((to, from, next) => {
   next();
 });
-
-export function resetRouter() {
-  const newRouter = createRouter();
-  router.matcher = newRouter.matcher;
-}
 
 export default router;

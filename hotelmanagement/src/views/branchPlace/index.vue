@@ -1,5 +1,5 @@
 <template>
-  <div v-if="checkPermission(['PERM_BRANCH_PLACE_READ'])" class="app-container">
+  <div v-if="checkPermission('PERM_BRANCH_PLACE_READ')" class="app-container">
     <div class="filter-container">
       <el-input
         v-model="listQuery.name"
@@ -24,7 +24,7 @@
         @click="handleFilter"
       >{{ $t("common.btnSearch") }}</el-button>
       <el-button
-        v-if="checkPermission(['PERM_BRANCH_PLACE_CREATE'])"
+        v-if="checkPermission('PERM_BRANCH_PLACE_CREATE')"
         style="margin-left: 10px;"
         type="primary"
         icon="el-icon-document-add"
@@ -66,14 +66,14 @@
       <el-table-column fixed="right" :label="$t('common.action')" align="center" min-width="200">
         <template slot-scope="{row}">
           <el-button
-            v-if="checkPermission(['PERM_BRANCH_PLACE_UPDATE'])"
+            v-if="checkPermission('PERM_BRANCH_PLACE_UPDATE')"
             icon="el-icon-edit"
             type="primary"
             size="mini"
             @click="handleUpdate(row)"
           >{{ $t("common.btnEdit") }}</el-button>
           <el-button
-            v-if="checkPermission(['PERM_BRANCH_PLACE_DELETE'])"
+            v-if="checkPermission('PERM_BRANCH_PLACE_DELETE')"
             icon="el-icon-delete"
             type="danger"
             size="mini"
@@ -204,7 +204,7 @@ export default {
     };
   },
   created() {
-    if (this.checkPermission(["PERM_BRANCH_PLACE_READ"])) {
+    if (this.checkPermission("PERM_BRANCH_PLACE_READ")) {
       this.fetchData();
     }
   },
