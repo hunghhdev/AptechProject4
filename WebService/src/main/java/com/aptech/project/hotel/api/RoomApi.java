@@ -27,13 +27,13 @@ public class RoomApi {
     @GetMapping(value = "/list")
     @PreAuthorize("hasAuthority('PERM_ROOM_READ')")
     public ResponseEntity<ServiceResult> list(
-            @RequestParam("page") int page, @RequestParam("size") int size,
-            @RequestParam("code") String code, @RequestParam("branch") String branch,
+            @RequestParam("page") int page, @RequestParam("size") int size, @RequestParam("type") String type,
+            @RequestParam("branch") String branch,
             @RequestParam("fromDate") long fromDate, @RequestParam("toDate") long toDate){
         ServiceResult serviceResult = new ServiceResult();
         Pageable pageable = PageRequest.of(--page, size, Sort.by("createdDate").descending());
-        serviceResult.setData(new Data(service.count(branch, code, Constant.minDate(fromDate), Constant.maxDate(toDate)),
-                converter.toRoomsDto(service.listAll(branch, code,
+        serviceResult.setData(new Data(service.count(branch, type, Constant.minDate(fromDate), Constant.maxDate(toDate)),
+                converter.toRoomsDto(service.listAll(branch, type,
                         Constant.minDate(fromDate), Constant.maxDate(toDate), pageable))));
         return ResponseEntity.ok(serviceResult);
     }

@@ -8,6 +8,7 @@ public class RoomDto extends BaseDto {
     private String name;
     private String code;
     private int branchId;
+    private String type;
     private int size;
     private int price;
     private String status;

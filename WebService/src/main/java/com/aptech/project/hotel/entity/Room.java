@@ -22,6 +22,9 @@ public class Room extends BaseEntity {
     @Column(name = "branch_id")
     private int branchId;
 
+    @Column(name = "room_type", nullable = false)
+    private String roomType = "";
+
     @Column(name = "size")
     private int size;
 

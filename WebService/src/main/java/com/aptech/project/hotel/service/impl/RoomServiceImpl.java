@@ -27,8 +27,8 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public List<Room> listAll(String branch, String code, Date fromDate, Date toDate, Pageable pageable) {
-        return repository.listAll(branch, code, fromDate, toDate, pageable);
+    public List<Room> listAll(String branch, String type, Date fromDate, Date toDate, Pageable pageable) {
+        return repository.listAll(branch, type, fromDate, toDate, pageable);
     }
 
     @Override
@@ -37,8 +37,8 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public int count(String branch, String code, Date fromDate, Date toDate) {
-        return repository.count(branch, code, fromDate, toDate);
+    public int count(String branch, String type, Date fromDate, Date toDate) {
+        return repository.count(branch, type, fromDate, toDate);
     }
 
     @Override

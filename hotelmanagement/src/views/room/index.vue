@@ -15,13 +15,15 @@
           :value="item.id"
         />
       </el-select>
-      <el-input
-        v-model="listQuery.code"
-        :placeholder="$t('room.search.inputCode')"
-        style="width: 200px; text-align: center !important;"
-        @keyup.enter.native="handleFilter"
+      <el-select
+        v-model="listQuery.type"
+        :placeholder="$t('room.search.inputType')"
         class="filter-item"
-      />
+        value-key="id"
+        clearable
+      >
+        <el-option v-for="item in typeOptions" :key="item" :label="item" :value="item" />
+      </el-select>
       <el-date-picker
         style="width: 400px;"
         v-model="dateSearchPicker"
@@ -62,8 +64,8 @@
       <el-table-column :label="$t('room.table.codeRoom')" min-width="220" align="center">
         <template slot-scope="scope">{{ formatColumnCode(scope.row) }}</template>
       </el-table-column>
-      <el-table-column :label="$t('room.table.name')" min-width="300" align="center">
-        <template slot-scope="scope">{{ scope.row.name }}</template>
+      <el-table-column :label="$t('room.table.type')" min-width="300" align="center">
+        <template slot-scope="scope">{{ scope.row.type }}</template>
       </el-table-column>
       <el-table-column :label="$t('room.table.size')" min-width="150" align="center">
         <template slot-scope="scope">{{ scope.row.size }}</template>
@@ -156,12 +158,15 @@
             <template slot="prepend">{{ prefixCode }}</template>
           </el-input>
         </el-form-item>
-        <el-form-item :label="$t('room.form.labelName')" prop="name">
-          <el-input
-            v-model="tempData.name"
-            :placeholder="$t('room.form.labelName')"
+        <el-form-item :label="$t('room.form.labelType')" prop="type">
+          <el-select
+            v-model="tempData.type"
+            :placeholder="$t('common.select')"
             class="filter-item"
-          ></el-input>
+            value-key="id"
+          >
+            <el-option v-for="item in typeOptions" :key="item" :label="item" :value="item" />
+          </el-select>
         </el-form-item>
         <el-form-item :label="$t('room.form.labelStatus')" prop="status">
           <el-select
@@ -245,7 +250,7 @@ export default {
       listQuery: {
         page: 0,
         size: 10,
-        code: "",
+        type: "",
         branch: "",
         fromDate: "",
         toDate: ""
@@ -259,13 +264,14 @@ export default {
       dialogFormVisible: false,
       dialogDeleteVisible: false,
       buttonConfirmLoading: false,
+      typeOptions: ["Standard", "Superior ", "Deluxe ", "Suite "],
       branchOptions: [],
       statusOptions: ["Trống", "Bảo trì"],
       suppliesOption: [],
       tempData: {
         id: "",
         code: "",
-        name: "",
+        type: "",
         branchId: "",
         status: "Trống",
         supplies: "",
@@ -295,11 +301,11 @@ export default {
             message: this.$t("room.validate.priceRq")
           }
         ],
-        name: [
+        type: [
           {
             trigger: "blur",
             required: true,
-            message: this.$t("room.validate.nameRq")
+            message: this.$t("room.validate.typeRq")
           }
         ],
         status: [
@@ -346,6 +352,7 @@ export default {
         .then(response => {
           this.total = response.data.countRow;
           this.list = response.data.object;
+          console.log(this.list);
         })
         .finally(() => {
           this.listLoading = false;
@@ -508,7 +515,7 @@ export default {
       this.tempData = {
         id: "",
         code: "",
-        name: "",
+        type: "",
         branchId: "",
         status: "Trống",
         supplies: "",

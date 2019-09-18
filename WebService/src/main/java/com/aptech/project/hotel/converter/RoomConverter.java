@@ -22,6 +22,7 @@ public class RoomConverter {
         roomDto.setDescription(room.getDescription());
         roomDto.setPrice(room.getPrice());
         roomDto.setSize(room.getSize());
+        roomDto.setType(room.getRoomType());
 
         return roomDto;
     }
@@ -43,6 +44,7 @@ public class RoomConverter {
         room.setBranchId(roomDto.getBranchId());
         room.setPrice(roomDto.getPrice());
         room.setSize(roomDto.getSize());
+        room.setRoomType(roomDto.getType());
 
         return room;
     }
