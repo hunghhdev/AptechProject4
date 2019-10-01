@@ -21,11 +21,12 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private String[] listApiUnCheck = {Constant.API + "/login**", Constant.API + "/getInfo**"};
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers(
-                Constant.API +"/login**",
-                Constant.API+"/getInfo**").permitAll();
+        http.authorizeRequests().antMatchers(listApiUnCheck).permitAll();
         http.cors().configurationSource(corsConfigurationSource())
                 .and().csrf().disable().authorizeRequests().antMatchers(Constant.API + "/**").authenticated()
                 .and().antMatcher(Constant.API+"/**").httpBasic().authenticationEntryPoint(restServicesEntryPoint())

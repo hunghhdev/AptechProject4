@@ -1,5 +1,9 @@
 package com.aptech.project.hotel.api;
 
+import com.aptech.project.hotel.converter.BookingConverter;
+import com.aptech.project.hotel.converter.RoomConverter;
+import com.aptech.project.hotel.entity.Booking;
+import com.aptech.project.hotel.model.BookingDto;
 import com.aptech.project.hotel.model.Data;
 import com.aptech.project.hotel.model.ServiceResult;
 import com.aptech.project.hotel.service.BookingService;
@@ -11,10 +15,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(Constant.API + "/booking")
@@ -26,18 +28,24 @@ public class BookingApi {
     @Autowired
     private RoomService roomService;
 
+    @Autowired
+    private RoomConverter roomConverter;
+
+    @Autowired
+    private BookingConverter bookingConverter;
+
     @GetMapping(value = "/list-empty")
-    @PreAuthorize("hasAuthority('PERM_ROOKING_READ')")
+    @PreAuthorize("hasAuthority('PERM_BOOK_ROOM')")
     public ResponseEntity<ServiceResult> listEmpty(@RequestParam("page") int page, @RequestParam("size") int size){
         ServiceResult serviceResult = new ServiceResult();
         Pageable pageable = PageRequest.of(--page, size, Sort.by("createdDate").descending());
         serviceResult.setData(new Data(roomService.count(Constant.ROOM_STATUS_EMPTY),
-                                       roomService.listAll(Constant.ROOM_STATUS_EMPTY, pageable)));
+                                       roomConverter.toRoomsDto(roomService.listAll(Constant.ROOM_STATUS_EMPTY, pageable))));
         return ResponseEntity.ok(serviceResult);
     }
 
     @GetMapping(value = "/list-booked")
-    @PreAuthorize("hasAuthority('PERM_ROOKING_READ')")
+    @PreAuthorize("hasAuthority('PERM_BOOK_ROOM')")
     public ResponseEntity<ServiceResult> listBooked(@RequestParam("page") int page, @RequestParam("size") int size){
         ServiceResult serviceResult = new ServiceResult();
         Pageable pageable = PageRequest.of(--page, size, Sort.by("createdDate").descending());
@@ -45,4 +53,16 @@ public class BookingApi {
                                        roomService.listAll(Constant.ROOM_STATUS_BOOKED, pageable)));
         return ResponseEntity.ok(serviceResult);
     }
+
+    @PostMapping(value = "/book")
+    @PreAuthorize("hasAuthority('PERM_BOOK_ROOM')")
+    public ResponseEntity<ServiceResult> booking(@RequestBody BookingDto bookingDto, Authentication authentication){
+        ServiceResult serviceResult = new ServiceResult();
+        Booking booking = bookingConverter.toBooking(bookingDto);
+        booking.setCreatedBy(authentication.getName());
+        service.booking(booking);
+        roomService.updateStatus(booking.getRoomId(), Constant.ROOM_STATUS_BOOKED);
+        return ResponseEntity.ok(serviceResult);
+    }
+
 }

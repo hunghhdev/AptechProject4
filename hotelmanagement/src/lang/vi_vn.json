@@ -216,6 +216,15 @@
     "branch": "Chi nhánh",
     "code": "Mã phòng",
     "supplies": "Vật tư",
+    "type": "Loại phòng",
+    "price": "Giá phòng",
+    "btnBook": "Đặt phòng",
+    "fromDate": "Từ ngày",
+    "toDate": "Đến ngày",
+    "nameCus": "Tên khách hàng",
+    "phoneCus": "Số điện thỏại khách hàng",
+    "count": "Tổng tiền",
+    "days": "Số ngày",
     "tab1": {
       "emptyRoom": "Phòng trống"
     },
@@ -224,6 +233,14 @@
     },
     "tab3": {
       "active": "Có khách"
+    },
+    "validate": {
+      "validateRq": "Không được bỏ trống",
+      "fromDateNow": "Không được nhỏ hơn hôm nay",
+      "toDate": "Không được nhỏ hơn hoặc bằng từ ngày"
     }
+  },
+  "customer": {
+    "title": "Khách hàng"
   }
 }

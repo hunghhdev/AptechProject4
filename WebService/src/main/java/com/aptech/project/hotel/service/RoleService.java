@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface RoleService {
     Role findById(int id);
-    List<Role> listAll(String name, Date fromDate, Date toDate, Pageable pageable);
-    int countAll(String name, Date fromDate, Date toDate);
+    List<Role> listAll(String name, Pageable pageable);
+    int countAll(String name);
     List<GrantedAuthority> getAuthorities(int roleId);
     Role save(Role role);
     boolean existByName(String name);

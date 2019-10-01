@@ -14,4 +14,5 @@ public interface RoomService {
     int count(String branch, String type, Date fromDate, Date toDate);
     int count(String status);
     void delete(int id, String usernameUpdate);
+    void updateStatus(int id, String status);
 }

@@ -26,6 +26,19 @@ export const constantRoutes = [
     ]
   },
   {
+    path: "/customers",
+    component: Layout,
+    children: [
+      {
+        path: "",
+        name: "Khách hàng",
+        component: () => import("@/views/customer"),
+        meta: { title: "customer", icon: "el-icon-s-custom" },
+        authority: "PERM_CUSTOMER_READ"
+      }
+    ]
+  },
+  {
     path: "/mng",
     component: Layout,
     name: "Quản lý",

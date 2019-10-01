@@ -28,6 +28,7 @@ public class Permission {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     @JsonIgnoreProperties("children")
+    @org.hibernate.annotations.OrderBy(clause = "permissionName")
     private Set<Permission> children = new HashSet<>();
 
 

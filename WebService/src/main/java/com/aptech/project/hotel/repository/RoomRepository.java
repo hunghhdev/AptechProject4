@@ -36,4 +36,9 @@ public interface RoomRepository extends JpaRepository<Room, Integer> {
     @Transactional
     @Query("UPDATE Room t1 set t1.deleted = 1, t1.updatedBy = ?2 WHERE t1.id = ?1")
     void delete(int id, String userUpdate);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Room t1 set t1.status = ?2 WHERE t1.id = ?1")
+    void updateStatus(int id, String status);
 }

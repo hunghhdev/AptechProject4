@@ -9,6 +9,7 @@ public class Constant {
     public static final long MAX_DATE_MYSQL = 253402275599000l;
     public static final String ROOM_STATUS_EMPTY = "Trống";
     public static final String ROOM_STATUS_BOOKED = "Đã đặt";
+    public static final String ROOM_STATUS_ACTIVE = "Có khách";
 
     public static Date minDate(long date){
         return new Date(date==0?MIN_DATE_MYSQL:date);

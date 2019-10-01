@@ -25,13 +25,13 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<Role> listAll(String name, Date fromDate, Date toDate, Pageable pageable) {
-        return repository.listAll(name, fromDate, toDate, pageable);
+    public List<Role> listAll(String name, Pageable pageable) {
+        return repository.listAll(name, pageable);
     }
 
     @Override
-    public int countAll(String name, Date fromDate, Date toDate) {
-        return repository.countAll(name, fromDate, toDate);
+    public int countAll(String name) {
+        return repository.countAll(name);
     }
 
     @Override

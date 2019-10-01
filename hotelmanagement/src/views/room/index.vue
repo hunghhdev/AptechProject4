@@ -352,7 +352,6 @@ export default {
         .then(response => {
           this.total = response.data.countRow;
           this.list = response.data.object;
-          console.log(this.list);
         })
         .finally(() => {
           this.listLoading = false;

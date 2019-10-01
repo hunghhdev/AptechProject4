@@ -15,7 +15,6 @@ public class RoomConverter {
         roomDto.setCreatedBy(room.getCreatedBy());
         roomDto.setCreatedDate(room.getCreatedDate());
         roomDto.setBranchId(room.getBranchId());
-        roomDto.setName(room.getRoomName());
         roomDto.setCode(room.getRoomCode().split("_")[1]);
         roomDto.setSupplies(room.getSupplies().split(","));
         roomDto.setStatus(room.getStatus());
@@ -36,7 +35,6 @@ public class RoomConverter {
     public Room toRoom(RoomDto roomDto){
         Room room = new Room();
         room.setId(roomDto.getId());
-        room.setRoomName(roomDto.getName());
         room.setRoomCode(roomDto.getCode());
         room.setSupplies(String.join(",", roomDto.getSupplies()));
         room.setStatus(roomDto.getStatus());

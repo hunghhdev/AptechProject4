@@ -39,12 +39,10 @@ public class RoleApi {
     @PreAuthorize("hasAuthority('PERM_ROLE_READ')")
     public ResponseEntity<ServiceResult> list(
             @RequestParam("page") int page, @RequestParam("size") int size,
-            @RequestParam("name") String name, @RequestParam("fromDate") long fromDate,
-            @RequestParam("toDate") long toDate){
+            @RequestParam("name") String name){
         Pageable pageable = PageRequest.of(--page, size, Sort.by("createdDate").descending());
         ServiceResult serviceResult = new ServiceResult();
-        serviceResult.setData(new Data(service.countAll(name, Constant.minDate(fromDate), Constant.maxDate(toDate)),
-                converter.toRolesDto(service.listAll(name, Constant.minDate(fromDate), Constant.maxDate(toDate), pageable))));
+        serviceResult.setData(new Data(service.countAll(name), converter.toRolesDto(service.listAll(name, pageable))));
         return ResponseEntity.ok(serviceResult);
     }
 

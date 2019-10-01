@@ -13,9 +13,6 @@ import javax.persistence.Table;
 @Setter
 public class Room extends BaseEntity {
 
-    @Column(name = "room_name")
-    private String roomName;
-
     @Column(name = "room_code")
     private String roomCode;
 

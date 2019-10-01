@@ -8,15 +8,6 @@
         @keyup.enter.native="handleFilter"
         class="filter-item"
       />
-      <el-date-picker
-        style="width: 400px;"
-        v-model="dateSearchPicker"
-        type="daterange"
-        range-separator="To"
-        start-placeholder="Start date"
-        end-placeholder="End date"
-        class="filter-item"
-      ></el-date-picker>
       <el-button
         class="filter-item"
         type="primary"
@@ -190,11 +181,8 @@ export default {
       listQuery: {
         page: 0,
         size: 10,
-        name: "",
-        fromDate: "",
-        toDate: ""
+        name: ""
       },
-      dateSearchPicker: [new Date() - 2592000000, new Date()],
       textMap: {
         update: this.$t("role.form.titleEdit"),
         create: this.$t("role.form.titleCreate")
@@ -254,10 +242,6 @@ export default {
     formatDate,
     fetchData() {
       this.listLoading = true;
-      if (this.dateSearchPicker) {
-        this.listQuery.fromDate = this.dateSearchPicker[0];
-        this.listQuery.toDate = this.dateSearchPicker[1].getTime();
-      }
       fetchList(this.listQuery).then(response => {
         this.total = response.data.countRow;
         this.list = response.data.object;
@@ -383,10 +367,12 @@ export default {
     },
     formatColumnPersonnelLevel(personnelLevelId) {
       let text = "";
-      this.listPersonnelLevel.filter(PersonnelLevel => {
-        if (personnelLevelId === PersonnelLevel.id)
-          text = PersonnelLevel.levelName;
-      });
+      if (this.listPersonnelLevel) {
+        this.listPersonnelLevel.filter(PersonnelLevel => {
+          if (personnelLevelId === PersonnelLevel.id)
+            text = PersonnelLevel.levelName;
+        });
+      }
       return text;
     },
     resetTemp() {

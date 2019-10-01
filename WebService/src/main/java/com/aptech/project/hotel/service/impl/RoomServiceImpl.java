@@ -50,4 +50,9 @@ public class RoomServiceImpl implements RoomService {
     public void delete(int id, String usernameUpdate) {
         repository.delete(id, usernameUpdate);
     }
+
+    @Override
+    public void updateStatus(int id, String status) {
+        repository.updateStatus(id, status);
+    }
 }

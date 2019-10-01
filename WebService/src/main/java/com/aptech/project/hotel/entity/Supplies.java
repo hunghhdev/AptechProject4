@@ -12,4 +12,5 @@ import javax.persistence.Table;
 @Table(name = "t_supplies")
 public class Supplies extends BaseEntity {
     private String name;
+    private int branchId;
 }

@@ -12,11 +12,10 @@ import java.util.Date;
 import java.util.List;
 
 public interface RoleRepository extends JpaRepository<Role, Integer> {
-    @Query("FROM Role t1 JOIN FETCH t1.permissions WHERE t1.deleted = 0 AND t1.roleName LIKE %:name% AND t1.createdDate BETWEEN :fromDate AND :toDate")
-    List<Role> listAll(@Param("name") String name, @Param("fromDate") Date fromDate
-            , @Param("toDate") Date toDate, Pageable pageable);
-    @Query("SELECT count(t1) FROM Role t1 WHERE t1.deleted = 0 AND t1.roleName LIKE %:name% AND t1.createdDate BETWEEN :fromDate AND :toDate")
-    int countAll(@Param("name") String name, @Param("fromDate") Date fromDate, @Param("toDate") Date toDate);
+    @Query("FROM Role t1 JOIN FETCH t1.permissions WHERE t1.deleted = 0 AND t1.roleName LIKE %:name%")
+    List<Role> listAll(@Param("name") String name, Pageable pageable);
+    @Query("SELECT count(t1) FROM Role t1 WHERE t1.deleted = 0 AND t1.roleName LIKE %:name% ")
+    int countAll(@Param("name") String name);
     @Query("SELECT (COUNT(t1) > 0) FROM Role t1 WHERE t1.roleName = :name")
     boolean existByName(@Param("name") String name);
     @Modifying
