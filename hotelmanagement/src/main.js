@@ -11,6 +11,7 @@ import "@/permission";
 import VueI18n from "vue-i18n";
 import vi_vn from "./lang/vi_vn.json";
 import en_us from "./lang/en_us.json";
+import Router from 'vue-router'
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI, { locale });
@@ -25,6 +26,11 @@ const i18n = new VueI18n({
   messages,
   fallbackLocale: "vi"
 });
+
+const routerPush = Router.prototype.push
+Router.prototype.push = function push(location) {
+  return routerPush.call(this, location).catch(error=> error)
+}
 
 new Vue({
   el: "#app",

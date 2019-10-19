@@ -6,6 +6,7 @@ const getters = {
   username: state => state.user.name,
   id: state => state.user.id,
   permissions: state => state.user.permissions,
-  service: state => state.user.service
+  service: state => state.user.service,
+  permission_routes: state => state.permission.routes,
 };
 export default getters;

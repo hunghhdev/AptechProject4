@@ -13,7 +13,7 @@
         mode="vertical"
       >
         <sidebar-item
-          v-for="route in routes"
+          v-for="route in permission_routes"
           :key="route.path"
           :item="route"
           :base-path="route.path"
@@ -34,22 +34,7 @@ import syncRoutes from "@/router";
 export default {
   components: { SidebarItem, Logo },
   computed: {
-    ...mapGetters(["sidebar"]),
-    routes() {
-      let routes = [];
-      let permissions = store.getters && store.getters.permissions;
-      if (this.$router.options.routes) {
-        this.$router.options.routes.forEach(router => {
-          if (router.children) {
-            router.children.map((e, i) => {
-              if (permissions.indexOf(e.authority) === -1) delete router.children[i];
-            });
-          }
-          routes.push(router);
-        });
-      }
-      return routes;
-    },
+    ...mapGetters(["sidebar", "permission_routes"]),
     activeMenu() {
       const route = this.$route;
       const { meta, path } = route;

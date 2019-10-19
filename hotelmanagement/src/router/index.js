@@ -13,11 +13,27 @@ export const constantRoutes = [
   },
   {
     path: "/",
-    redirect: "/bookings",
+    component: Layout,
+    redirect: "/dashboard",
+    children: [
+      {
+        path: "dashboard",
+        component: () => import("@/views/dashboard"),
+        name: "Dashboard",
+        meta: { title: "Dashboard", icon: "el-dashboard", affix: true }
+      }
+    ]
+  },
+  { path: "*", redirect: "/login", hidden: true }
+];
+
+export const asyncRoutes = [
+  {
+    path: "/bookings",
     component: Layout,
     children: [
       {
-        path: "/bookings",
+        path: "",
         name: "Đặt phòng",
         component: () => import("@/views/bookings"),
         meta: { title: "bookings", icon: "el-icon-thumb" },
@@ -81,11 +97,17 @@ export const constantRoutes = [
         component: () => import("@/views/role"),
         meta: { title: "role", icon: "el-icon-s-order" },
         authority: "PERM_ROLE_READ"
+      },
+      {
+        path: "/permission",
+        name: "Quyền truy cập",
+        component: () => import("@/views/permission"),
+        meta: { title: "permission", icon: "el-icon-key" },
+        authority: "PERM_PERMISSION_READ"
       }
     ]
-  },
-  { path: "*", redirect: "/login", hidden: true }
-];
+  }
+]
 const createRouter = () =>
   new Router({
     scrollBehavior: () => ({ y: 0 }),
