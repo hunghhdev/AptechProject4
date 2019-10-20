@@ -379,9 +379,10 @@ export default {
     fetchData() {
       this.listLoading = true;
       if (this.dateSearchPicker) {
-        this.listQuery.fromDate = this.dateSearchPicker[0];
+        this.listQuery.fromDate = (typeof this.dateSearchPicker[0])=="number"?this.dateSearchPicker[0]:this.dateSearchPicker[0].getTime();
         this.listQuery.toDate = this.dateSearchPicker[1].getTime();
       }
+      console.log(typeof this.dateSearchPicker[0]);
       list(this.listQuery).then(response => {
         this.list = response.data.object;
         this.total = response.data.countRow;
