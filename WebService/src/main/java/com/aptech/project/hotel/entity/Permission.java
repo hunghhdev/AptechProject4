@@ -25,10 +25,13 @@ public class Permission {
     @Column(name = "permission_key", insertable = false, updatable = false)
     private String permissionKey = "NULL";
 
+    @Column(name = "parent_id", insertable = false, updatable = false)
+    private int parentId;
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     @JsonIgnoreProperties("children")
-    @org.hibernate.annotations.OrderBy(clause = "permissionName")
+    @org.hibernate.annotations.OrderBy(clause = "id")
     private Set<Permission> children = new HashSet<>();
 
 

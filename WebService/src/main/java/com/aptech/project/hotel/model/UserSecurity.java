@@ -14,9 +14,10 @@ public class UserSecurity extends User {
     private int personnelLevel;
     private int branchPlaceId;
 
-    public UserSecurity(String username, String password,
+    public UserSecurity(int id, String username, String password,
                         boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired,
                         boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
         super(username, password,enabled,accountNonExpired,credentialsNonExpired,accountNonLocked, authorities);
+        this.id = id;
     }
 }

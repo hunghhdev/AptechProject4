@@ -242,5 +242,13 @@
   },
   "customer": {
     "title": "Khách hàng"
+  },
+  "permission": {
+    "title": "Quyền truy cập",
+    "key": "Khóa",
+    "name": "Tên chức năng"
+  },
+  "dashboard": {
+    "title": "Bảng điều khiển"
   }
 }

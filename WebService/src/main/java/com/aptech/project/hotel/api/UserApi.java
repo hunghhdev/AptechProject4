@@ -77,6 +77,7 @@ public class UserApi {
             serviceResult.setStatus(ServiceResult.Status.FAILED);
             return ResponseEntity.ok(serviceResult);
         }
+
         User user = converter.toUser(userDto);
         user.setPassword(EnCode.md5(userDto.getPassword()));
         user.setCreatedBy(authentication.getName());
