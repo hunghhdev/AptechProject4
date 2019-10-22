@@ -20,10 +20,8 @@ public class UserConverter {
         userDto.setCreatedBy(user.getCreatedBy());
         userDto.setCreatedDate(user.getCreatedDate());
         userDto.setAvatar(user.getAvatar());
-        userDto.setPersonnelLevel(user.getPersonnelLevel());
         userDto.setFullName(user.getFullName());
         userDto.setEmail(user.getEmail());
-        userDto.setBranchPlaceId(user.getBranchPlaceId());
         return userDto;
     }
 
@@ -40,10 +38,8 @@ public class UserConverter {
         user.setPassword(userDto.getPassword());
         user.setRoleId(userDto.getRoleId());
         user.setAvatar(userDto.getAvatar());
-        user.setPersonnelLevel(userDto.getPersonnelLevel());
         user.setFullName(userDto.getFullName());
         user.setEmail(userDto.getEmail());
-        user.setBranchPlaceId(userDto.getBranchPlaceId());
         return user;
     }
 

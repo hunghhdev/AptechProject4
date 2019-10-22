@@ -4,7 +4,6 @@ import com.aptech.project.hotel.entity.Role;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
 
-import java.util.Date;
 import java.util.List;
 
 public interface RoleService {
@@ -16,5 +15,4 @@ public interface RoleService {
     boolean existByName(String name);
     void delete(int id, String usernameUpdate);
     List<Role> roles();
-    List<Role> rolesByPersonnelLevel(int personnelLevel);
 }

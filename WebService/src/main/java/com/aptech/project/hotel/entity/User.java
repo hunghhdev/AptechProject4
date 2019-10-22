@@ -32,9 +32,4 @@ public class User extends BaseEntity {
     @Column(name = "avatar")
     private String avatar;
 
-    @Column(name = "personnel_level")
-    private int personnelLevel;
-
-    @Column(name = "branch_place_id")
-    private int branchPlaceId;
 }

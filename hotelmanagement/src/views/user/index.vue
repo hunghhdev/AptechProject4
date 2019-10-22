@@ -52,26 +52,6 @@
         </template>
       </el-table-column>
       <el-table-column
-        prop="personnelLevel"
-        :label="$t('user.table.personnelLevel')"
-        align="center"
-        min-width="220"
-      >
-        <template slot-scope="scope">
-          <span>{{ formatColumnPersonnelLevel(scope.row.personnelLevel) }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="branchPlaceId"
-        :label="$t('user.table.branchPlace')"
-        align="center"
-        min-width="220"
-      >
-        <template slot-scope="scope">
-          <span>{{ formatColumnBranchPlace(scope.row.branchPlaceId) }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
         prop="createdBy"
         :label="$t('user.table.createdBy')"
         align="center"
@@ -176,37 +156,6 @@
             class="filter-item"
           ></el-input>
         </el-form-item>
-        <el-form-item :label="$t('user.form.labelPersonnelLevel')" prop="personnelLevel">
-          <el-select
-            v-model="tempData.personnelLevel"
-            default-first-option
-            filterable
-            class="filter-item"
-            :placeholder="$t('common.select')"
-            @change="getOptionsByLevel()"
-          >
-            <el-option
-              v-for="item in listPersonnelLevel"
-              :key="item.id"
-              :label="item.levelName"
-              :value="item.id"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('user.form.labelBranchPlace')" prop="branchPlaceId">
-          <el-select v-if="branchOptions"
-            v-model="tempData.branchPlaceId"
-            class="filter-item"
-            :placeholder="$t('common.select')"
-          >
-            <el-option
-              v-for="item in branchOptions"
-              :key="item.id"
-              :label="item.branchName"
-              :value="item.id"
-            />
-          </el-select>
-        </el-form-item>
         <el-form-item :label="$t('user.form.labelRole')" prop="roleId">
           <el-select v-if="roleOptions"
             v-model="tempData.roleId"
@@ -244,8 +193,6 @@
 <script>
 import { list, create, update, remove, uploadAvatar } from "@/api/user";
 import { roles, rolesByLevel } from "@/api/role";
-import { personnelLevel } from "@/api/personnelLevel";
-import { listBranchPlace, listBranchPlaceByLevel } from "@/api/branchPlace";
 import { formatDate } from "@/utils/";
 import Pagination from "@/components/Pagination";
 import store from "@/store";
@@ -282,8 +229,6 @@ export default {
         email: "",
         password: "",
         passwordRq: "",
-        personnelLevel: "",
-        branchPlaceId: "",
         createdBy: "",
         roleId: "",
         role: 0
@@ -297,24 +242,7 @@ export default {
       list: [],
       roles: [],
       roleOptions: undefined,
-      branchOptions: undefined,
-      listPersonnelLevel: "",
-      listBranchPlace: "",
       rules: {
-        branchPlaceId: [
-          {
-            trigger: "blur",
-            required: true,
-            message: this.$t("user.validate.branchPlaceIdRq")
-          }
-        ],
-        personnelLevel: [
-          {
-            trigger: "blur",
-            required: true,
-            message: this.$t("user.validate.personnelLevelRq")
-          }
-        ],
         email: [
           {
             trigger: "blur",
@@ -393,12 +321,6 @@ export default {
       roles().then(response => {
         this.roles = response.data;
       });
-      personnelLevel().then(response => {
-        this.listPersonnelLevel = response.data;
-      });
-      listBranchPlace().then(response => {
-        this.listBranchPlace = response.data;
-      });
     },
     handleFilter() {
       this.fetchData();
@@ -441,7 +363,6 @@ export default {
         this.$refs["dataForm"].clearValidate();
       });
       this.tempData = Object.assign({}, row);
-      this.getOptionsByLevel()
     },
     updateData() {
       this.$refs["dataForm"].validate(valid => {
@@ -522,33 +443,6 @@ export default {
       }
       return text;
     },
-    getOptionsByLevel() {
-      rolesByLevel({level: this.tempData.personnelLevel}).then(response =>{
-        this.roleOptions = response.data;
-      })
-      listBranchPlaceByLevel({level: this.tempData.personnelLevel}).then(response =>{
-        this.branchOptions = response.data;
-      })
-    },
-    formatColumnPersonnelLevel(personnelLevelId) {
-      let text = "";
-      if(this.listPersonnelLevel){
-        this.listPersonnelLevel.filter(PersonnelLevel => {
-          if (personnelLevelId === PersonnelLevel.id)
-            text = PersonnelLevel.levelName;
-        });
-      }
-      return text;
-    },
-    formatColumnBranchPlace(branchId) {
-      let text = "";
-      if(this.listBranchPlace){
-        this.listBranchPlace.filter(BranchPlace => {
-          if (branchId === BranchPlace.id) text = BranchPlace.branchName;
-        });
-      }
-      return text;
-    },
     resetTemp() {
       this.tempData = {
         id: "",
@@ -558,8 +452,6 @@ export default {
         email: "",
         password: "",
         passwordRq: "",
-        personnelLevel: "",
-        branchPlaceId: "",
         createdBy: "",
         roleId: "",
         role: 0

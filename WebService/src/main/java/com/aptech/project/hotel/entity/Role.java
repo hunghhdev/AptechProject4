@@ -19,9 +19,6 @@ public class Role extends BaseEntity {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "personnel_level")
-    private int personnelLevel;
-
     @OneToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinTable(name = "t_role_permission",
             joinColumns = { @JoinColumn(name = "role_id") },

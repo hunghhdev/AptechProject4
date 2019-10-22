@@ -16,9 +16,6 @@ public class Room extends BaseEntity {
     @Column(name = "room_code")
     private String roomCode;
 
-    @Column(name = "branch_id")
-    private int branchId;
-
     @Column(name = "room_type", nullable = false)
     private String roomType = "";
 

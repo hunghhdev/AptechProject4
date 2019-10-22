@@ -85,13 +85,6 @@ export const asyncRoutes = [
         authority: "PERM_SUPPLIES_READ"
       },
       {
-        path: "/branch-place",
-        name: "Chi nhánh",
-        component: () => import("@/views/branchPlace"),
-        meta: { title: "branchPlace", icon: "el-icon-map-location" },
-        authority: "PERM_BRANCH_PLACE_CREATE"
-      },
-      {
         path: "/role",
         name: "Chức năng",
         component: () => import("@/views/role"),

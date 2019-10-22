@@ -21,18 +21,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findUsers(String username, Date fromDate, Date toDate, int branch, Pageable pageable) {
-        return repository.findUsers(username, fromDate, toDate, branch, pageable);
-    }
-
-    @Override
     public int countUsers(String username, Date fromDate, Date toDate) {
         return repository.countUsers(username,fromDate,toDate);
-    }
-
-    @Override
-    public int countUsers(String username, Date fromDate, Date toDate, int branch) {
-        return repository.countUsers(username,fromDate,toDate, branch);
     }
 
     @Override

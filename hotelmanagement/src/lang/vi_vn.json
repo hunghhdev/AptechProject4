@@ -28,8 +28,6 @@
       "username": "Tên tài khoản",
       "email": "Email",
       "role": "Chức năng",
-      "branchPlace": "Chi nhánh",
-      "personnelLevel": "Loại",
       "createdBy": "Tạo bởi",
       "createdDate": "Tạo Ngày"
     },
@@ -42,8 +40,6 @@
       "labelEmail": "Email",
       "labelPassword": "Mật khẩu",
       "labelPasswordRq": "Nhập lại mật khẩu",
-      "labelPersonnelLevel": "Loại nhân viên",
-      "labelBranchPlace": "Chi nhánh",
       "labelRole": "Chức năng"
     },
     "delete": {
@@ -57,9 +53,7 @@
       "passwordRq": "Mật khẩu không được bỏ trống",
       "roleRq": "Chức năng không được bỏ trống",
       "fullNameRq": "Tên nhân viên không được bỏ trống",
-      "emailRq": "Email không được bỏ trống",
-      "personnelLevelRq": "Không được bỏ qua loại nhân viên",
-      "branchPlaceIdRq": "Không được bỏ qua chi nhánh"
+      "emailRq": "Email không được bỏ trống"
     },
     "msg": {
       "createSuccess": "Tạo tài khoản thành công",
@@ -74,7 +68,6 @@
     },
     "table": {
       "name": "Tên chức năng",
-      "personnelLevel": "Loại",
       "desc": "Mô tả",
       "createdBy": "Tạo bởi",
       "createdDate": "Tạo Ngày"
@@ -84,13 +77,11 @@
       "titleEdit": "Sửa chức năng",
       "labelName": "Tên chức năng",
       "labelDesc": "Mô tả",
-      "labelPersonnelLevel": "Loại nhân viên",
       "labelPermission": "Chức năng"
     },
     "validate": {
       "roleNameRq": "Tên không được để trống",
-      "permissionsRq": "Chức năng không được để trống",
-      "personnelLevelRq": "Loại nhân viên không được để trống"
+      "permissionsRq": "Chức năng không được để trống"
     },
     "delete": {
       "title": "Xóa",
@@ -100,38 +91,6 @@
       "createSuccess": "Tạo chức năng thành công",
       "updateSuccess": "Cập nhật chức năng thành công",
       "deletedSuccess": "Xóa chức năng thành công"
-    }
-  },
-  "branchPlace": {
-    "title": "Chi nhánh",
-    "search": {
-      "inputName": "Nhập tên chi nhánh"
-    },
-    "table": {
-      "name": "Tên chi nhánh",
-      "code": "Mã chi nhánh",
-      "address": "Địa Chỉ"
-    },
-    "form": {
-      "titleCreate": "Tạo chi nhánh",
-      "titleEdit": "Sửa chi nhánh",
-      "labelName": "Tên chi nhánh",
-      "labelCode": "Mã chi nhánh",
-      "labelAddress": "Địa chỉ"
-    },
-    "delete": {
-      "title": "Xóa",
-      "msg": "Bạn có chắc chắn muốn xóa chi nhánh [{name}] không?"
-    },
-    "validate": {
-      "branchName": "Tên chi nhánh không được để trống",
-      "branchCode": "Mã chi nhánh không được để trống",
-      "branchAddress": "Địa chỉ không được bỏ trống"
-    },
-    "msg": {
-      "createSuccess": "Tạo chi nhánh thành công",
-      "updateSuccess": "Cập nhật chức vụ thành công",
-      "deletedSuccess": "Xóa chức vụ thành công"
     }
   },
   "supplies": {
@@ -164,11 +123,9 @@
   "room": {
     "title": "Loại phòng",
     "search": {
-      "inputType": "Loại phòng",
-      "inputBranch": "Chi nhánh"
+      "inputType": "Loại phòng"
     },
     "table": {
-      "branchName": "Tên chi nhánh",
       "codeRoom": "Mã phòng",
       "type": "Loại phòng",
       "price": "Giá phòng",
@@ -181,7 +138,6 @@
       "titleCreate": "Tạo phòng",
       "titleEdit": "Sửa phòng",
       "labelType": "Loại phòng",
-      "labelBranch": "Chi nhánh",
       "labelCode": "Mã phòng",
       "labelPrice": "Giá phòng (VNĐ)",
       "labelStatus": "Trạng thái",
@@ -195,7 +151,6 @@
     },
     "validate": {
       "typeRq": "Loại phòng không được để trống",
-      "branchRq": "Chi nhánh không được để trống",
       "statusRq": "Trạng thái không được để trống",
       "suppliesRq": "Vật tư không được để trống",
       "codeRq": "Mã phòng không được để trống",
@@ -213,7 +168,6 @@
   },
   "bookings": {
     "title": "Đặt phòng",
-    "branch": "Chi nhánh",
     "code": "Mã phòng",
     "supplies": "Vật tư",
     "type": "Loại phòng",

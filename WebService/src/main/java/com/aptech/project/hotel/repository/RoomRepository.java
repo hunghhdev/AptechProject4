@@ -17,16 +17,16 @@ public interface RoomRepository extends JpaRepository<Room, Integer> {
     boolean existByCode(@Param("code") String code);
 
     @Query("FROM Room t1 WHERE t1.deleted = 0 AND t1.roomType LIKE %:type% " +
-            "AND CAST(t1.branchId AS string) LIKE %:branch% AND t1.createdDate BETWEEN :fromDate AND :toDate")
-    List<Room> listAll(@Param("branch") String branch, @Param("type") String type,
+            "AND t1.createdDate BETWEEN :fromDate AND :toDate")
+    List<Room> listAll(@Param("type") String type,
                        @Param("fromDate") Date fromDate, @Param("toDate") Date toDate, Pageable pageable);
 
     @Query("FROM Room t1 WHERE t1.deleted = 0 AND t1.status LIKE %:status% ")
     List<Room> listAll(@Param("status") String status, Pageable pageable);
 
     @Query("SELECT COUNT(t1) FROM Room t1 WHERE t1.deleted = 0 AND t1.roomType LIKE %:type%" +
-            " AND CAST(t1.branchId AS string) LIKE %:branch% AND t1.createdDate BETWEEN :fromDate AND :toDate")
-    int count(@Param("branch") String branch, @Param("type") String type,
+            " AND t1.createdDate BETWEEN :fromDate AND :toDate")
+    int count(@Param("type") String type,
               @Param("fromDate") Date fromDate, @Param("toDate") Date toDate);
 
     @Query("SELECT COUNT(t1) FROM Room t1 WHERE t1.deleted = 0 AND t1.status LIKE %:status%")

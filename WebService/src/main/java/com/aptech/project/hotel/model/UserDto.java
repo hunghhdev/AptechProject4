@@ -19,6 +19,4 @@ public class UserDto {
     private String createdBy;
     private Date createdDate;
     private String avatar;
-    private int personnelLevel;
-    private int branchPlaceId;
 }

@@ -6,7 +6,6 @@ import lombok.Setter;
 @Getter@Setter
 public class RoomDto extends BaseDto {
     private String code;
-    private int branchId;
     private String type;
     private int size;
     private int price;

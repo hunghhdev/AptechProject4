@@ -4,8 +4,9 @@ import com.aptech.project.hotel.converter.RoleConverter;
 import com.aptech.project.hotel.entity.Role;
 import com.aptech.project.hotel.model.Data;
 import com.aptech.project.hotel.model.RoleDto;
-import com.aptech.project.hotel.model.UserSecurity;
+import com.aptech.project.hotel.model.ServiceResult;
 import com.aptech.project.hotel.service.PermissionService;
+import com.aptech.project.hotel.service.RoleService;
 import com.aptech.project.hotel.service.UserService;
 import com.aptech.project.hotel.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import com.aptech.project.hotel.model.ServiceResult;
-import com.aptech.project.hotel.service.RoleService;
 
 @RestController
 @RequestMapping(Constant.API+"/role")
@@ -94,18 +93,10 @@ public class RoleApi {
     }
 
     @GetMapping(value = "/roles")
-    public ResponseEntity<ServiceResult> roles(Authentication authentication) {
+    public ResponseEntity<ServiceResult> roles() {
         ServiceResult serviceResult = new ServiceResult();
-        int personnelLevel = ((UserSecurity) authentication.getPrincipal()).getPersonnelLevel();
-        serviceResult.setData(converter.toRolesDtoIdAndName(
-                personnelLevel==1?service.roles():service.rolesByPersonnelLevel(personnelLevel)));
+        serviceResult.setData(converter.toRolesDtoIdAndName(service.roles()));
         return ResponseEntity.ok(serviceResult);
     }
 
-    @GetMapping(value = "/roles-by-level")
-    public ResponseEntity<ServiceResult> rolesByLevel(@RequestParam("level") int level){
-        ServiceResult serviceResult = new ServiceResult();
-        serviceResult.setData(converter.toRolesDtoIdAndName(service.rolesByPersonnelLevel(level)));
-        return ResponseEntity.ok(serviceResult);
-    }
 }

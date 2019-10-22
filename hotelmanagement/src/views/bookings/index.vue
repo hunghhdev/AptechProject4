@@ -13,13 +13,8 @@
           fit
           highlight-current-row
         >
-          <el-table-column :label="$t('bookings.branch')" min-width="220" align="center">
-            <template slot-scope="scope">
-              <span>{{ formatColumnBranch(scope.row.branchId) }}</span>
-            </template>
-          </el-table-column>
           <el-table-column :label="$t('bookings.code')" min-width="150" align="center">
-            <template slot-scope="scope">{{ formatColumnCode(scope.row) }}</template>
+            <template slot-scope="scope">{{ scope.row }}</template>
           </el-table-column>
           <el-table-column :label="$t('bookings.supplies')" min-width="250" align="center">
             <template slot-scope="scope">{{ scope.row.supplies }}</template>
@@ -69,22 +64,6 @@
         style="width: 90%; margin-left:30px;"
         :rules="rules"
       >
-        <el-form-item :label="$t('room.form.labelBranch')" prop="branchId">
-          <el-select
-            v-if="branchOptions"
-            v-model="tempData.branchId"
-            class="filter-item"
-            :placeholder="$t('common.select')"
-            disabled
-          >
-            <el-option
-              v-for="item in branchOptions"
-              :key="item.id"
-              :label="item.branchName"
-              :value="item.id"
-            />
-          </el-select>
-        </el-form-item>
         <el-form-item :label="$t('room.form.labelCode')" prop="code">
           <el-input
             v-model="tempData.code"
@@ -163,7 +142,6 @@
 
 <script>
 import { listEmpty, booking } from "@/api/booking";
-import { listBranchPlace } from "@/api/branchPlace";
 import { findES } from "@/api/customer";
 import Pagination from "@/components/Pagination";
 export default {
@@ -196,16 +174,13 @@ export default {
         page: 1,
         size: 10,
         code: "",
-        branch: "",
         fromDate: "",
         toDate: ""
       },
-      branchOptions: [],
       dialogBookingVisible: false,
       tempData: {
         id: "",
         code: "",
-        branchId: "",
         price: "",
         size: "",
         fromDate: "",
@@ -251,7 +226,6 @@ export default {
     };
   },
   created() {
-    this.fetchOptions();
     this.fetchData();
   },
   methods: {
@@ -263,11 +237,6 @@ export default {
         .finally(() => {
           this.listLoading = false;
         });
-    },
-    fetchOptions() {
-      listBranchPlace().then(response => {
-        this.branchOptions = response.data;
-      });
     },
     handleClick(tab, event) {
       console.log(tab);
@@ -287,8 +256,6 @@ export default {
       });
       this.tempData = Object.assign({}, row);
       this.tempData.roomId = row.id;
-      console.log(row);
-      this.changePrefixCode();
     },
     bookingData() {
       this.$refs["dataForm"].validate(valid => {
@@ -338,35 +305,6 @@ export default {
           (1000 * 60 * 60 * 24);
         this.tempData.count = this.tempData.days * this.tempData.price;
       }
-    },
-    changePrefixCode() {
-      if (this.branchOptions) {
-        this.branchOptions.filter(branchOptions => {
-          if (this.tempData.branchId === branchOptions.id) {
-            this.prefixCode = branchOptions.branchCode;
-          }
-        });
-      }
-    },
-    formatColumnBranch(branchId) {
-      let text = "";
-      if (this.branchOptions) {
-        this.branchOptions.find(BranchPlace => {
-          if (branchId === BranchPlace.id) text = BranchPlace.branchName;
-        });
-      }
-      return text;
-    },
-    formatColumnCode(row) {
-      let text = "";
-      if (this.branchOptions) {
-        this.branchOptions.filter(branchOption => {
-          if (row.branchId === branchOption.id) {
-            text = branchOption.branchCode + "_" + row.code;
-          }
-        });
-      }
-      return text;
     }
   }
 };

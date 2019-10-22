@@ -17,15 +17,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     List<User> findUsers(@Param("username") String username, @Param("fromDate") Date fromDate
             , @Param("toDate") Date toDate, Pageable pageable);
 
-    @Query("FROM User t1 WHERE t1.deleted = 0 AND t1.username LIKE %:username% AND t1.branchPlaceId = :branch AND t1.createdDate BETWEEN :fromDate AND :toDate")
-    List<User> findUsers(@Param("username") String username, @Param("fromDate") Date fromDate
-            , @Param("toDate") Date toDate, @Param("branch") int branch, Pageable pageable);
-
     @Query("SELECT count(t1) FROM User t1 WHERE t1.deleted = 0 AND t1.username LIKE %:username% AND t1.createdDate BETWEEN :fromDate AND :toDate")
     int countUsers(@Param("username") String username, @Param("fromDate") Date fromDate, @Param("toDate") Date toDate);
-
-    @Query("SELECT count(t1) FROM User t1 WHERE t1.deleted = 0 AND t1.username LIKE %:username% AND t1.branchPlaceId = :branch AND t1.createdDate BETWEEN :fromDate AND :toDate")
-    int countUsers(@Param("username") String username, @Param("fromDate") Date fromDate, @Param("toDate") Date toDate, @Param("branch") int branch);
 
     @Query("FROM User t1 WHERE t1.deleted = 0 AND t1.username = ?1")
     User findByUsername(String username);

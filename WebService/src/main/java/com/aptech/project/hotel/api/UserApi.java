@@ -56,14 +56,9 @@ public class UserApi {
             @RequestParam("toDate") long toDate, Authentication authentication){
         ServiceResult serviceResult = new ServiceResult();
         Pageable pageable = PageRequest.of(--page, size, Sort.by("createdDate").descending());
-        UserSecurity userSecurity = (UserSecurity) authentication.getPrincipal();
-        int count = userSecurity.getPersonnelLevel() == 1
-                ? service.countUsers(username, Constant.minDate(fromDate), Constant.maxDate(toDate))
-                : service.countUsers(username, Constant.minDate(fromDate), Constant.maxDate(toDate), userSecurity.getBranchPlaceId());
-        List<UserDto> userDtos = converter.toUsersDto( userSecurity.getPersonnelLevel() == 1
-                ? service.findUsers(username, Constant.minDate(fromDate), Constant.maxDate(toDate), pageable)
-                : service.findUsers(username, Constant.minDate(fromDate), Constant.maxDate(toDate), userSecurity.getBranchPlaceId(), pageable)
-        );
+        int count = service.countUsers(username, Constant.minDate(fromDate), Constant.maxDate(toDate));
+        List<UserDto> userDtos = converter.toUsersDto(service.findUsers(username, Constant.minDate(fromDate),
+                Constant.maxDate(toDate), pageable));
         serviceResult.setData(new Data(count, userDtos));
         return ResponseEntity.ok(serviceResult);
     }

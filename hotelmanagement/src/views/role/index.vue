@@ -34,16 +34,6 @@
       <el-table-column :label="$t('role.table.name')" min-width="220" align="center">
         <template slot-scope="scope">{{ scope.row.roleName }}</template>
       </el-table-column>
-      <el-table-column
-        prop="personnelLevel"
-        :label="$t('role.table.personnelLevel')"
-        align="center"
-        min-width="220"
-      >
-        <template slot-scope="scope">
-          <span>{{ formatColumnPersonnelLevel(scope.row.personnelLevel) }}</span>
-        </template>
-      </el-table-column>
       <el-table-column :label="$t('role.table.desc')" min-width="220" align="center">
         <template slot-scope="scope">{{ scope.row.description }}</template>
       </el-table-column>
@@ -111,20 +101,6 @@
             class="filter-item"
           ></el-input>
         </el-form-item>
-        <el-form-item :label="$t('role.form.labelPersonnelLevel')" prop="personnelLevel">
-          <el-select
-            v-model="tempData.personnelLevel"
-            class="filter-item"
-            :placeholder="$t('common.select')"
-          >
-            <el-option
-              v-for="item in listPersonnelLevel"
-              :key="item.id"
-              :label="item.levelName"
-              :value="item.id"
-            />
-          </el-select>
-        </el-form-item>
         <el-form-item :label="$t('role.form.labelPermission')" prop="permissions">
           <el-tree
             :data="listPermissions"
@@ -157,7 +133,6 @@
 
 <script>
 import { fetchList, create, update, remove, permissions } from "@/api/role";
-import { personnelLevel } from "@/api/personnelLevel";
 import { formatDate } from "@/utils/";
 import store from "@/store";
 import Pagination from "@/components/Pagination";
@@ -195,7 +170,6 @@ export default {
         id: "",
         roleName: "",
         description: "",
-        personnelLevel: "",
         permissions: []
       },
       tempPermissions: [],
@@ -205,7 +179,6 @@ export default {
         id: "id"
       },
       listPermissions: "",
-      listPersonnelLevel: "",
       rules: {
         roleName: [
           {
@@ -219,13 +192,6 @@ export default {
             trigger: "blur",
             required: true,
             validator: validatePermission
-          }
-        ],
-        personnelLevel: [
-          {
-            trigger: "blur",
-            required: true,
-            message: this.$t("role.validate.personnelLevelRq")
           }
         ]
       }
@@ -251,9 +217,6 @@ export default {
     fetchValueInput() {
       permissions().then(response => {
         this.listPermissions = response.data;
-      });
-      personnelLevel().then(response => {
-        this.listPersonnelLevel = response.data;
       });
     },
     handleDelete(row) {
@@ -365,22 +328,11 @@ export default {
       this.buttonConfirmLoading = false;
       this.dialogFormVisible = false;
     },
-    formatColumnPersonnelLevel(personnelLevelId) {
-      let text = "";
-      if (this.listPersonnelLevel) {
-        this.listPersonnelLevel.filter(PersonnelLevel => {
-          if (personnelLevelId === PersonnelLevel.id)
-            text = PersonnelLevel.levelName;
-        });
-      }
-      return text;
-    },
     resetTemp() {
       this.tempData = {
         id: "",
         roleName: "",
         description: "",
-        personnelLevel: "",
         permissions: []
       };
     }

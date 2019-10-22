@@ -2,20 +2,6 @@
   <div v-if="checkPermission('PERM_ROOM_READ')" class="app-container">
     <div class="filter-container">
       <el-select
-        v-model="listQuery.branch"
-        :placeholder="$t('room.search.inputBranch')"
-        class="filter-item"
-        value-key="id"
-        clearable
-      >
-        <el-option
-          v-for="item in branchOptions"
-          :key="item.id"
-          :label="item.branchName"
-          :value="item.id"
-        />
-      </el-select>
-      <el-select
         v-model="listQuery.type"
         :placeholder="$t('room.search.inputType')"
         class="filter-item"
@@ -56,14 +42,6 @@
       fit
       highlight-current-row
     >
-      <el-table-column :label="$t('room.table.branchName')" min-width="300" align="center">
-        <template slot-scope="scope">
-          <span>{{ formatColumnBranch(scope.row.branchId) }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column :label="$t('room.table.codeRoom')" min-width="220" align="center">
-        <template slot-scope="scope">{{ formatColumnCode(scope.row) }}</template>
-      </el-table-column>
       <el-table-column :label="$t('room.table.type')" min-width="300" align="center">
         <template slot-scope="scope">{{ scope.row.type }}</template>
       </el-table-column>
@@ -131,23 +109,6 @@
         style="width: 90%; margin-left:30px;"
         :rules="rules"
       >
-        <el-form-item :label="$t('room.form.labelBranch')" prop="branchId">
-          <el-select
-            v-if="branchOptions"
-            v-model="tempData.branchId"
-            class="filter-item"
-            :placeholder="$t('common.select')"
-            @change="changePrefixCode()"
-            :disabled="dialogStatus=='update'"
-          >
-            <el-option
-              v-for="item in branchOptions"
-              :key="item.id"
-              :label="item.branchName"
-              :value="item.id"
-            />
-          </el-select>
-        </el-form-item>
         <el-form-item :label="$t('room.form.labelCode')" prop="code">
           <el-input
             v-model="tempData.code"
@@ -233,7 +194,6 @@
 <script>
 import { fetchList, create, update, remove } from "@/api/room";
 import { listSupplies } from "@/api/supplies";
-import { listBranchPlace } from "@/api/branchPlace";
 import { formatDate } from "@/utils/";
 import store from "@/store";
 import Pagination from "@/components/Pagination";
@@ -251,7 +211,6 @@ export default {
         page: 0,
         size: 10,
         type: "",
-        branch: "",
         fromDate: "",
         toDate: ""
       },
@@ -265,14 +224,12 @@ export default {
       dialogDeleteVisible: false,
       buttonConfirmLoading: false,
       typeOptions: ["Standard", "Superior ", "Deluxe ", "Suite "],
-      branchOptions: [],
       statusOptions: ["Trống", "Bảo trì"],
       suppliesOption: [],
       tempData: {
         id: "",
         code: "",
         type: "",
-        branchId: "",
         status: "Trống",
         supplies: "",
         description: "",
@@ -280,13 +237,6 @@ export default {
         size: ""
       },
       rules: {
-        branchId: [
-          {
-            trigger: "blur",
-            required: true,
-            message: this.$t("room.validate.branchRq")
-          }
-        ],
         code: [
           {
             trigger: "blur",
@@ -358,10 +308,6 @@ export default {
         });
     },
     fetchOptions() {
-      listBranchPlace().then(response => {
-        this.branchOptions = response.data;
-        this.branchOptions.shift();
-      });
       listSupplies().then(response => {
         this.suppliesOption = response.data;
       });
@@ -413,7 +359,6 @@ export default {
         this.$refs["dataForm"].clearValidate();
       });
       this.tempData = Object.assign({}, row);
-      this.changePrefixCode();
     },
     updateData() {
       this.$refs["dataForm"].validate(valid => {
@@ -472,35 +417,6 @@ export default {
       this.buttonConfirmLoading = false;
       this.dialogFormVisible = false;
     },
-    changePrefixCode() {
-      if (this.branchOptions) {
-        this.branchOptions.filter(branchOptions => {
-          if (this.tempData.branchId === branchOptions.id) {
-            this.prefixCode = branchOptions.branchCode;
-          }
-        });
-      }
-    },
-    formatColumnBranch(branchId) {
-      let text = "";
-      if (this.branchOptions) {
-        this.branchOptions.filter(BranchPlace => {
-          if (branchId === BranchPlace.id) text = BranchPlace.branchName;
-        });
-      }
-      return text;
-    },
-    formatColumnCode(row) {
-      let text = "";
-      if (this.branchOptions) {
-        this.branchOptions.filter(branchOption => {
-          if (row.branchId === branchOption.id) {
-            text = branchOption.branchCode + "_" + row.code;
-          }
-        });
-      }
-      return text;
-    },
     formatColumnSupplies(supplies) {
       var text = [];
       supplies.map((e, i) => {
@@ -515,7 +431,6 @@ export default {
         id: "",
         code: "",
         type: "",
-        branchId: "",
         status: "Trống",
         supplies: "",
         description: "",

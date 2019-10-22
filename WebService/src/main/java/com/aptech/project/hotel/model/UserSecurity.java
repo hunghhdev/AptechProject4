@@ -11,8 +11,6 @@ import java.util.Collection;
 @Setter
 public class UserSecurity extends User {
     private int id;
-    private int personnelLevel;
-    private int branchPlaceId;
 
     public UserSecurity(int id, String username, String password,
                         boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired,
