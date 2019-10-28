@@ -116,7 +116,6 @@
             class="filter-item"
             :disabled="dialogStatus=='update'"
           >
-            <template slot="prepend">{{ prefixCode }}</template>
           </el-input>
         </el-form-item>
         <el-form-item :label="$t('room.form.labelType')" prop="type">
@@ -279,8 +278,7 @@ export default {
             message: this.$t("room.validate.sizeRq")
           }
         ]
-      },
-      prefixCode: ""
+      }
     };
   },
   created() {
@@ -330,9 +328,6 @@ export default {
     createData() {
       this.$refs["dataForm"].validate(valid => {
         if (valid) {
-          if (!this.tempData.code.includes(this.prefixCode)) {
-            this.tempData.code = this.prefixCode + "_" + this.tempData.code;
-          }
           this.buttonConfirmLoading = true;
           create(this.tempData)
             .then(response => {
@@ -363,9 +358,6 @@ export default {
     updateData() {
       this.$refs["dataForm"].validate(valid => {
         if (valid) {
-          if (!this.tempData.code.includes(this.prefixCode)) {
-            this.tempData.code = this.prefixCode + "_" + this.tempData.code;
-          }
           this.buttonConfirmLoading = true;
           update(this.tempData)
             .then(response => {

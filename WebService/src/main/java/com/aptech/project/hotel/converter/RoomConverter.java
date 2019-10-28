@@ -14,7 +14,7 @@ public class RoomConverter {
         roomDto.setId(room.getId());
         roomDto.setCreatedBy(room.getCreatedBy());
         roomDto.setCreatedDate(room.getCreatedDate());
-        roomDto.setCode(room.getRoomCode().split("_")[1]);
+        roomDto.setCode(room.getRoomCode());
         roomDto.setSupplies(room.getSupplies().split(","));
         roomDto.setStatus(room.getStatus());
         roomDto.setDescription(room.getDescription());
