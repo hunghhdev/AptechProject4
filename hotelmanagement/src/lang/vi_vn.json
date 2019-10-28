@@ -100,24 +100,30 @@
     },
     "table": {
       "name": "Tên Vật Tư",
-      "address": "Địa Chỉ"
+      "quantity": "Số lượng",
+      "note": "Ghi chú",
+      "used": "Sử dụng"
     },
     "form": {
       "titleCreate": "Tạo vật tư",
       "titleEdit": "Sửa vật tư",
-      "labelName": "Tên vật tư"
+      "labelName": "Tên vật tư",
+      "labelQuantity": "Số lượng",
+      "labelNote": "Ghi chú"
     },
     "delete": {
       "title": "Xóa",
       "msg": "Bạn có chắc chắn muốn xóa vật tư [{name}] không?"
     },
     "validate": {
-      "nameRq": "Tên vật tư không được để trống"
+      "nameRq": "Tên vật tư không được để trống",
+      "quantityRq": "Số lượng phải lớn hơn hiện đang sử dụng"
     },
     "msg": {
       "createSuccess": "Tạo vật tư thành công",
       "updateSuccess": "Cập nhật vật tư thành công",
-      "deletedSuccess": "Xóa vật tư thành công"
+      "deletedSuccess": "Xóa vật tư thành công",
+      "deletedWarning": "Vật tư đang được sử dụng, không được xóa"
     }
   },
   "room": {

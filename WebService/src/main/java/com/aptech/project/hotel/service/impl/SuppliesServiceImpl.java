@@ -1,6 +1,8 @@
 package com.aptech.project.hotel.service.impl;
 
+import com.aptech.project.hotel.elasticsearch.SuppliesElasticSearch;
 import com.aptech.project.hotel.entity.Supplies;
+import com.aptech.project.hotel.model.SuppliesDto;
 import com.aptech.project.hotel.repository.SuppliesRepository;
 import com.aptech.project.hotel.service.SuppliesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,9 @@ public class SuppliesServiceImpl implements SuppliesService {
 
     @Autowired
     private SuppliesRepository repository;
+
+    @Autowired
+    private SuppliesElasticSearch elasticSearch;
 
     @Override
     public List<Supplies> listAll(String name, Date fromDate, Date toDate, Pageable pageable) {
@@ -39,5 +44,15 @@ public class SuppliesServiceImpl implements SuppliesService {
     @Override
     public void delete(int id, String usernameUpdate) {
         repository.delete(id, usernameUpdate);
+    }
+
+    @Override
+    public SuppliesDto saveES(SuppliesDto suppliesDto) {
+        return elasticSearch.save(suppliesDto);
+    }
+
+    @Override
+    public List<SuppliesDto> findByName(String name) {
+        return elasticSearch.findByName(name);
     }
 }

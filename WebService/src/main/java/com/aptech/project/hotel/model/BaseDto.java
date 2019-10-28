@@ -10,4 +10,5 @@ public abstract class BaseDto {
     private int id;
     private Date createdDate;
     private String createdBy;
+
 }

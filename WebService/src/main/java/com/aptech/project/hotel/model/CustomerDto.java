@@ -6,7 +6,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.annotation.Id;
 
 @Getter@Setter
-@Document(indexName = "hotel", type = "customer")
+@Document(indexName = "customer")
 public class CustomerDto {
 
     @Id

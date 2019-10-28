@@ -43,6 +43,15 @@
       <el-table-column :label="$t('supplies.table.name')" min-width="220" align="center">
         <template slot-scope="scope">{{ scope.row.name }}</template>
       </el-table-column>
+      <el-table-column :label="$t('supplies.table.quantity')" min-width="220" align="center">
+        <template slot-scope="scope">{{ scope.row.quantity }}</template>
+      </el-table-column>
+      <el-table-column :label="$t('supplies.table.used')" min-width="220" align="center">
+        <template slot-scope="scope">{{ scope.row.used }}</template>
+      </el-table-column>
+      <el-table-column :label="$t('supplies.table.note')" min-width="220" align="center">
+        <template slot-scope="scope">{{ scope.row.note }}</template>
+      </el-table-column>
       <el-table-column :label="$t('common.createdBy')" min-width="220" align="center">
         <template slot-scope="scope">{{ scope.row.createdBy }}</template>
       </el-table-column>
@@ -99,6 +108,16 @@
             class="filter-item"
           ></el-input>
         </el-form-item>
+        <el-form-item :label="$t('supplies.form.labelQuantity')" prop="quantity">
+          <el-input-number v-model="tempData.quantity" :min="1" :max="100"></el-input-number>
+        </el-form-item>
+        <el-form-item :label="$t('supplies.form.labelNote')" prop="note">
+          <el-input
+            v-model="tempData.note"
+            :placeholder="$t('supplies.form.labelNote')"
+            class="filter-item"
+          ></el-input>
+        </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="cancelHandle()">{{ $t("common.btnCancel") }}</el-button>
@@ -130,6 +149,13 @@ export default {
   name: "Supplies",
   components: { Pagination },
   data() {
+    const validateQuantityRq = (rule, value, callback) => {
+      if (value < this.tempData.used) {
+        callback(new Error(this.$t("supplies.validate.quantityRq")));
+      } else {
+        callback();
+      }
+    };
     return {
       total: 0,
       list: null,
@@ -152,14 +178,24 @@ export default {
       buttonConfirmLoading: false,
       tempData: {
         id: "",
-        name: ""
+        name: "",
+        quantity: "",
+        note: "",
+        used: 0
       },
       rules: {
-        departmentName: [
+        name: [
           {
             trigger: "blur",
             required: true,
             message: this.$t("supplies.validate.nameRq")
+          }
+        ],
+        quantity: [
+          {
+            trigger: "blur",
+            required: true,
+            validator: validateQuantityRq
           }
         ]
       }
@@ -176,7 +212,10 @@ export default {
     fetchData() {
       this.listLoading = true;
       if (this.dateSearchPicker) {
-        this.listQuery.fromDate = (typeof this.dateSearchPicker[0])=="number"?this.dateSearchPicker[0]:this.dateSearchPicker[0].getTime();
+        this.listQuery.fromDate =
+          typeof this.dateSearchPicker[0] == "number"
+            ? this.dateSearchPicker[0]
+            : this.dateSearchPicker[0].getTime();
         this.listQuery.toDate = this.dateSearchPicker[1].getTime();
       }
       fetchList(this.listQuery).then(response => {
@@ -186,8 +225,17 @@ export default {
       });
     },
     handleDelete(row) {
-      this.dialogDeleteVisible = true;
-      this.tempData = row;
+      if (row.used > 0) {
+        this.$notify({
+          title: "Warning",
+          message: this.$t("supplies.msg.deletedWarning"),
+          type: "warning",
+          duration: 5000
+        });
+      } else {
+        this.tempData = row;
+        this.dialogDeleteVisible = true;
+      }
     },
     handleFilter() {
       this.fetchData();
@@ -228,7 +276,6 @@ export default {
       this.tempData = Object.assign({}, row);
     },
     updateData() {
-      this.tempData.permissions = [];
       this.$refs["dataForm"].validate(valid => {
         if (valid) {
           this.buttonConfirmLoading = true;
@@ -285,7 +332,10 @@ export default {
     resetTemp() {
       this.tempData = {
         id: "",
-        name: ""
+        name: "",
+        quantity: "",
+        note: "",
+        used: 0
       };
     }
   }

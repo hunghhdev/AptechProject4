@@ -14,4 +14,10 @@ import javax.persistence.Table;
 public class Supplies extends BaseEntity {
     @Column(name = "name")
     private String name;
+    @Column(name = "quantity")
+    private int quantity = 0;
+    @Column(name = "note")
+    private String note;
+    @Column(name = "used")
+    private int used;
 }
