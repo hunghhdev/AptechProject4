@@ -17,7 +17,7 @@
 	<properties>
 		<java.version>12</java.version>
 		<mysql.version>6.0.6</mysql.version>
-		<nimbusds.version>7.6</nimbusds.version>
+		<nimbusds.version>7.9</nimbusds.version>
 		<aws.version>1.11.576</aws.version>
 		<es.jest.version>3.2.5.RELEASE</es.jest.version>
 	</properties>
