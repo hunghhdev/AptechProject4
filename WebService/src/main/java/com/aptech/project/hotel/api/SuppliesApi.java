@@ -47,7 +47,7 @@ public class SuppliesApi {
         ServiceResult serviceResult = new ServiceResult();
         Supplies supplies = converter.toSupplies(suppliesDto);
         supplies.setCreatedBy(authentication.getName());
-        serviceResult.setData(service.saveES(converter.toSuppliesDto(service.save(supplies))));
+        serviceResult.setData(converter.toSuppliesDto(service.save(supplies)));
         return ResponseEntity.ok(serviceResult);
     }
 
@@ -74,14 +74,8 @@ public class SuppliesApi {
     @GetMapping(value = "/list-supplies")
     public ResponseEntity<ServiceResult> listSupplies(){
         ServiceResult serviceResult = new ServiceResult();
-        serviceResult.setData(converter.toSuppliesDtos(service.listAll()));
+        serviceResult.setData(converter.toSuppliesDtos(service.listAllAvailability()));
         return ResponseEntity.ok(serviceResult);
     }
 
-    @GetMapping(value = "/find")
-    public ResponseEntity<ServiceResult> findByNumberPhoneES(@RequestParam("name") String name) {
-        ServiceResult serviceResult = new ServiceResult();
-        serviceResult.setData(service.findByName(name));
-        return ResponseEntity.ok(serviceResult);
-    }
 }

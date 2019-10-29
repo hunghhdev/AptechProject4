@@ -19,7 +19,7 @@ public interface SuppliesRepository extends JpaRepository<Supplies, Integer> {
             , @Param("toDate") Date toDate, Pageable pageable);
 
     @Query("FROM Supplies t1 WHERE t1.deleted = 0")
-    List<Supplies> listAll();
+    List<Supplies> listAllAvailability();
 
     @Query("SELECT count(t1) FROM Supplies t1 WHERE t1.deleted = 0 AND t1.name LIKE %:name% AND t1.createdDate BETWEEN :fromDate AND :toDate")
     int countAll(@Param("name") String name, @Param("fromDate") Date fromDate, @Param("toDate") Date toDate);

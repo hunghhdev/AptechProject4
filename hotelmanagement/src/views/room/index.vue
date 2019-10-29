@@ -150,9 +150,10 @@
           >
             <el-option
               v-for="item in suppliesOption"
-              :key="item.name"
+              :key="item.id"
               :label="item.name"
-              :value="item.name"
+              :value="item.id"
+              :disabled="item.quantity<=item.used"
             />
           </el-select>
         </el-form-item>
@@ -340,6 +341,7 @@ export default {
               });
               this.dialogFormVisible = false;
               this.total += 1;
+              this.fetchOptions();
             })
             .finally(() => {
               this.buttonConfirmLoading = false;
@@ -375,6 +377,7 @@ export default {
                 duration: 2000
               });
               this.dialogFormVisible = false;
+              this.fetchOptions();
             })
             .finally(() => {
               this.buttonConfirmLoading = false;

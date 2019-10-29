@@ -9,10 +9,8 @@ import java.util.List;
 
 public interface SuppliesService {
     List<Supplies> listAll(String name, Date fromDate, Date toDate, Pageable pageable);
-    List<Supplies> listAll();
+    List<Supplies> listAllAvailability();
     int countAll(String name, Date fromDate, Date toDate);
     Supplies save(Supplies supplies);
     void delete(int id, String usernameUpdate);
-    SuppliesDto saveES(SuppliesDto customerDto);
-    List<SuppliesDto> findByName(String name);
 }
