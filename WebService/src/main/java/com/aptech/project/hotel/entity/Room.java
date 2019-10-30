@@ -1,11 +1,12 @@
 package com.aptech.project.hotel.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "t_room")
@@ -28,8 +29,11 @@ public class Room extends BaseEntity {
     @Column(name = "price")
     private int price;
 
-    @Column(name = "supplies")
-    private String supplies;
+    @OneToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    @JoinTable(name = "t_room_supplies",
+            joinColumns = { @JoinColumn(name = "room_id") },
+            inverseJoinColumns = { @JoinColumn(name = "supplies_id") })
+    private Set<Supplies> supplies;
 
     @Column(name = "description")
     private String description;

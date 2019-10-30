@@ -16,7 +16,7 @@ public interface RoomRepository extends JpaRepository<Room, Integer> {
     @Query("SELECT (COUNT(t1) > 0) FROM Room t1 WHERE t1.roomCode = :code")
     boolean existByCode(@Param("code") String code);
 
-    @Query("FROM Room t1 WHERE t1.deleted = 0 AND t1.roomType LIKE %:type% " +
+    @Query("FROM Room t1 JOIN fetch t1.supplies WHERE t1.deleted = 0 AND t1.roomType LIKE %:type% " +
             "AND t1.createdDate BETWEEN :fromDate AND :toDate")
     List<Room> listAll(@Param("type") String type,
                        @Param("fromDate") Date fromDate, @Param("toDate") Date toDate, Pageable pageable);

@@ -55,7 +55,7 @@
         <template slot-scope="scope">{{ scope.row.status }}</template>
       </el-table-column>
       <el-table-column :label="$t('room.table.supplies')" min-width="400" align="center">
-        <template slot-scope="scope">{{ scope.row.supplies }}</template>
+        <template slot-scope="scope">{{ formatColumnSupplies(scope.row.supplies) }}</template>
       </el-table-column>
       <el-table-column :label="$t('room.table.desc')" min-width="300" align="center">
         <template slot-scope="scope">{{ scope.row.description }}</template>
@@ -115,8 +115,7 @@
             :placeholder="$t('room.form.labelCode')"
             class="filter-item"
             :disabled="dialogStatus=='update'"
-          >
-          </el-input>
+          ></el-input>
         </el-form-item>
         <el-form-item :label="$t('room.form.labelType')" prop="type">
           <el-select
@@ -294,7 +293,10 @@ export default {
     fetchData() {
       this.listLoading = true;
       if (this.dateSearchPicker) {
-        this.listQuery.fromDate = (typeof this.dateSearchPicker[0])=="number"?this.dateSearchPicker[0]:this.dateSearchPicker[0].getTime();
+        this.listQuery.fromDate =
+          typeof this.dateSearchPicker[0] == "number"
+            ? this.dateSearchPicker[0]
+            : this.dateSearchPicker[0].getTime();
         this.listQuery.toDate = this.dateSearchPicker[1].getTime();
       }
       fetchList(this.listQuery)

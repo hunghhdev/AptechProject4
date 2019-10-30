@@ -3,6 +3,8 @@ package com.aptech.project.hotel.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Getter@Setter
 public class RoomDto extends BaseDto {
     private String code;
@@ -10,6 +12,6 @@ public class RoomDto extends BaseDto {
     private int size;
     private int price;
     private String status;
-    private String[] supplies;
+    private Set<Integer> supplies;
     private String description;
 }
