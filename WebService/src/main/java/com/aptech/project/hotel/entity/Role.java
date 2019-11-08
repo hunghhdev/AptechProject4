@@ -13,6 +13,7 @@ import java.util.Set;
 @Setter
 @Table(name = "t_role")
 public class Role extends BaseEntity {
+
     @Column(name = "role_name", nullable = false)
     private String roleName;
 

@@ -1,7 +1,6 @@
 package com.aptech.project.hotel.repository;
 
 import com.aptech.project.hotel.entity.Supplies;
-import com.aptech.project.hotel.model.SuppliesDto;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

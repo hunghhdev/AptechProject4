@@ -1,7 +1,6 @@
 package com.aptech.project.hotel.service;
 
 import com.aptech.project.hotel.entity.Supplies;
-import com.aptech.project.hotel.model.SuppliesDto;
 import org.springframework.data.domain.Pageable;
 
 import java.util.Date;

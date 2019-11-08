@@ -5,7 +5,6 @@ import com.aptech.project.hotel.model.Data;
 import com.aptech.project.hotel.model.UserDto;
 import com.aptech.project.hotel.entity.User;
 import com.aptech.project.hotel.model.ServiceResult;
-import com.aptech.project.hotel.model.UserSecurity;
 import com.aptech.project.hotel.service.AwsService;
 import com.aptech.project.hotel.service.UserService;
 import com.aptech.project.hotel.util.ConfigUtility;
@@ -102,11 +101,12 @@ public class UserApi {
     }
 
     @PostMapping("/uploadAvatar")
-    public ResponseEntity<?> uploadPhoto(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<ServiceResult> uploadPhoto(@RequestParam("file") MultipartFile file) {
         ServiceResult serviceResult = new ServiceResult();
         if (file == null) {
             logger.error("file is null");
-            return ResponseEntity.badRequest().body("File rỗng");
+            serviceResult.setMessage("File rỗng");
+            return ResponseEntity.ok(serviceResult);
         }
         File tempAvatar = new File(config.getProperty("temp.avatar"));
         if(!tempAvatar.exists())

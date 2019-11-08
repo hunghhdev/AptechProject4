@@ -9,13 +9,13 @@ public class PermissionDto {
     private int id;
     private String permissionName;
     private String permissionKey;
-    private int parent_id;
+    private int parentId;
 
-    public PermissionDto(int id, String permissionName, String permissionKey, int parent_id) {
+    public PermissionDto(int id, String permissionName, String permissionKey, int parentId) {
         this.id = id;
         this.permissionName = permissionName;
         this.permissionKey = permissionKey;
-        this.parent_id = parent_id;
+        this.parentId = parentId;
     }
 
     public PermissionDto() {

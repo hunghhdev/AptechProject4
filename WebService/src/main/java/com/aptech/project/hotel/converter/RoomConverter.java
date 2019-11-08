@@ -3,7 +3,6 @@ package com.aptech.project.hotel.converter;
 import com.aptech.project.hotel.entity.Room;
 import com.aptech.project.hotel.entity.Supplies;
 import com.aptech.project.hotel.model.RoomDto;
-import com.aptech.project.hotel.model.SuppliesDto;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
