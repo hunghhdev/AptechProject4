@@ -21,7 +21,7 @@ public class Supplies extends BaseEntity {
     @Column(name = "used")
     private int used;
 
-    public boolean equals(Supplies supplies) {
+    public boolean equalsId(Supplies supplies) {
         return (this.getId() == supplies.getId());
     }
 

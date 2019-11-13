@@ -84,6 +84,7 @@ public class RoomApi {
         if (room == null){
             serviceResult.setMessage("Không tìm thấy phòng");
             serviceResult.setStatus(ServiceResult.Status.FAILED);
+            return ResponseEntity.ok(serviceResult);
         }
         room.setDeleted(true);
         room.setUpdatedBy(authentication.getName());
@@ -98,7 +99,7 @@ public class RoomApi {
         Set<Supplies> returnPer = new HashSet<>(s1);
         for (Supplies supplies: s2) {
             for (Supplies s: s1) {
-                if (supplies.equals(s)) returnPer.remove(s);
+                if (supplies.equalsId(s)) returnPer.remove(s);
             }
         }
         return returnPer;
