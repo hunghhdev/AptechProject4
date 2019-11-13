@@ -6,6 +6,7 @@ import com.aptech.project.hotel.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -47,12 +48,13 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public void delete(int id, String usernameUpdate) {
-        repository.delete(id, usernameUpdate);
-    }
-
-    @Override
     public void updateStatus(int id, String status) {
         repository.updateStatus(id, status);
     }
+
+    @Override
+    public Room findById(int id) {
+        return repository.findById(id);
+    }
+
 }

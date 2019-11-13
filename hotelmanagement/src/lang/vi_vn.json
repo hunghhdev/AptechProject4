@@ -132,7 +132,7 @@
       "inputType": "Loại phòng"
     },
     "table": {
-      "codeRoom": "Mã phòng",
+      "code": "Mã phòng",
       "type": "Loại phòng",
       "price": "Giá phòng",
       "status": "Trạng thái",

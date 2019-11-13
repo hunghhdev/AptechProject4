@@ -20,4 +20,15 @@ public class Supplies extends BaseEntity {
     private String note;
     @Column(name = "used")
     private int used;
+
+    public boolean equals(Supplies supplies) {
+        return (this.getId() == supplies.getId());
+    }
+
+    public Supplies() {
+    }
+
+    public Supplies(int id) {
+        this.setId(id);
+    }
 }

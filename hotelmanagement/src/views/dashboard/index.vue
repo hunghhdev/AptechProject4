@@ -10,7 +10,7 @@
     name: 'app',
 
     mounted() {
-      console.log({router: this.$router.options.routes});
+
     }
   }
 </script>

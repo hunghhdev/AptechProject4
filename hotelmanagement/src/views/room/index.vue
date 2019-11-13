@@ -42,6 +42,9 @@
       fit
       highlight-current-row
     >
+      <el-table-column :label="$t('room.table.code')" min-width="100" align="center">
+        <template slot-scope="scope">{{ scope.row.code }}</template>
+      </el-table-column>
       <el-table-column :label="$t('room.table.type')" min-width="300" align="center">
         <template slot-scope="scope">{{ scope.row.type }}</template>
       </el-table-column>

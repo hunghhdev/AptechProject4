@@ -13,6 +13,6 @@ public interface RoomService {
     List<Room> listAll(String status, Pageable pageable);
     int count(String type, Date fromDate, Date toDate);
     int count(String status);
-    void delete(int id, String usernameUpdate);
     void updateStatus(int id, String status);
+    Room findById(int id);
 }

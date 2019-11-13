@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class SuppliesServiceImpl implements SuppliesService {
@@ -39,6 +40,21 @@ public class SuppliesServiceImpl implements SuppliesService {
     @Override
     public void delete(int id, String usernameUpdate) {
         repository.delete(id, usernameUpdate);
+    }
+
+    @Override
+    public Set<Supplies> findByRoomId(int id) {
+        return repository.findByRoomId(id);
+    }
+
+    @Override
+    public void addUsed(int id) {
+        repository.addUsed(id);
+    }
+
+    @Override
+    public void subtractUsed(int id) {
+        repository.subtractUsed(id);
     }
 
 }

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 public interface SuppliesRepository extends JpaRepository<Supplies, Integer> {
 
@@ -27,4 +28,17 @@ public interface SuppliesRepository extends JpaRepository<Supplies, Integer> {
     @Transactional
     @Query("UPDATE Supplies t1 SET t1.deleted = 1, t1.updatedBy = ?2 WHERE t1.id = ?1")
     void delete(int id, String userUpdate);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Supplies t1 SET t1.used = t1.used+1 WHERE t1.id = :id")
+    void addUsed(@Param("id") int id);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Supplies t1 SET t1.used = t1.used-1 WHERE t1.id = :id")
+    void subtractUsed(@Param("id") int id);
+
+    @Query("SELECT NEW com.aptech.project.hotel.entity.Supplies(t1.suppliesId) FROM RoomSupplies t1 WHERE t1.roomId = ?1")
+    Set<Supplies> findByRoomId(int roomId);
 }
