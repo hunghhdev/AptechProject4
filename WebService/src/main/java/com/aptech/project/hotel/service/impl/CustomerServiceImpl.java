@@ -6,8 +6,10 @@ import com.aptech.project.hotel.model.CustomerDto;
 import com.aptech.project.hotel.repository.CustomerRepository;
 import com.aptech.project.hotel.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -37,5 +39,15 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public boolean existByPhone(String phone) {
         return repository.existByPhone(phone);
+    }
+
+    @Override
+    public List<CustomerDto> findAll(Date fromDate, Date toDate, Pageable pageable) {
+        return repository.findAll(fromDate, toDate, pageable);
+    }
+
+    @Override
+    public int countAll(Date fromDate, Date toDate) {
+        return repository.countAll(fromDate, toDate);
     }
 }

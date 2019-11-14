@@ -3,13 +3,21 @@ package com.aptech.project.hotel.api;
 import com.aptech.project.hotel.converter.CustomerConverter;
 import com.aptech.project.hotel.entity.Customer;
 import com.aptech.project.hotel.model.CustomerDto;
+import com.aptech.project.hotel.model.Data;
 import com.aptech.project.hotel.model.ServiceResult;
+import com.aptech.project.hotel.model.UserDto;
 import com.aptech.project.hotel.service.CustomerService;
 import com.aptech.project.hotel.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(Constant.API+"/customer")
@@ -40,6 +48,19 @@ public class CustomerApi {
         customer.setCreatedBy(authentication.getName());
         serviceResult.setMessage("Tạo khách hàng thành công");
         serviceResult.setData(service.saveES(converter.toCustomerDto(service.save(customer))));
+        return ResponseEntity.ok(serviceResult);
+    }
+
+    @GetMapping(value = "/list")
+    @PreAuthorize("hasAuthority('PERM_USER_READ')")
+    public ResponseEntity<ServiceResult> list( @RequestParam("page") int page, @RequestParam("size") int size,
+            @RequestParam("fromDate") long fromDate, @RequestParam("toDate") long toDate){
+        ServiceResult serviceResult = new ServiceResult();
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
+        int count = service.countAll(Constant.minDate(fromDate), Constant.maxDate(toDate));
+        List<CustomerDto> customerDtos = service.findAll(Constant.minDate(fromDate),
+                Constant.maxDate(toDate), pageable);
+        serviceResult.setData(new Data(count, customerDtos));
         return ResponseEntity.ok(serviceResult);
     }
 }

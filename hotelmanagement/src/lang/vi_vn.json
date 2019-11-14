@@ -201,7 +201,11 @@
     }
   },
   "customer": {
-    "title": "Khách hàng"
+    "title": "Khách hàng",
+    "table": {
+      "name": "Tên khách hàng",
+      "phone": "Số điện thoại"
+    }
   },
   "permission": {
     "title": "Quyền truy cập",

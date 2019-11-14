@@ -157,7 +157,8 @@
           ></el-input>
         </el-form-item>
         <el-form-item :label="$t('user.form.labelRole')" prop="roleId">
-          <el-select v-if="roleOptions"
+          <el-select
+            v-if="roleOptions"
             v-model="tempData.roleId"
             class="filter-item"
             :placeholder="$t('common.select')"
@@ -307,7 +308,10 @@ export default {
     fetchData() {
       this.listLoading = true;
       if (this.dateSearchPicker) {
-        this.listQuery.fromDate = (typeof this.dateSearchPicker[0])=="number"?this.dateSearchPicker[0]:this.dateSearchPicker[0].getTime();
+        this.listQuery.fromDate =
+          typeof this.dateSearchPicker[0] == "number"
+            ? this.dateSearchPicker[0]
+            : this.dateSearchPicker[0].getTime();
         this.listQuery.toDate = this.dateSearchPicker[1].getTime();
       }
       list(this.listQuery).then(response => {
@@ -433,7 +437,7 @@ export default {
     },
     formatColumnRole(roleId) {
       let text = "";
-      if(this.roles){
+      if (this.roles) {
         this.roles.filter(role => {
           if (role.id === roleId) {
             text = role.roleName;

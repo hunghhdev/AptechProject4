@@ -13,4 +13,13 @@ public class CustomerDto {
     private int id;
     private String name;
     private String phone;
+
+    public CustomerDto(int id, String name, String phone) {
+        this.id = id;
+        this.name = name;
+        this.phone = phone;
+    }
+
+    public CustomerDto() {
+    }
 }
