@@ -14,16 +14,16 @@
           highlight-current-row
         >
           <el-table-column :label="$t('bookings.code')" min-width="150" align="center">
-            <template slot-scope="scope">{{ scope.row }}</template>
+            <template slot-scope="scope">{{ scope.row.code }}</template>
           </el-table-column>
-          <el-table-column :label="$t('bookings.supplies')" min-width="250" align="center">
-            <template slot-scope="scope">{{ scope.row.supplies }}</template>
+          <el-table-column :label="$t('bookings.price')" min-width="150" align="center">
+            <template slot-scope="scope">{{ scope.row.price }}</template>
           </el-table-column>
           <el-table-column :label="$t('bookings.type')" min-width="150" align="center">
             <template slot-scope="scope">{{ scope.row.type }}</template>
           </el-table-column>
-          <el-table-column :label="$t('bookings.price')" min-width="150" align="center">
-            <template slot-scope="scope">{{ scope.row.price }}</template>
+          <el-table-column :label="$t('room.table.supplies')" min-width="400" align="center">
+            <template slot-scope="scope">{{ formatColumnSupplies(scope.row.supplies) }}</template>
           </el-table-column>
           <el-table-column
             fixed="right"
@@ -142,6 +142,7 @@
 
 <script>
 import { listEmpty, booking } from "@/api/booking";
+import { listSupplies } from "@/api/supplies";
 import { findES } from "@/api/customer";
 import Pagination from "@/components/Pagination";
 export default {
@@ -177,6 +178,7 @@ export default {
         fromDate: "",
         toDate: ""
       },
+      suppliesOption: "",
       dialogBookingVisible: false,
       tempData: {
         id: "",
@@ -227,6 +229,7 @@ export default {
   },
   created() {
     this.fetchData();
+    this.fetchOptions();
   },
   methods: {
     fetchData() {
@@ -237,6 +240,11 @@ export default {
         .finally(() => {
           this.listLoading = false;
         });
+    },
+    fetchOptions() {
+      listSupplies().then(response => {
+        this.suppliesOption = response.data;
+      });
     },
     handleClick(tab, event) {
       console.log(tab);
@@ -305,6 +313,15 @@ export default {
           (1000 * 60 * 60 * 24);
         this.tempData.count = this.tempData.days * this.tempData.price;
       }
+    },
+    formatColumnSupplies(supplies) {
+      var text = [];
+      supplies.map((e, i) => {
+        let temp = this.suppliesOption.find(element => {
+          if (element.id === e) text.push(element.name);
+        });
+      });
+      return text;
     }
   }
 };
