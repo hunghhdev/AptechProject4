@@ -205,6 +205,24 @@
     "table": {
       "name": "Tên khách hàng",
       "phone": "Số điện thoại"
+    },
+    "form": {
+      "titleCreate": "Tạo khách hàng",
+      "titleEdit": "Sửa khách hàng",
+      "name": "Tên khách hàng",
+      "phone": "Số điện thoại"
+    },
+    "validate": {
+      "nameRq": "Tên khách hàng không được bỏ trống",
+      "phoneRq": "Số điện điện thoại không được bỏ trống"
+    },
+    "msg": {
+      "createSuccess": "Tạo khách hàng mới thành công",
+      "updateSuccess": "Cập nhật khách hàng"
+    },
+    "delete": {
+      "title": "Xóa khách hàng",
+      "msg": "Bạn có chắc chắn muốn xóa khách hàng [{name}] không?"
     }
   },
   "permission": {

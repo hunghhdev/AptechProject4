@@ -57,11 +57,59 @@
         </template>
       </el-table-column>
     </el-table>
+    <pagination
+      v-show="total>0"
+      :total="total"
+      :page.sync="listQuery.page"
+      :limit.sync="listQuery.size"
+      @pagination="fetchData"
+    />
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+      <el-form
+        ref="dataForm"
+        :model="tempData"
+        label-position="left"
+        label-width="30%"
+        style="width: 90%; margin-left:30px;"
+        :rules="rules"
+      >
+        <el-form-item :label="$t('customer.form.name')" prop="name">
+          <el-input
+            v-model="tempData.name"
+            :placeholder="$t('customer.form.name')"
+            class="filter-item"
+          ></el-input>
+        </el-form-item>
+        <el-form-item :label="$t('customer.form.phone')" prop="phone">
+          <el-input
+            :disabled="dialogStatus==='create'?false:true"
+            v-model="tempData.phone"
+            :placeholder="$t('customer.form.phone')"
+            class="filter-item"
+          ></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">{{ $t('common.btnCancel') }}</el-button>
+        <el-button
+          type="primary"
+          :loading="buttonConfirmLoading"
+          @click="dialogStatus==='create'?createData():updateData()"
+        >{{ $t('common.btnConfirm') }}</el-button>
+      </span>
+    </el-dialog>
+    <el-dialog :title="$t('customer.delete.title')" :visible.sync="dialogDeleteVisible">
+      <p>{{ $t('customer.delete.msg', { name: tempData.name }) }}</p>
+      <div slot="footer">
+        <el-button @click="dialogDeleteVisible = false">{{ $t("common.btnCancel") }}</el-button>
+        <el-button type="danger" @click="deleteData">{{ $t("common.btnConfirm") }}</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { list } from "@/api/customer";
+import { list, create, update, remove } from "@/api/customer";
 import Pagination from "@/components/Pagination";
 import store from "@/store";
 import checkPermission from "@/utils/permission";
@@ -71,6 +119,9 @@ export default {
   data() {
     return {
       total: 0,
+      dialogStatus: "",
+      dialogDeleteVisible: false,
+      buttonConfirmLoading: false,
       listLoading: true,
       listQuery: {
         page: 0,
@@ -78,8 +129,34 @@ export default {
         fromDate: "",
         toDate: ""
       },
+      tempData: {
+        id: "",
+        name: "",
+        phone: ""
+      },
       dateSearchPicker: [new Date() - 2592000000, new Date()],
-      list: []
+      list: [],
+      textMap: {
+        create: this.$t("customer.form.titleCreate"),
+        update: this.$t("customer.form.titleEdit")
+      },
+      dialogFormVisible: false,
+      rules: {
+        name: [
+          {
+            trigger: "blur",
+            required: true,
+            message: this.$t("customer.validate.nameRq")
+          }
+        ],
+        phone: [
+          {
+            trigger: "blur",
+            required: true,
+            message: this.$t("customer.validate.phoneRq")
+          }
+        ]
+      }
     };
   },
   created() {
@@ -107,6 +184,104 @@ export default {
     handleFilter() {
       this.fetchData();
     },
+    handleCreate() {
+      this.resetTemp();
+      this.dialogFormVisible = true;
+      this.dialogStatus = "create";
+      this.$nextTick(() => {
+        this.$refs["dataForm"].clearValidate();
+      });
+      this.buttonConfirmLoading = false;
+    },
+    createData(event) {
+      this.$refs["dataForm"].validate(valid => {
+        if (valid) {
+          this.buttonConfirmLoading = true;
+          create(this.tempData)
+            .then(response => {
+              this.list.unshift(response.data);
+              this.$notify({
+                title: "Success",
+                message: this.$t("customer.msg.createSuccess"),
+                type: "success",
+                duration: 2000
+              });
+              this.dialogFormVisible = false;
+              this.total += 1;
+            })
+            .finally(() => {
+              this.buttonConfirmLoading = false;
+            });
+        }
+      });
+    },
+    handleUpdate(row) {
+      this.dialogFormVisible = true;
+      this.dialogStatus = "update";
+      this.$nextTick(() => {
+        this.$refs["dataForm"].clearValidate();
+      });
+      this.tempData = Object.assign({}, row);
+    },
+    updateData() {
+      this.$refs["dataForm"].validate(valid => {
+        if (valid) {
+          this.buttonConfirmLoading = true;
+          update(this.tempData)
+            .then(response => {
+              for (const v of this.list) {
+                if (v.id === this.tempData.id) {
+                  const index = this.list.indexOf(v);
+                  this.list.splice(index, 1, response.data);
+                  break;
+                }
+              }
+              this.$notify({
+                title: "Success",
+                message: this.$t("customer.msg.updateSuccess"),
+                type: "success",
+                duration: 2000
+              });
+              this.dialogFormVisible = false;
+            })
+            .finally(() => {
+              this.buttonConfirmLoading = false;
+            });
+        }
+      });
+    },
+    handleDelete(row) {
+      if (store.getters.id !== row.id) {
+        this.dialogDeleteVisible = true;
+        this.tempData = row;
+      }
+    },
+    deleteData() {
+      this.listLoading = true;
+      remove({ id: this.tempData.id })
+        .then(response => {
+          this.$notify({
+            title: "Success",
+            message: response.message,
+            type: "success",
+            duration: 2000
+          });
+          const index = this.list.indexOf(this.tempData);
+          this.list.splice(index, 1);
+          this.total -= 1;
+        })
+        .finally(() => {
+          this.listLoading = false;
+        });
+      this.dialogDeleteVisible = false;
+    },
+    resetTemp() {
+      this.tempData = {
+        id: "",
+        name: "",
+        phone: ""
+      };
+    }
   }
 };
 </script>

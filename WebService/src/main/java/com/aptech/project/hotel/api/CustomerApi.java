@@ -8,6 +8,7 @@ import com.aptech.project.hotel.model.ServiceResult;
 import com.aptech.project.hotel.model.UserDto;
 import com.aptech.project.hotel.service.CustomerService;
 import com.aptech.project.hotel.util.Constant;
+import com.aptech.project.hotel.util.EnCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -37,10 +38,11 @@ public class CustomerApi {
     }
 
     @PostMapping(value = "/create")
+    @PreAuthorize("hasAuthority('PERM_CUSTOMER_CREATE')")
     public ResponseEntity<ServiceResult> create(@RequestBody CustomerDto customerDto, Authentication authentication) {
         ServiceResult serviceResult = new ServiceResult();
         if (service.existByPhone(customerDto.getPhone())){
-            serviceResult.setMessage("Khách hàng đã tồn tại");
+            serviceResult.setMessage("Số điện thoại đã tồn tại");
             serviceResult.setStatus(ServiceResult.Status.FAILED);
             return ResponseEntity.ok(serviceResult);
         }
@@ -52,15 +54,43 @@ public class CustomerApi {
     }
 
     @GetMapping(value = "/list")
-    @PreAuthorize("hasAuthority('PERM_USER_READ')")
+    @PreAuthorize("hasAuthority('PERM_CUSTOMER_READ')")
     public ResponseEntity<ServiceResult> list( @RequestParam("page") int page, @RequestParam("size") int size,
             @RequestParam("fromDate") long fromDate, @RequestParam("toDate") long toDate){
         ServiceResult serviceResult = new ServiceResult();
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
+        Pageable pageable = PageRequest.of(--page, size, Sort.by("createdDate").descending());
         int count = service.countAll(Constant.minDate(fromDate), Constant.maxDate(toDate));
         List<CustomerDto> customerDtos = service.findAll(Constant.minDate(fromDate),
                 Constant.maxDate(toDate), pageable);
         serviceResult.setData(new Data(count, customerDtos));
+        return ResponseEntity.ok(serviceResult);
+    }
+
+    @PutMapping(value = "/update")
+    @PreAuthorize("hasAuthority('PERM_CUSTOMER_UPDATE')")
+    public ResponseEntity<ServiceResult> update(@RequestBody CustomerDto customerDto, Authentication authentication) {
+        ServiceResult serviceResult = new ServiceResult();
+        Customer customer = converter.toCustomer(customerDto);
+        customer.setUpdatedBy(authentication.getName());
+        serviceResult.setData(service.saveES(converter.toCustomerDto(service.save(customer))));
+        serviceResult.setMessage("Cập nhật khách hàng thành công");
+        return ResponseEntity.ok(serviceResult);
+    }
+
+    @PutMapping(value = "/delete")
+    @PreAuthorize("hasAuthority('PERM_CUSTOMER_DELETE')")
+    public ResponseEntity<ServiceResult> delete(@RequestParam("id") int id, Authentication authentication) {
+        ServiceResult serviceResult = new ServiceResult();
+        Customer customer = service.findById(id);
+        if (customer == null){
+            serviceResult.setMessage("Không tìm thấy khách hàng");
+            return ResponseEntity.ok(serviceResult);
+        }
+        customer.setUpdatedBy(authentication.getName());
+        customer.setDeleted(true);
+        service.save(customer);
+        service.deleteES(id);
+        serviceResult.setMessage("Xoá khách hàng thành công");
         return ResponseEntity.ok(serviceResult);
     }
 }

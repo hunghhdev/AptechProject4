@@ -22,6 +22,11 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerElasticSearch customerES;
 
     @Override
+    public Customer findById(int id) {
+        return repository.findById(id).orElse(null);
+    }
+
+    @Override
     public Customer save(Customer customer) {
         return repository.saveAndFlush(customer);
     }
@@ -29,6 +34,11 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDto saveES(CustomerDto customerDto) {
         return customerES.save(customerDto);
+    }
+
+    @Override
+    public void deleteES(int customerId) {
+        customerES.deleteById(customerId);
     }
 
     @Override

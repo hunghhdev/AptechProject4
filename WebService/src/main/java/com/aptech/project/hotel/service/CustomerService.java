@@ -9,8 +9,10 @@ import java.util.Date;
 import java.util.List;
 
 public interface CustomerService {
+    Customer findById(int id);
     Customer save(Customer customer);
     CustomerDto saveES(CustomerDto customerDto);
+    void deleteES(int customerId);
     List<CustomerDto> findCustomersDtoES(String phone);
     boolean existByPhone(String phone);
     List<CustomerDto> findAll(Date fromDate, Date toDate, Pageable pageable);
