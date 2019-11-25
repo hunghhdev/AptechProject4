@@ -127,7 +127,7 @@
     }
   },
   "room": {
-    "title": "Loại phòng",
+    "title": "Phòng",
     "search": {
       "inputType": "Loại phòng"
     },
@@ -164,9 +164,9 @@
       "sizeRq": "Số người không được để trống"
     },
     "msg": {
-      "createSuccess": "Tạo loại phòng thành công",
-      "updateSuccess": "Cập nhật loại phòng thành công",
-      "deletedSuccess": "Xóa loại phòng thành công"
+      "createSuccess": "Tạo phòng thành công",
+      "updateSuccess": "Cập nhật phòng thành công",
+      "deletedSuccess": "Xóa phòng thành công"
     }
   },
   "management": {

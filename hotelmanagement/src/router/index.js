@@ -72,7 +72,7 @@ export const asyncRoutes = [
       },
       {
         path: "/room",
-        name: "Loại phòng",
+        name: "Phòng",
         component: () => import("@/views/room"),
         meta: { title: "room", icon: "el-icon-s-home" },
         authority: "PERM_ROOM_READ"
