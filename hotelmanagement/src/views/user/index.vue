@@ -219,8 +219,8 @@ export default {
         page: 0,
         size: 10,
         name: "",
-        fromDate: "",
-        toDate: ""
+        fromDate: 0,
+        toDate: 0
       },
       tempData: {
         id: "",
@@ -239,7 +239,7 @@ export default {
         update: this.$t("user.form.titleEdit")
       },
       dialogFormVisible: false,
-      dateSearchPicker: [new Date() - 2592000000, new Date()],
+      dateSearchPicker: "",
       list: [],
       roles: [],
       roleOptions: undefined,
@@ -313,6 +313,9 @@ export default {
             ? this.dateSearchPicker[0]
             : this.dateSearchPicker[0].getTime();
         this.listQuery.toDate = this.dateSearchPicker[1].getTime();
+      } else {
+        this.listQuery.fromDate = 0;
+        this.listQuery.toDate = 0;
       }
       list(this.listQuery).then(response => {
         this.list = response.data.object;

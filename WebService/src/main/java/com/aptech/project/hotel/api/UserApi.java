@@ -56,7 +56,8 @@ public class UserApi {
         ServiceResult serviceResult = new ServiceResult();
         Pageable pageable = PageRequest.of(--page, size, Sort.by("createdDate").descending());
         int count = service.countUsers(username, Constant.minDate(fromDate), Constant.maxDate(toDate));
-        List<UserDto> userDtos = converter.toUsersDto(service.findUsers(username, Constant.minDate(fromDate),
+        List<UserDto> userDtos = converter.toUsersDto(
+                service.findUsers(username, Constant.minDate(fromDate),
                 Constant.maxDate(toDate), pageable));
         serviceResult.setData(new Data(count, userDtos));
         return ResponseEntity.ok(serviceResult);
