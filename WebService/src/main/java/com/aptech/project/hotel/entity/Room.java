@@ -2,6 +2,7 @@ package com.aptech.project.hotel.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -10,6 +11,7 @@ import java.util.Set;
 @Table(name = "t_room")
 @Getter
 @Setter
+@Where(clause = "deleted = 0")
 public class Room extends BaseEntity {
 
     @Column(name = "room_code")
