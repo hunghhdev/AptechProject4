@@ -14,6 +14,7 @@ public interface CustomerService {
     CustomerDto saveES(CustomerDto customerDto);
     void deleteES(int customerId);
     List<CustomerDto> findCustomersDtoES(String phone);
+    boolean existByIdentification(String identification);
     boolean existByPhone(String phone);
     List<CustomerDto> findAll(Date fromDate, Date toDate, Pageable pageable);
     int countAll(Date fromDate, Date toDate);

@@ -38,6 +38,7 @@
         align="center"
         min-width="200"
       ></el-table-column>
+      <el-table-column prop="identification" :label="$t('customer.table.identification')" align="center" min-width="150"></el-table-column>
       <el-table-column fixed="right" :label="$t('common.action')" min-width="200" align="center">
         <template slot-scope="{row}">
           <el-button
@@ -82,9 +83,16 @@
         </el-form-item>
         <el-form-item :label="$t('customer.form.phone')" prop="phone">
           <el-input
-            :disabled="dialogStatus==='create'?false:true"
             v-model="tempData.phone"
             :placeholder="$t('customer.form.phone')"
+            class="filter-item"
+          ></el-input>
+        </el-form-item>
+        <el-form-item :label="$t('customer.form.identification')" prop="identification">
+          <el-input
+            :disabled="dialogStatus==='create'?false:true"
+            v-model="tempData.identification"
+            :placeholder="$t('customer.form.identification')"
             class="filter-item"
           ></el-input>
         </el-form-item>
@@ -109,179 +117,188 @@
 </template>
 
 <script>
-import { list, create, update, remove } from "@/api/customer";
-import Pagination from "@/components/Pagination";
-import store from "@/store";
-import checkPermission from "@/utils/permission";
-export default {
-  name: "Customer",
-  components: { Pagination },
-  data() {
-    return {
-      total: 0,
-      dialogStatus: "",
-      dialogDeleteVisible: false,
-      buttonConfirmLoading: false,
-      listLoading: true,
-      listQuery: {
-        page: 0,
-        size: 10,
-        fromDate: "",
-        toDate: ""
-      },
-      tempData: {
-        id: "",
-        name: "",
-        phone: ""
-      },
-      dateSearchPicker: [new Date() - 2592000000, new Date()],
-      list: [],
-      textMap: {
-        create: this.$t("customer.form.titleCreate"),
-        update: this.$t("customer.form.titleEdit")
-      },
-      dialogFormVisible: false,
-      rules: {
-        name: [
-          {
-            trigger: "blur",
-            required: true,
-            message: this.$t("customer.validate.nameRq")
-          }
-        ],
-        phone: [
-          {
-            trigger: "blur",
-            required: true,
-            message: this.$t("customer.validate.phoneRq")
-          }
-        ]
-      }
-    };
-  },
-  created() {
-    if (this.checkPermission("PERM_CUSTOMER_READ")) {
-      this.fetchData();
-    }
-  },
-  methods: {
-    checkPermission,
-    fetchData() {
-      this.listLoading = true;
-      if (this.dateSearchPicker) {
-        this.listQuery.fromDate =
-          typeof this.dateSearchPicker[0] == "number"
-            ? this.dateSearchPicker[0]
-            : this.dateSearchPicker[0].getTime();
-        this.listQuery.toDate = this.dateSearchPicker[1].getTime();
-      }
-      list(this.listQuery).then(response => {
-        this.list = response.data.object;
-        this.total = response.data.countRow;
-        this.listLoading = false;
-      });
-    },
-    handleFilter() {
-      this.fetchData();
-    },
-    handleCreate() {
-      this.resetTemp();
-      this.dialogFormVisible = true;
-      this.dialogStatus = "create";
-      this.$nextTick(() => {
-        this.$refs["dataForm"].clearValidate();
-      });
-      this.buttonConfirmLoading = false;
-    },
-    createData(event) {
-      this.$refs["dataForm"].validate(valid => {
-        if (valid) {
-          this.buttonConfirmLoading = true;
-          create(this.tempData)
-            .then(response => {
-              this.list.unshift(response.data);
-              this.$notify({
-                title: "Success",
-                message: this.$t("customer.msg.createSuccess"),
-                type: "success",
-                duration: 2000
-              });
-              this.dialogFormVisible = false;
-              this.total += 1;
-            })
-            .finally(() => {
-              this.buttonConfirmLoading = false;
-            });
+  import { list, create, update, remove } from "@/api/customer";
+  import Pagination from "@/components/Pagination";
+  import store from "@/store";
+  import checkPermission from "@/utils/permission";
+  export default {
+    name: "Customer",
+    components: { Pagination },
+    data() {
+      return {
+        total: 0,
+        dialogStatus: "",
+        dialogDeleteVisible: false,
+        buttonConfirmLoading: false,
+        listLoading: true,
+        listQuery: {
+          page: 0,
+          size: 10,
+          fromDate: "",
+          toDate: ""
+        },
+        tempData: {
+          id: "",
+          name: "",
+          phone: "",
+          identification: ""
+        },
+        dateSearchPicker: [new Date() - 2592000000, new Date()],
+        list: [],
+        textMap: {
+          create: this.$t("customer.form.titleCreate"),
+          update: this.$t("customer.form.titleEdit")
+        },
+        dialogFormVisible: false,
+        rules: {
+          name: [
+            {
+              trigger: "blur",
+              required: true,
+              message: this.$t("customer.validate.nameRq")
+            }
+          ],
+          phone: [
+            {
+              trigger: "blur",
+              required: true,
+              message: this.$t("customer.validate.phoneRq")
+            }
+          ],
+          identification: [
+            {
+              trigger: "blur",
+              required: true,
+              message: this.$t("customer.validate.identificationRq")
+            }
+          ]
         }
-      });
+      };
     },
-    handleUpdate(row) {
-      this.dialogFormVisible = true;
-      this.dialogStatus = "update";
-      this.$nextTick(() => {
-        this.$refs["dataForm"].clearValidate();
-      });
-      this.tempData = Object.assign({}, row);
-    },
-    updateData() {
-      this.$refs["dataForm"].validate(valid => {
-        if (valid) {
-          this.buttonConfirmLoading = true;
-          update(this.tempData)
-            .then(response => {
-              for (const v of this.list) {
-                if (v.id === this.tempData.id) {
-                  const index = this.list.indexOf(v);
-                  this.list.splice(index, 1, response.data);
-                  break;
-                }
-              }
-              this.$notify({
-                title: "Success",
-                message: this.$t("customer.msg.updateSuccess"),
-                type: "success",
-                duration: 2000
-              });
-              this.dialogFormVisible = false;
-            })
-            .finally(() => {
-              this.buttonConfirmLoading = false;
-            });
-        }
-      });
-    },
-    handleDelete(row) {
-      if (store.getters.id !== row.id) {
-        this.dialogDeleteVisible = true;
-        this.tempData = row;
+    created() {
+      if (this.checkPermission("PERM_CUSTOMER_READ")) {
+        this.fetchData();
       }
     },
-    deleteData() {
-      this.listLoading = true;
-      remove({ id: this.tempData.id })
-        .then(response => {
-          this.$notify({
-            title: "Success",
-            message: response.message,
-            type: "success",
-            duration: 2000
-          });
-          const index = this.list.indexOf(this.tempData);
-          this.list.splice(index, 1);
-          this.total -= 1;
-        })
-        .finally(() => {
+    methods: {
+      checkPermission,
+      fetchData() {
+        this.listLoading = true;
+        if (this.dateSearchPicker) {
+          this.listQuery.fromDate =
+            typeof this.dateSearchPicker[0] == "number"
+              ? this.dateSearchPicker[0]
+              : this.dateSearchPicker[0].getTime();
+          this.listQuery.toDate = this.dateSearchPicker[1].getTime();
+        }
+        list(this.listQuery).then(response => {
+          this.list = response.data.object;
+          this.total = response.data.countRow;
           this.listLoading = false;
         });
-      this.dialogDeleteVisible = false;
-    },
-    resetTemp() {
-      this.tempData = {
-        id: "",
-        name: "",
-        phone: ""
-      };
+      },
+      handleFilter() {
+        this.fetchData();
+      },
+      handleCreate() {
+        this.resetTemp();
+        this.dialogFormVisible = true;
+        this.dialogStatus = "create";
+        this.$nextTick(() => {
+          this.$refs["dataForm"].clearValidate();
+        });
+        this.buttonConfirmLoading = false;
+      },
+      createData(event) {
+        this.$refs["dataForm"].validate(valid => {
+          if (valid) {
+            this.buttonConfirmLoading = true;
+            create(this.tempData)
+              .then(response => {
+                this.list.unshift(response.data);
+                this.$notify({
+                  title: "Success",
+                  message: this.$t("customer.msg.createSuccess"),
+                  type: "success",
+                  duration: 2000
+                });
+                this.dialogFormVisible = false;
+                this.total += 1;
+              })
+              .finally(() => {
+                this.buttonConfirmLoading = false;
+              });
+          }
+        });
+      },
+      handleUpdate(row) {
+        this.dialogFormVisible = true;
+        this.dialogStatus = "update";
+        this.$nextTick(() => {
+          this.$refs["dataForm"].clearValidate();
+        });
+        this.tempData = Object.assign({}, row);
+      },
+      updateData() {
+        this.$refs["dataForm"].validate(valid => {
+          if (valid) {
+            this.buttonConfirmLoading = true;
+            update(this.tempData)
+              .then(response => {
+                for (const v of this.list) {
+                  if (v.id === this.tempData.id) {
+                    const index = this.list.indexOf(v);
+                    this.list.splice(index, 1, response.data);
+                    break;
+                  }
+                }
+                this.$notify({
+                  title: "Success",
+                  message: this.$t("customer.msg.updateSuccess"),
+                  type: "success",
+                  duration: 2000
+                });
+                this.dialogFormVisible = false;
+              })
+              .finally(() => {
+                this.buttonConfirmLoading = false;
+              });
+          }
+        });
+      },
+      handleDelete(row) {
+        if (store.getters.id !== row.id) {
+          this.dialogDeleteVisible = true;
+          this.tempData = row;
+        }
+      },
+      deleteData() {
+        this.listLoading = true;
+        remove({ id: this.tempData.id })
+          .then(response => {
+            this.$notify({
+              title: "Success",
+              message: response.message,
+              type: "success",
+              duration: 2000
+            });
+            const index = this.list.indexOf(this.tempData);
+            this.list.splice(index, 1);
+            this.total -= 1;
+          })
+          .finally(() => {
+            this.listLoading = false;
+          });
+        this.dialogDeleteVisible = false;
+      },
+      resetTemp() {
+        this.tempData = {
+          id: "",
+          name: "",
+          phone: "",
+          identification: ""
+        };
+      }
     }
-  }
-};
+  };
 </script>

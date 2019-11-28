@@ -47,6 +47,11 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public boolean existByIdentification(String identification) {
+        return repository.existByIdentification(identification);
+    }
+
+    @Override
     public boolean existByPhone(String phone) {
         return repository.existByPhone(phone);
     }

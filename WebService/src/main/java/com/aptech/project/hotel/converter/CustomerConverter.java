@@ -12,6 +12,7 @@ public class CustomerConverter {
         customer.setId(customerDto.getId());
         customer.setCustomerName(customerDto.getName());
         customer.setPhoneNumber(customerDto.getPhone());
+        customer.setIdentificationNumber(customerDto.getIdentification());
         return customer;
     }
 
@@ -20,6 +21,7 @@ public class CustomerConverter {
         customerDto.setId(customer.getId());
         customerDto.setName(customer.getCustomerName());
         customerDto.setPhone(customer.getPhoneNumber());
+        customerDto.setIdentification(customer.getIdentificationNumber());
         return customerDto;
     }
 }

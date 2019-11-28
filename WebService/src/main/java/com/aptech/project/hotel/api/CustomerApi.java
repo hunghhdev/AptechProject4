@@ -41,6 +41,11 @@ public class CustomerApi {
     @PreAuthorize("hasAuthority('PERM_CUSTOMER_CREATE')")
     public ResponseEntity<ServiceResult> create(@RequestBody CustomerDto customerDto, Authentication authentication) {
         ServiceResult serviceResult = new ServiceResult();
+        if (service.existByIdentification(customerDto.getIdentification())){
+            serviceResult.setMessage("Người dùng đã tồn tại");
+            serviceResult.setStatus(ServiceResult.Status.FAILED);
+            return ResponseEntity.ok(serviceResult);
+        }
         if (service.existByPhone(customerDto.getPhone())){
             serviceResult.setMessage("Số điện thoại đã tồn tại");
             serviceResult.setStatus(ServiceResult.Status.FAILED);
@@ -70,6 +75,11 @@ public class CustomerApi {
     @PreAuthorize("hasAuthority('PERM_CUSTOMER_UPDATE')")
     public ResponseEntity<ServiceResult> update(@RequestBody CustomerDto customerDto, Authentication authentication) {
         ServiceResult serviceResult = new ServiceResult();
+        if (service.existByPhone(customerDto.getPhone())){
+            serviceResult.setMessage("Số điện thoại đã tồn tại");
+            serviceResult.setStatus(ServiceResult.Status.FAILED);
+            return ResponseEntity.ok(serviceResult);
+        }
         Customer customer = converter.toCustomer(customerDto);
         customer.setUpdatedBy(authentication.getName());
         serviceResult.setData(service.saveES(converter.toCustomerDto(service.save(customer))));

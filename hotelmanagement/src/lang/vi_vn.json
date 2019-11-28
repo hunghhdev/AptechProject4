@@ -185,36 +185,34 @@
     "phoneCus": "Số điện thỏại khách hàng",
     "count": "Tổng tiền",
     "days": "Số ngày",
-    "tab1": {
-      "emptyRoom": "Phòng trống"
-    },
-    "tab2": {
-      "bookedRoom": "Phòng đã đặt"
-    },
-    "tab3": {
-      "active": "Có khách"
-    },
+    "size": "Số người",
     "validate": {
       "validateRq": "Không được bỏ trống",
       "fromDateNow": "Không được nhỏ hơn hôm nay",
       "toDate": "Không được nhỏ hơn hoặc bằng từ ngày"
+    },
+    "msg": {
+      "dateWarning": "Phải chọn ngày và ngày bắt đầu lớn hơn hiện tại"
     }
   },
   "customer": {
     "title": "Khách hàng",
     "table": {
       "name": "Tên khách hàng",
-      "phone": "Số điện thoại"
+      "phone": "Số điện thoại",
+      "identification": "Số chứng minh/Căn cước"
     },
     "form": {
       "titleCreate": "Tạo khách hàng",
       "titleEdit": "Sửa khách hàng",
       "name": "Tên khách hàng",
-      "phone": "Số điện thoại"
+      "phone": "Số điện thoại",
+      "identification": "Số chứng minh/Căn cước"
     },
     "validate": {
       "nameRq": "Tên khách hàng không được bỏ trống",
-      "phoneRq": "Số điện điện thoại không được bỏ trống"
+      "phoneRq": "Số điện điện thoại không được bỏ trống",
+      "identificationRq": "Số định danh không được bỏ trống"
     },
     "msg": {
       "createSuccess": "Tạo khách hàng mới thành công",

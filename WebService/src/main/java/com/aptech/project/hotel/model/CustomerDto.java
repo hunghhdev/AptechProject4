@@ -13,11 +13,13 @@ public class CustomerDto {
     private int id;
     private String name;
     private String phone;
+    private String identification;
 
-    public CustomerDto(int id, String name, String phone) {
+    public CustomerDto(int id, String name, String phone, String identification) {
         this.id = id;
         this.name = name;
         this.phone = phone;
+        this.identification = identification;
     }
 
     public CustomerDto() {
