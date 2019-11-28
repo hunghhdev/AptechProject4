@@ -11,6 +11,7 @@ public class RoomDto extends BaseDto {
     private String type;
     private int size;
     private int price;
+    private int hourlyPrice;
     private String status;
     private Set<Integer> supplies;
     private String description;

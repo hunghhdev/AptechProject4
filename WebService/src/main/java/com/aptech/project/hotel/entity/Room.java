@@ -29,6 +29,9 @@ public class Room extends BaseEntity {
     @Column(name = "price")
     private int price;
 
+    @Column(name = "hourly_price")
+    private int hourlyPrice;
+
     @OneToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinTable(name = "t_room_supplies",
             joinColumns = { @JoinColumn(name = "room_id") },

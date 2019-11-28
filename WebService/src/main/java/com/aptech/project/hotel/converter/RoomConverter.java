@@ -22,6 +22,7 @@ public class RoomConverter {
         roomDto.setStatus(room.getStatus());
         roomDto.setDescription(room.getDescription());
         roomDto.setPrice(room.getPrice());
+        roomDto.setHourlyPrice(room.getHourlyPrice());
         roomDto.setSize(room.getSize());
         roomDto.setType(room.getRoomType());
         Set<Integer> supplies = new HashSet<>();
@@ -44,6 +45,7 @@ public class RoomConverter {
         room.setDescription(roomDto.getDescription());
         room.setPrice(roomDto.getPrice());
         room.setSize(roomDto.getSize());
+        room.setHourlyPrice(roomDto.getHourlyPrice());
         room.setRoomType(roomDto.getType());
         Set<Supplies> supplies = new HashSet<>();
         roomDto.getSupplies().forEach(e ->{

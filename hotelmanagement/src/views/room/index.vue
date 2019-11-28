@@ -14,9 +14,8 @@
         style="width: 400px;"
         v-model="dateSearchPicker"
         type="daterange"
-        range-separator="To"
-        start-placeholder="Start date"
-        end-placeholder="End date"
+        :start-placeholder="$t('common.fromDate')"
+        :end-placeholder="$t('common.toDate')"
         class="filter-item"
       ></el-date-picker>
       <el-button
@@ -45,14 +44,17 @@
       <el-table-column :label="$t('room.table.code')" min-width="100" align="center">
         <template slot-scope="scope">{{ scope.row.code }}</template>
       </el-table-column>
-      <el-table-column :label="$t('room.table.type')" min-width="300" align="center">
+      <el-table-column :label="$t('room.table.type')" min-width="150" align="center">
         <template slot-scope="scope">{{ scope.row.type }}</template>
       </el-table-column>
-      <el-table-column :label="$t('room.table.size')" min-width="150" align="center">
+      <el-table-column :label="$t('room.table.size')" min-width="120" align="center">
         <template slot-scope="scope">{{ scope.row.size }}</template>
       </el-table-column>
-      <el-table-column :label="$t('room.table.price')" min-width="300" align="center">
+      <el-table-column :label="$t('room.table.price')" min-width="100" align="center">
         <template slot-scope="scope">{{ scope.row.price }}</template>
+      </el-table-column>
+      <el-table-column :label="$t('room.table.hourlyPrice')" min-width="150" align="center">
+        <template slot-scope="scope">{{ scope.row.hourlyPrice }}</template>
       </el-table-column>
       <el-table-column :label="$t('room.table.status')" min-width="200" align="center">
         <template slot-scope="scope">{{ scope.row.status }}</template>
@@ -173,6 +175,9 @@
         <el-form-item :label="$t('room.form.labelPrice')" prop="price">
           <el-input-number controls-position="right" v-model="tempData.price" class="filter-item"></el-input-number>* 1000
         </el-form-item>
+        <el-form-item :label="$t('room.form.labelHourlyPrice')" prop="price">
+          <el-input-number controls-position="right" v-model="tempData.hourlyPrice" class="filter-item"></el-input-number>* 1000
+        </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="cancelHandle()">{{ $t("common.btnCancel") }}</el-button>
@@ -216,7 +221,7 @@ export default {
         fromDate: "",
         toDate: ""
       },
-      dateSearchPicker: [new Date() - 2592000000, new Date()],
+      dateSearchPicker: "",
       textMap: {
         update: this.$t("room.form.titleEdit"),
         create: this.$t("room.form.titleCreate")
@@ -236,6 +241,7 @@ export default {
         supplies: "",
         description: "",
         price: "",
+        hourlyPrice: "",
         size: ""
       },
       rules: {
@@ -301,6 +307,9 @@ export default {
             ? this.dateSearchPicker[0]
             : this.dateSearchPicker[0].getTime();
         this.listQuery.toDate = this.dateSearchPicker[1].getTime();
+      } else {
+        this.listQuery.fromDate = 0;
+        this.listQuery.toDate = 0;
       }
       fetchList(this.listQuery)
         .then(response => {
@@ -410,7 +419,7 @@ export default {
       this.dialogDeleteVisible = false;
     },
     cancelHandle() {
-      this.resetTemp;
+      this.resetTemp();
       this.$nextTick(() => {
         this.$refs["dataForm"].clearValidate();
       });
@@ -418,9 +427,9 @@ export default {
       this.dialogFormVisible = false;
     },
     formatColumnSupplies(supplies) {
-      var text = [];
-      supplies.map((e, i) => {
-        let temp = this.suppliesOption.find(element => {
+      let text = [];
+      supplies.map((e) => {
+        this.suppliesOption.find(element => {
           if (element.id === e) text.push(element.name);
         });
       });
@@ -435,6 +444,7 @@ export default {
         supplies: "",
         description: "",
         price: "",
+        hourlyPrice: "",
         size: ""
       };
     }
