@@ -7,6 +7,8 @@ import lombok.Setter;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.annotation.Id;
 
+import java.util.Date;
+
 @Getter@Setter
 @Document(indexName = "customer")
 @NoArgsConstructor
@@ -18,5 +20,7 @@ public class CustomerDto {
     private String name;
     private String phone;
     private String identification;
+    private Date createdDate;
+    private String createdBy;
 
 }

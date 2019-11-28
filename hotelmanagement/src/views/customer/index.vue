@@ -38,6 +38,12 @@
         min-width="200"
       ></el-table-column>
       <el-table-column prop="identification" :label="$t('customer.table.identification')" align="center" min-width="150"></el-table-column>
+      <el-table-column prop="createdDate" :label="$t('common.createdDate')" align="center" min-width="150">
+        <template slot-scope="scope">
+          <span>{{ formatDate(scope.row.createdDate) }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="createdBy" :label="$t('common.createdBy')" align="center" min-width="150"></el-table-column>
       <el-table-column fixed="right" :label="$t('common.action')" min-width="200" align="center">
         <template slot-scope="{row}">
           <el-button
@@ -117,6 +123,7 @@
 
 <script>
   import { list, create, update, remove } from "@/api/customer";
+  import { formatDate } from "@/utils/";
   import Pagination from "@/components/Pagination";
   import store from "@/store";
   import checkPermission from "@/utils/permission";
@@ -181,6 +188,7 @@
     },
     methods: {
       checkPermission,
+      formatDate,
       fetchData() {
         this.listLoading = true;
         if (this.dateSearchPicker) {

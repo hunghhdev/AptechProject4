@@ -192,7 +192,7 @@
 
 <script>
 import { list, create, update, remove, uploadAvatar } from "@/api/user";
-import { roles, rolesByLevel } from "@/api/role";
+import { roles } from "@/api/role";
 import { formatDate } from "@/utils/";
 import Pagination from "@/components/Pagination";
 import store from "@/store";

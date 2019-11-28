@@ -22,6 +22,8 @@ public class CustomerConverter {
         customerDto.setName(customer.getCustomerName());
         customerDto.setPhone(customer.getPhoneNumber());
         customerDto.setIdentification(customer.getIdentificationNumber());
+        customerDto.setCreatedDate(customer.getCreatedDate());
+        customerDto.setCreatedBy(customer.getCreatedBy());
         return customerDto;
     }
 }
