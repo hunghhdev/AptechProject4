@@ -57,6 +57,11 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public boolean existByPhone(String phone, int id) {
+        return repository.existByPhone(phone, id);
+    }
+
+    @Override
     public List<CustomerDto> findAll(Date fromDate, Date toDate, Pageable pageable) {
         return repository.findAll(fromDate, toDate, pageable);
     }

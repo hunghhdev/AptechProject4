@@ -75,7 +75,7 @@ public class CustomerApi {
     @PreAuthorize("hasAuthority('PERM_CUSTOMER_UPDATE')")
     public ResponseEntity<ServiceResult> update(@RequestBody CustomerDto customerDto, Authentication authentication) {
         ServiceResult serviceResult = new ServiceResult();
-        if (service.existByPhone(customerDto.getPhone())){
+        if (service.existByPhone(customerDto.getPhone(), customerDto.getId())){
             serviceResult.setMessage("Số điện thoại đã tồn tại");
             serviceResult.setStatus(ServiceResult.Status.FAILED);
             return ResponseEntity.ok(serviceResult);

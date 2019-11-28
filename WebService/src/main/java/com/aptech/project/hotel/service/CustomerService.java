@@ -16,6 +16,7 @@ public interface CustomerService {
     List<CustomerDto> findCustomersDtoES(String phone);
     boolean existByIdentification(String identification);
     boolean existByPhone(String phone);
+    boolean existByPhone(String phone, int id);
     List<CustomerDto> findAll(Date fromDate, Date toDate, Pageable pageable);
     int countAll(Date fromDate, Date toDate);
 }
