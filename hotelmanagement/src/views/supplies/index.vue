@@ -167,7 +167,7 @@ export default {
         fromDate: "",
         toDate: ""
       },
-      dateSearchPicker: [new Date() - 2592000000, new Date()],
+      dateSearchPicker: "",
       textMap: {
         update: this.$t("supplies.form.titleEdit"),
         create: this.$t("supplies.form.titleCreate")
@@ -217,6 +217,9 @@ export default {
             ? this.dateSearchPicker[0]
             : this.dateSearchPicker[0].getTime();
         this.listQuery.toDate = this.dateSearchPicker[1].getTime();
+      } else {
+        this.listQuery.fromDate = 0;
+        this.listQuery.toDate = 0;
       }
       fetchList(this.listQuery).then(response => {
         this.total = response.data.countRow;
