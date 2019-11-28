@@ -5,9 +5,8 @@
         style="width: 400px;"
         v-model="dateSearchPicker"
         type="daterange"
-        range-separator="To"
-        start-placeholder="Start date"
-        end-placeholder="End date"
+        :start-placeholder="$t('common.fromDate')"
+        :end-placeholder="$t('common.toDate')"
         class="filter-item"
       ></el-date-picker>
       <el-button
@@ -143,7 +142,7 @@
           phone: "",
           identification: ""
         },
-        dateSearchPicker: [new Date() - 2592000000, new Date()],
+        dateSearchPicker: "",
         list: [],
         textMap: {
           create: this.$t("customer.form.titleCreate"),
@@ -190,6 +189,9 @@
               ? this.dateSearchPicker[0]
               : this.dateSearchPicker[0].getTime();
           this.listQuery.toDate = this.dateSearchPicker[1].getTime();
+        } else {
+          this.listQuery.fromDate = 0;
+          this.listQuery.toDate = 0;
         }
         list(this.listQuery).then(response => {
           this.list = response.data.object;

@@ -10,7 +10,9 @@
     "action": "Hành động",
     "select": "Ấn để chọn",
     "createdBy": "Tạo bởi",
-    "createdDate": "Tạo Ngày"
+    "createdDate": "Tạo Ngày",
+    "fromDate": "Từ ngày",
+    "toDate": "Đến ngày"
   },
   "login": {
     "btnLogin": "Đăng nhập",
@@ -135,6 +137,7 @@
       "code": "Mã phòng",
       "type": "Loại phòng",
       "price": "Giá phòng",
+      "hourlyPrice": "Giá phòng theo giờ",
       "status": "Trạng thái",
       "supplies": "Vật tư",
       "desc": "Mô tả",
@@ -146,6 +149,7 @@
       "labelType": "Loại phòng",
       "labelCode": "Mã phòng",
       "labelPrice": "Giá phòng (VNĐ)",
+      "labelHourlyPrice": "Giá phòng theo giờ (VNĐ)",
       "labelStatus": "Trạng thái",
       "labelSupplies": "Vật tư",
       "labelDesc": "Mô tả",

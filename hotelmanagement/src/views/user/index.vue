@@ -12,9 +12,8 @@
         style="width: 400px;"
         v-model="dateSearchPicker"
         type="daterange"
-        range-separator="To"
-        start-placeholder="Start date"
-        end-placeholder="End date"
+        :start-placeholder="$t('common.fromDate')"
+        :end-placeholder="$t('common.toDate')"
         class="filter-item"
       ></el-date-picker>
       <el-button
