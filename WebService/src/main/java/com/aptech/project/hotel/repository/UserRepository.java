@@ -13,12 +13,21 @@ import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-    @Query("FROM User t1 WHERE t1.deleted = 0 AND t1.username LIKE %:username% AND t1.createdDate BETWEEN :fromDate AND :toDate")
+    @Query("FROM User t1 WHERE t1.deleted = 0 AND t1.username LIKE %:username% AND t1.createdDate BETWEEN :fromDate AND :toDate " +
+            "AND t1.roleId > 1")
     List<User> findUsers(@Param("username") String username, @Param("fromDate") Date fromDate
             , @Param("toDate") Date toDate, Pageable pageable);
 
-    @Query("SELECT count(t1) FROM User t1 WHERE t1.deleted = 0 AND t1.username LIKE %:username% AND t1.createdDate BETWEEN :fromDate AND :toDate")
+    @Query("FROM User t1 WHERE t1.deleted = 0 AND t1.username LIKE %:username% AND t1.createdDate BETWEEN :fromDate AND :toDate")
+    List<User> findUsersBySupperUsed(@Param("username") String username, @Param("fromDate") Date fromDate
+            , @Param("toDate") Date toDate, Pageable pageable);
+
+    @Query("SELECT count(t1) FROM User t1 WHERE t1.deleted = 0 AND t1.username LIKE %:username% AND t1.createdDate BETWEEN :fromDate AND :toDate " +
+            "AND t1.roleId > 1")
     int countUsers(@Param("username") String username, @Param("fromDate") Date fromDate, @Param("toDate") Date toDate);
+
+    @Query("SELECT count(t1) FROM User t1 WHERE t1.deleted = 0 AND t1.username LIKE %:username% AND t1.createdDate BETWEEN :fromDate AND :toDate")
+    int countUsersBySupperUsed(@Param("username") String username, @Param("fromDate") Date fromDate, @Param("toDate") Date toDate);
 
     @Query("FROM User t1 WHERE t1.deleted = 0 AND t1.username = ?1")
     User findByUsername(String username);

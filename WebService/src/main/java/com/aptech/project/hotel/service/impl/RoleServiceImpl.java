@@ -29,6 +29,16 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    public List<Role> listAllBySupperUser() {
+        return repository.listAllBySupperUser();
+    }
+
+    @Override
+    public List<Role> listAll() {
+        return repository.listAll();
+    }
+
+    @Override
     public int countAll(String name) {
         return repository.countAll(name);
     }
@@ -55,11 +65,6 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void delete(int id, String usernameUpdate) {
         repository.delete(id, usernameUpdate);
-    }
-
-    @Override
-    public List<Role> roles() {
-        return repository.roles();
     }
 
 }

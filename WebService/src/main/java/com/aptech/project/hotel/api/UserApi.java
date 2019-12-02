@@ -5,6 +5,7 @@ import com.aptech.project.hotel.model.Data;
 import com.aptech.project.hotel.model.UserDto;
 import com.aptech.project.hotel.entity.User;
 import com.aptech.project.hotel.model.ServiceResult;
+import com.aptech.project.hotel.model.UserSecurity;
 import com.aptech.project.hotel.service.AwsService;
 import com.aptech.project.hotel.service.UserService;
 import com.aptech.project.hotel.util.ConfigUtility;
@@ -55,10 +56,14 @@ public class UserApi {
             @RequestParam("toDate") long toDate, Authentication authentication){
         ServiceResult serviceResult = new ServiceResult();
         Pageable pageable = PageRequest.of(--page, size, Sort.by("createdDate").descending());
-        int count = service.countUsers(username, Constant.minDate(fromDate), Constant.maxDate(toDate));
-        List<UserDto> userDtos = converter.toUsersDto(
-                service.findUsers(username, Constant.minDate(fromDate),
-                Constant.maxDate(toDate), pageable));
+        User user = service.findByUsername (((UserSecurity) authentication.getPrincipal()).getUsername());
+        int count = user.getRoleId() == 1
+                ? service.countUsersBySupperUsed(username, Constant.minDate(fromDate), Constant.maxDate(toDate))
+                : service.countUsers(username, Constant.minDate(fromDate), Constant.maxDate(toDate));
+        List<UserDto> userDtos = converter.toUsersDto( user.getRoleId() == 1
+                ? service.findUsersBySupperUsed(username, Constant.minDate(fromDate), Constant.maxDate(toDate), pageable)
+                : service.findUsers(username, Constant.minDate(fromDate), Constant.maxDate(toDate), pageable)
+        );
         serviceResult.setData(new Data(count, userDtos));
         return ResponseEntity.ok(serviceResult);
     }

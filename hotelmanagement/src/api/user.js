@@ -32,6 +32,13 @@ export function remove(data) {
   });
 }
 
+export function getRoles() {
+  return request({
+    url: "/user/getRoles",
+    method: "get"
+  });
+}
+
 export function uploadAvatar(data) {
   var formData = new FormData();
   formData.append("file", data);

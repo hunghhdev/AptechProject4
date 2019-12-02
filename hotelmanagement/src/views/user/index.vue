@@ -240,7 +240,6 @@ export default {
       dialogFormVisible: false,
       dateSearchPicker: "",
       list: [],
-      roles: [],
       roleOptions: undefined,
       rules: {
         email: [
@@ -324,7 +323,7 @@ export default {
     },
     fetchValueInput() {
       roles().then(response => {
-        this.roles = response.data;
+        this.roleOptions = response.data;
       });
     },
     handleFilter() {
@@ -439,8 +438,8 @@ export default {
     },
     formatColumnRole(roleId) {
       let text = "";
-      if (this.roles) {
-        this.roles.filter(role => {
+      if (this.roleOptions) {
+        this.roleOptions.filter(role => {
           if (role.id === roleId) {
             text = role.roleName;
           }

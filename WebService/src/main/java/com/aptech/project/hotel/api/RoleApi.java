@@ -2,9 +2,11 @@ package com.aptech.project.hotel.api;
 
 import com.aptech.project.hotel.converter.RoleConverter;
 import com.aptech.project.hotel.entity.Role;
+import com.aptech.project.hotel.entity.User;
 import com.aptech.project.hotel.model.Data;
 import com.aptech.project.hotel.model.RoleDto;
 import com.aptech.project.hotel.model.ServiceResult;
+import com.aptech.project.hotel.model.UserSecurity;
 import com.aptech.project.hotel.service.PermissionService;
 import com.aptech.project.hotel.service.RoleService;
 import com.aptech.project.hotel.service.UserService;
@@ -93,9 +95,11 @@ public class RoleApi {
     }
 
     @GetMapping(value = "/roles")
-    public ResponseEntity<ServiceResult> roles() {
+    public ResponseEntity<ServiceResult> roles(Authentication authentication) {
         ServiceResult serviceResult = new ServiceResult();
-        serviceResult.setData(converter.toRolesDtoIdAndName(service.roles()));
+        UserSecurity userSecurity = (UserSecurity) authentication.getPrincipal();
+        User user = userService.findByUsername(userSecurity.getUsername());
+        serviceResult.setData(converter.toRolesDtoIdAndName(user.getRoleId()==1?service.listAllBySupperUser():service.listAll()));
         return ResponseEntity.ok(serviceResult);
     }
 

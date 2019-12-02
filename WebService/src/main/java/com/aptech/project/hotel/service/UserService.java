@@ -8,7 +8,9 @@ import java.util.List;
 
 public interface UserService {
     List<User> findUsers(String username, Date fromDate, Date toDate, Pageable pageable);
+    List<User> findUsersBySupperUsed(String username, Date fromDate, Date toDate, Pageable pageable);
     int countUsers(String username, Date fromDate, Date toDate);
+    int countUsersBySupperUsed(String username, Date fromDate, Date toDate);
     User findByUsername(String username);
     User save(User user);
     boolean existByUsername(String username);
