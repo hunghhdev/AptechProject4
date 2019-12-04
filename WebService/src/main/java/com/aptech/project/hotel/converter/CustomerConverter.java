@@ -13,6 +13,8 @@ public class CustomerConverter {
         customer.setCustomerName(customerDto.getName());
         customer.setPhoneNumber(customerDto.getPhone());
         customer.setIdentificationNumber(customerDto.getIdentification());
+        customer.setCreatedDate(customerDto.getCreatedDate());
+        customer.setCreatedBy(customerDto.getCreatedBy());
         return customer;
     }
 
