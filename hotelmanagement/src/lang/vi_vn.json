@@ -180,23 +180,32 @@
     "title": "Đặt phòng",
     "code": "Mã phòng",
     "supplies": "Vật tư",
-    "type": "Loại phòng",
-    "price": "Giá phòng",
+    "price": "Giá phòng (VNĐ)",
+    "hourlyPrice": "Giá phòng theo giờ (VNĐ)",
     "btnBook": "Đặt phòng",
+    "btnCheckIn": "CheckIn",
     "fromDate": "Từ ngày",
     "toDate": "Đến ngày",
     "nameCus": "Tên khách hàng",
-    "phoneCus": "Số điện thỏại khách hàng",
+    "phoneCus": "Số điện thoại",
+    "identificationCus": "Số định danh",
     "count": "Tổng tiền",
-    "days": "Số ngày",
+    "timeUse": "Thời gian lưu trú",
     "size": "Số người",
+    "day": "Ngày",
+    "hour": "Giờ",
+    "type": "Loại",
+    "tabBooking": "Đặt phòng",
+    "tabBooked": "Phòng đã đặt",
+    "totalPriceExpected": "Tổng tiền",
     "validate": {
       "validateRq": "Không được bỏ trống",
       "fromDateNow": "Không được nhỏ hơn hôm nay",
       "toDate": "Không được nhỏ hơn hoặc bằng từ ngày"
     },
     "msg": {
-      "dateWarning": "Phải chọn ngày và ngày bắt đầu lớn hơn hiện tại"
+      "dateWarning": "Phải chọn ngày và ngày bắt đầu lớn hơn hiện tại",
+      "bookingFinish": "Đặt phòng thành công"
     }
   },
   "customer": {

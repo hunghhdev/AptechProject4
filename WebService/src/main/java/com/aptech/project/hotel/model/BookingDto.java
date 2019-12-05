@@ -7,11 +7,14 @@ import java.util.Date;
 
 @Getter@Setter
 public class BookingDto extends BaseDto {
-    Date fromDate;
-    Date toDate;
-    int days;
-    int count;
-    int roomId;
-    String nameCus;
-    String phoneCus;
+    private Date fromDate;
+    private Date toDate;
+    private int count;
+    private int roomId;
+    private int customerId;
+    private String nameCus;
+    private String phoneCus;
+    private String identification;
+
+
 }

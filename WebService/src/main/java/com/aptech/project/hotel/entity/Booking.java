@@ -19,18 +19,27 @@ public class Booking extends BaseEntity {
     @Column(name = "to_date")
     private Date toDate;
 
-    @Column(name = "total_date")
-    int totalDate;
+    @Column(name = "total_price_expected")
+    private float totalPriceExpected;
 
-    @Column(name = "total_price")
-    int totalPrice;
+    @Column(name = "check_in_time")
+    private Date checkInTime;
+
+    @Column(name = "check_out_time")
+    private Date checkOutTime;
+
+    @Column(name = "total_price_reality")
+    private float totalPriceReality;
 
     @Column(name = "room_id")
-    int roomId;
+    private int roomId;
 
-    @Column(name = "customer_name")
-    String customerName;
+    @Column(name = "customer_id")
+    private int customerId;
 
-    @Column(name = "customer_phone")
-    String customerPhone;
+    @Column(name = "status", columnDefinition="default 1")
+    private int status; // 1. Da dat, 2. Dang su dung, 3. Da tra phong, 4. Huy
+
+    @Column(name = "type")
+    private boolean type; // Theo giờ/Theo ngày
 }

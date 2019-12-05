@@ -15,3 +15,10 @@ export function booking(data) {
     data
   });
 }
+
+export function listBooked() {
+  return request({
+    url: "/booking/list-booked",
+    method: "get",
+  });
+}
