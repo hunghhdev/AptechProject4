@@ -66,4 +66,9 @@ public class BookingServiceImpl implements BookingService {
     public int dashboardNumberOfReservations() {
         return repository.dashboardNumberOfReservations();
     }
+
+    @Override
+    public boolean existCustomer(int customerId) {
+        return repository.existsByCustomerId(customerId);
+    }
 }

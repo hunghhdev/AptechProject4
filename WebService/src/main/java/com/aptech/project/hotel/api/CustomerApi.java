@@ -6,6 +6,7 @@ import com.aptech.project.hotel.model.CustomerDto;
 import com.aptech.project.hotel.model.Data;
 import com.aptech.project.hotel.model.ServiceResult;
 import com.aptech.project.hotel.model.UserDto;
+import com.aptech.project.hotel.service.BookingService;
 import com.aptech.project.hotel.service.CustomerService;
 import com.aptech.project.hotel.util.Constant;
 import com.aptech.project.hotel.util.EnCode;
@@ -26,6 +27,9 @@ public class CustomerApi {
 
     @Autowired
     private CustomerService service;
+
+    @Autowired
+    private BookingService bookingService;
 
     @Autowired
     private CustomerConverter converter;
@@ -94,6 +98,12 @@ public class CustomerApi {
         Customer customer = service.findById(id);
         if (customer == null){
             serviceResult.setMessage("Không tìm thấy khách hàng");
+            serviceResult.setStatus(ServiceResult.Status.FAILED);
+            return ResponseEntity.ok(serviceResult);
+        }
+        if (bookingService.existCustomer(id)){
+            serviceResult.setMessage("Khách hàng đang có phòng đặt");
+            serviceResult.setStatus(ServiceResult.Status.FAILED);
             return ResponseEntity.ok(serviceResult);
         }
         customer.setUpdatedBy(authentication.getName());

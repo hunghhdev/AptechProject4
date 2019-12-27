@@ -55,4 +55,9 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
     @Query("SELECT (COUNT(t1) > 0) FROM Booking t1 WHERE t1.deleted = 0 AND t1.customerId = ?1 AND t1.status = " + Constant.BOOKING_STATUS_CHECKIN)
     boolean checkUserUsing(int customerId);
+
+    @Query("SELECT (COUNT(t1) > 0) FROM Booking t1 " +
+            "WHERE t1.deleted = 0 AND t1.customerId = ?1 " +
+            "AND t1.status IN (" + Constant.BOOKING_STATUS_BOOKED + ", " + Constant.BOOKING_STATUS_CHECKIN + ")")
+    boolean existsByCustomerId(int customerId);
 }

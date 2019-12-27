@@ -18,4 +18,5 @@ public interface BookingService {
     int dashboardUsing();
     int dashboardBooked();
     int dashboardNumberOfReservations();
+    boolean existCustomer(int customerId);
 }
