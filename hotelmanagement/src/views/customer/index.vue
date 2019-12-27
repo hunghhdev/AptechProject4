@@ -37,7 +37,7 @@
         align="center"
         min-width="200"
       ></el-table-column>
-      <el-table-column prop="identification" :label="$t('customer.table.identification')" align="center" min-width="150"></el-table-column>
+      <el-table-column prop="identification" :label="$t('customer.table.identification')" align="center" min-width="180"></el-table-column>
       <el-table-column prop="createdDate" :label="$t('common.createdDate')" align="center" min-width="150">
         <template slot-scope="scope">
           <span>{{ formatDate(scope.row.createdDate) }}</span>

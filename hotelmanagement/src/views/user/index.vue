@@ -208,6 +208,19 @@ export default {
         callback();
       }
     };
+    const validateEmail = (rule, value, callback) => {
+      if (!value){
+        callback(new Error("Email không được bỏ trống"));
+      } else if (!validEmail(value)){
+        callback(new Error("Định dạng email không phù hợp"));
+      } else {
+        callback();
+      }
+    };
+    function validEmail(email) {
+      let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(email);
+    }
     return {
       total: 0,
       dialogStatus: "",
@@ -246,7 +259,7 @@ export default {
           {
             trigger: "blur",
             required: true,
-            message: this.$t("user.validate.emailRq")
+            validator: validateEmail
           }
         ],
         fullName: [

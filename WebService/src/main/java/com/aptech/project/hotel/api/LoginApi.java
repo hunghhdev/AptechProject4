@@ -40,7 +40,7 @@ public class LoginApi {
     public ResponseEntity<ServiceResult> login(@RequestParam("username") String username,
                                                @RequestParam("password") String password){
         ServiceResult serviceResult = new ServiceResult();
-        User user = service.findByUsernameAndPassword(username, EnCode.md5(password));
+        User user = service.findByUsernameAndPassword(username.toLowerCase(), EnCode.md5(password));
         if (user==null){
             serviceResult.setStatus(ServiceResult.Status.FAILED);
             serviceResult.setMessage("Sai tài khoản hoặc mật khẩu");

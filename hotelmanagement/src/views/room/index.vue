@@ -173,10 +173,10 @@
           <el-input-number controls-position="right" v-model="tempData.size" class="filter-item"></el-input-number>
         </el-form-item>
         <el-form-item :label="$t('room.form.labelPrice')" prop="price">
-          <el-input-number controls-position="right" v-model="tempData.price" class="filter-item"></el-input-number>* 1000
+          <el-input-number controls-position="right" v-model="tempData.price" class="filter-item"></el-input-number>
         </el-form-item>
         <el-form-item :label="$t('room.form.labelHourlyPrice')" prop="price">
-          <el-input-number controls-position="right" v-model="tempData.hourlyPrice" class="filter-item"></el-input-number>* 1000
+          <el-input-number controls-position="right" v-model="tempData.hourlyPrice" class="filter-item"></el-input-number>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -202,7 +202,6 @@
 import { fetchList, create, update, remove } from "@/api/room";
 import { listSupplies } from "@/api/supplies";
 import { formatDate } from "@/utils/";
-import store from "@/store";
 import Pagination from "@/components/Pagination";
 import checkPermission from "@/utils/permission";
 

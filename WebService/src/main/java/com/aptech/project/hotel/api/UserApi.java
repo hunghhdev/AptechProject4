@@ -79,6 +79,7 @@ public class UserApi {
         }
 
         User user = converter.toUser(userDto);
+        user.setUsername(user.getUsername().toLowerCase());
         user.setPassword(EnCode.md5(userDto.getPassword()));
         user.setCreatedBy(authentication.getName());
         serviceResult.setData(converter.toUserDto(service.save(user)));
@@ -90,6 +91,7 @@ public class UserApi {
     public ResponseEntity<ServiceResult> update(@RequestBody UserDto userDto, Authentication authentication) {
         ServiceResult serviceResult = new ServiceResult();
         User user = converter.toUser(userDto);
+        user.setUsername(user.getUsername().toLowerCase());
         user.setPassword(EnCode.md5(userDto.getPassword()));
         user.setUpdatedBy(authentication.getName());
         serviceResult.setData(converter.toUserDto(service.save(user)));

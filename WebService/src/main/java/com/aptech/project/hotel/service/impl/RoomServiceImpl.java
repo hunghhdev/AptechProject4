@@ -32,8 +32,8 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public List<Room> listRoomEmpty(String status, Date fromDate, Date toDate, Pageable pageable) {
-        return repository.listRoomEmpty(status, fromDate, toDate, pageable);
+    public List<Room> listRoomEmpty(String status, Date fromDate, Date toDate) {
+        return repository.listRoomEmpty(status, fromDate, toDate);
     }
 
     @Override

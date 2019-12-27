@@ -13,8 +13,6 @@ public class BookingConverter {
         bookingDto.setRoomId(booking.getRoomId());
         bookingDto.setFromDate(booking.getFromDate());
         bookingDto.setToDate(booking.getToDate());
-//        bookingDto.set(booking.getTotalDate());
-//        bookingDto.setCount(booking.getTotalPrice());
         bookingDto.setCustomerId(booking.getCustomerId());
         bookingDto.setCreatedDate(booking.getCreatedDate());
         bookingDto.setCreatedBy(booking.getCreatedBy());
@@ -29,8 +27,6 @@ public class BookingConverter {
         booking.setToDate(bookingDto.getToDate());
         booking.setRoomId(bookingDto.getRoomId());
         booking.setCustomerId(bookingDto.getCustomerId());
-//        booking.setTotalDate(bookingDto.getDays());
-//        booking.setTotalPrice(bookingDto.getCount());
         booking.setCreatedDate(bookingDto.getCreatedDate());
         booking.setCreatedBy(bookingDto.getCreatedBy());
 

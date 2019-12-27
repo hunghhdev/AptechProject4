@@ -9,12 +9,10 @@ import java.util.Date;
 public class BookingDto extends BaseDto {
     private Date fromDate;
     private Date toDate;
-    private int count;
     private int roomId;
     private int customerId;
-    private String nameCus;
-    private String phoneCus;
+    private String customerName;
+    private String customerPhone;
     private String identification;
-
 
 }

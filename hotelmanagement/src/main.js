@@ -11,11 +11,13 @@ import "@/permission";
 import VueI18n from "vue-i18n";
 import vi_vn from "./lang/vi_vn.json";
 import en_us from "./lang/en_us.json";
-import Router from 'vue-router'
+import Router from 'vue-router';
+import {VueMaskDirective} from 'v-mask';
 
 Vue.config.productionTip = false;
-Vue.use(ElementUI, { locale });
+Vue.use(ElementUI, {locale});
 Vue.use(VueI18n);
+Vue.directive('mask', VueMaskDirective);
 
 const messages = {
   vi: vi_vn,
@@ -29,7 +31,7 @@ const i18n = new VueI18n({
 
 const routerPush = Router.prototype.push
 Router.prototype.push = function push(location) {
-  return routerPush.call(this, location).catch(error=> error)
+  return routerPush.call(this, location).catch(error => error)
 }
 
 new Vue({
@@ -37,6 +39,6 @@ new Vue({
   router,
   store,
   i18n,
-  components: { App },
+  components: {App},
   template: "<App/>"
 });
