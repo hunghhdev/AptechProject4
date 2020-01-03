@@ -50,7 +50,7 @@
           </div>
           <div class="card-panel-description">
             <div class="card-panel-text">
-              Số lượt đặt phòng
+              Lượt Khách
             </div>
             <p class="card-panel-num">{{data.count}}
             <p/>
